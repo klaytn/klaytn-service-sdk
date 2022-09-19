@@ -1,0 +1,17 @@
+{
+  "name": "klaytn-developer-package",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Sotatek-ThooLuu/klaytn-developer-package.git",
+  "author": "Sotatek-ThooLuu <thoo.luu@sotatek.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "compile": "yarn workspace hardhat-starter-kit compile",
+    "test": "yarn workspace hardhat-starter-kit test",
+    "test-staging": "yarn workspace hardhat-starter-kit test-staging"
+  },
+  "workspaces": [
+    "packages/**/*"
+  ]
+}
