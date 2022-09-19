@@ -16,13 +16,14 @@ const MAINNET_RPC_URL =
   process.env.MAINNET_RPC_URL ||
   process.env.ALCHEMY_MAINNET_RPC_URL ||
   "https://eth-mainnet.alchemyapi.io/v2/your-api-key"
-const RINKEBY_RPC_URL =
-  process.env.RINKEBY_RPC_URL || "https://eth-rinkeby.alchemyapi.io/v2/your-api-key"
-const KOVAN_RPC_URL = process.env.KOVAN_RPC_URL || "https://eth-kovan.alchemyapi.io/v2/your-api-key"
 const POLYGON_MAINNET_RPC_URL =
   process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key"
-const GOERlI_RPC_URL =
-  process.env.GOERlI_RPC_URL || "https://eth-goerli.alchemyapi.io/v2/your-api-key"
+const GOERLI_RPC_URL =
+  process.env.GOERLI_RPC_URL || "https://eth-goerli.alchemyapi.io/v2/your-api-key"
+const BAOBAB_RPC_URL =
+  process.env.BAOBAB_RPC_URL || "https://api.baobab.klaytn.net:8651/"
+const CYPRESS_RPC_URL =
+  process.env.CYPRESS_RPC_URL || "https://public-node-api.klaytnapi.com/v1/cypress"
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 // optional
 const MNEMONIC = process.env.MNEMONIC || "Your mnemonic"
@@ -37,6 +38,7 @@ module.exports = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
+      hardfork: "merge",
       // If you want to do some forking set `enabled` to true
       forking: {
         url: MAINNET_RPC_URL,
@@ -48,26 +50,8 @@ module.exports = {
     localhost: {
       chainId: 31337,
     },
-    kovan: {
-      url: KOVAN_RPC_URL,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      //accounts: {
-      //     mnemonic: MNEMONIC,
-      // },
-      saveDeployments: true,
-      chainId: 42,
-    },
-    rinkeby: {
-      url: RINKEBY_RPC_URL,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      //   accounts: {
-      //     mnemonic: MNEMONIC,
-      //   },
-      saveDeployments: true,
-      chainId: 4,
-    },
     goerli: {
-      url: GOERlI_RPC_URL,
+      url: GOERLI_RPC_URL,
       accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
       //   accounts: {
       //     mnemonic: MNEMONIC,
@@ -90,12 +74,22 @@ module.exports = {
       saveDeployments: true,
       chainId: 137,
     },
+    baobab: {
+      url: BAOBAB_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      saveDeployments: true,
+      chainId: 1001,
+    },
+    cypress: {
+      url: CYPRESS_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      saveDeployments: true,
+      chainId: 8217,
+    }
   },
   etherscan: {
     // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
     apiKey: {
-      rinkeby: ETHERSCAN_API_KEY,
-      kovan: ETHERSCAN_API_KEY,
       polygon: POLYGONSCAN_API_KEY,
       goerli: ETHERSCAN_API_KEY
     },
