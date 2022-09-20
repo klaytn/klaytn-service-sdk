@@ -16,40 +16,13 @@ const networkConfig = {
     keepersUpdateInterval: "30",
     ethUsdPriceFeed: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
   },
-  1: {
-    name: "mainnet",
-    linkToken: "0x514910771af9ca656af840dff83e8264ecf986ca",
-    fundAmount: "0",
-    keepersUpdateInterval: "30",
-  },
-  5: {
-    name: "goerli",
-    linkToken: "0x326c977e6efc84e512bb9c30f76e30c160ed06fb",
-    ethUsdPriceFeed: "0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e",
-    keyHash: "0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15",
-    vrfCoordinator: "0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D",
-    oracle: "0xCC79157eb46F5624204f47AB42b3906cAA40eaB7",
-    jobId: "ca98366cc7314957b8c012c72f05aeeb",
-    fee: "100000000000000000",
-    fundAmount: "100000000000000000", // 0.1
-    keepersUpdateInterval: "30",
-  },
-  137: {
-    name: "polygon",
-    linkToken: "0xb0897686c545045afc77cf20ec7a532e3120e0f1",
-    ethUsdPriceFeed: "0xF9680D99D6C9589e2a93a78A04A279e509205945",
-    oracle: "0x0a31078cd57d23bf9e8e8f1ba78356ca2090569e",
-    jobId: "12b86114fa9e46bab3ca436f88e1a912",
-    fee: "100000000000000",
-    fundAmount: "100000000000000",
-  },
   1001: {
     name: "baobab",
     linkToken: "0x04c5046A1f4E3fFf094c26dFCAA75eF293932f18",
     keyHash: "0x9be50e2346ee6abe000e6d3a34245e1d232c669703efc44660a413854427027c",
-    ethUsdPriceFeed: "0xf49f81b3d2F2a79b706621FA2D5934136352140c", // LINK / KLAY
+    ethUsdPriceFeed: "0x76Aa17dCda9E8529149E76e9ffaE4aD1C4AD701B", // WEMIX / USD
     oracle: "0xfC3BdAbD8a6A73B40010350E2a61716a21c87610",
-    jobId: "12b86114fa9e46bab3ca436f88e1a912",
+    jobId: "ca98366cc7314957b8c012c72f05aeeb",
     vrfCoordinator: "0x771143FcB645128b07E41D79D82BE707ad8bDa1C",
     fee: "100000000000000",
     fundAmount: "100000000000000",

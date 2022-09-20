@@ -47,7 +47,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   log("Then run RandomNumberConsumer contract with the following command")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
   log(
-    `yarn hardhat request-random-number --contract ${randomNumberConsumerV2.address} --network ${networkName}`
+    `yarn workspace @oracles-starter-kit/chainlink hardhat request-random-number --contract ${randomNumberConsumerV2.address} --network ${networkName}`
   )
   log("----------------------------------------------------")
 }

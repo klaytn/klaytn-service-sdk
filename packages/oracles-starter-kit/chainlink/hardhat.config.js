@@ -19,7 +19,7 @@ const MAINNET_RPC_URL =
 const POLYGON_MAINNET_RPC_URL =
   process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key"
 const GOERLI_RPC_URL =
-  process.env.GOERLI_RPC_URL || "https://eth-goerli.alchemyapi.io/v2/your-api-key"
+  process.env.GOERLI_RPC_URL || "https://goerli.infura.io/v3/737f81df8ee242d7868511517b1a28ca"
 const BAOBAB_RPC_URL =
   process.env.BAOBAB_RPC_URL || "https://api.baobab.klaytn.net:8651/"
 const CYPRESS_RPC_URL =
@@ -35,7 +35,7 @@ const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY || "Your polygonscan
 const REPORT_GAS = process.env.REPORT_GAS || false
 
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "baobab",
   networks: {
     hardhat: {
       hardfork: "merge",
@@ -50,42 +50,12 @@ module.exports = {
     localhost: {
       chainId: 31337,
     },
-    goerli: {
-      url: GOERLI_RPC_URL,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      //   accounts: {
-      //     mnemonic: MNEMONIC,
-      //   },
-      saveDeployments: true,
-      chainId: 5,
-    },
-    mainnet: {
-      url: MAINNET_RPC_URL,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      //   accounts: {
-      //     mnemonic: MNEMONIC,
-      //   },
-      saveDeployments: true,
-      chainId: 1,
-    },
-    polygon: {
-      url: POLYGON_MAINNET_RPC_URL,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      saveDeployments: true,
-      chainId: 137,
-    },
     baobab: {
       url: BAOBAB_RPC_URL,
       accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
       saveDeployments: true,
       chainId: 1001,
     },
-    cypress: {
-      url: CYPRESS_RPC_URL,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      saveDeployments: true,
-      chainId: 8217,
-    }
   },
   etherscan: {
     // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>

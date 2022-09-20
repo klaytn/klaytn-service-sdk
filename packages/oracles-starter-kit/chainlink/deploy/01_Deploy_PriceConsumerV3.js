@@ -39,7 +39,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   log("Run Price Feed contract with command:")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
-  log(`yarn hardhat read-price-feed --contract ${priceConsumerV3.address} --network ${networkName}`)
+  log(`yarn workspace @oracles-starter-kit/chainlink hardhat read-price-feed --contract ${priceConsumerV3.address} --network ${networkName}`)
   log("----------------------------------------------------")
 }
 

@@ -30,7 +30,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   )
   const networkName = network.name == "hardhat" ? "localhost" : network.name
   log(
-    `yarn hardhat read-keepers-counter --contract ${keepersCounter.address} --network ${networkName}`
+    `yarn workspace @oracles-starter-kit/chainlink hardhat read-keepers-counter --contract ${keepersCounter.address} --network ${networkName}`
   )
   log("----------------------------------------------------")
 }
