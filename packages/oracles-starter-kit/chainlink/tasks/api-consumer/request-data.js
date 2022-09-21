@@ -22,6 +22,6 @@ task("request-data", "Calls an API Consumer Contract to request external data")
       result.hash
     )
     console.log("Run the following to read the returned result:")
-    console.log("npx hardhat read-data --contract " + contractAddr + " --network " + network.name)
+    console.log("yarn workspace @oracles-starter-kit/chainlink hardhat read-data --contract " + contractAddr + " --network " + network.name)
   })
 module.exports = {}

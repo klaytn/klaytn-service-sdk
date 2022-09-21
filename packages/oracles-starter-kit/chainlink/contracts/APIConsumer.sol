@@ -62,7 +62,7 @@ contract APIConsumer is ChainlinkClient {
         // Set the URL to perform the GET request on
         request.add(
             "get",
-            "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD"
+            "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=WEMIX&tsyms=USD"
         );
 
         // Set the path to find the desired data in the API response, where the response format is:
