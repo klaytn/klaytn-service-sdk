@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "compile": "yarn workspace @oracles-starter-kit/chainlink compile",
+    "chainlink:help": "yarn workspace @oracles-starter-kit/chainlink hardhat --help",
+    "chainlink:compile": "yarn workspace @oracles-starter-kit/chainlink compile",
     "chainlink:deploy": "yarn workspace @oracles-starter-kit/chainlink hardhat deploy",
     "chainlink:test": "yarn workspace @oracles-starter-kit/chainlink test"
   },
