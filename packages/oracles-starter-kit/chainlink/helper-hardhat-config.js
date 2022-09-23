@@ -20,7 +20,7 @@ const networkConfig = {
     name: "baobab",
     linkToken: "0x04c5046A1f4E3fFf094c26dFCAA75eF293932f18",
     keyHash: "0x9be50e2346ee6abe000e6d3a34245e1d232c669703efc44660a413854427027c",
-    ethUsdPriceFeed: "0x76Aa17dCda9E8529149E76e9ffaE4aD1C4AD701B", // WEMIX / USD
+    linkKlayPriceFeed: "0xf49f81b3d2F2a79b706621FA2D5934136352140c", // LINK / KLAY	
     oracle: "0xfC3BdAbD8a6A73B40010350E2a61716a21c87610",
     jobId: "ca98366cc7314957b8c012c72f05aeeb",
     vrfCoordinator: "0x771143FcB645128b07E41D79D82BE707ad8bDa1C",

@@ -38,16 +38,16 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log: true,
     waitConfirmations: waitBlockConfirmations,
   })
-
-  if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-    log("Verifying...")
-    await verify(randomNumberConsumerV2.address, args)
-  }
+  //TODO: implement verify
+  // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+  //   log("Verifying...")
+  //   await verify(randomNumberConsumerV2.address, args)
+  // }
 
   log("Then run RandomNumberConsumer contract with the following command")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
   log(
-    `yarn workspace @oracles-starter-kit/chainlink hardhat request-random-number --contract ${randomNumberConsumerV2.address} --network ${networkName}`
+    `yarn hardhat request-random-number --contract ${randomNumberConsumerV2.address} --network ${networkName}`
   )
   log("----------------------------------------------------")
 }

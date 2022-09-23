@@ -25,8 +25,8 @@ contract APIConsumer is ChainlinkClient {
      * @param _fee - node operator price per API call / data request
      * @param _link - LINK token address on the corresponding network
      *
-     * Network: Goerli
-     * Oracle: 0xCC79157eb46F5624204f47AB42b3906cAA40eaB7
+     * Network: Baobab
+     * Oracle: 0xfC3BdAbD8a6A73B40010350E2a61716a21c87610
      * Job ID: ca98366cc7314957b8c012c72f05aeeb
      * Fee: 0.1 LINK
      */
@@ -62,12 +62,12 @@ contract APIConsumer is ChainlinkClient {
         // Set the URL to perform the GET request on
         request.add(
             "get",
-            "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=WEMIX&tsyms=USD"
+            "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=KLAY&tsyms=USD"
         );
 
         // Set the path to find the desired data in the API response, where the response format is:
         // {"RAW":
-        //   {"ETH":
+        //   {"KLAY":
         //    {"USD":
         //     {
         //      "VOLUME24HOUR": xxx.xxx,
@@ -75,8 +75,8 @@ contract APIConsumer is ChainlinkClient {
         //    }
         //   }
         //  }
-        // request.add("path", "RAW.ETH.USD.VOLUME24HOUR"); // Chainlink nodes prior to 1.0.0 support this format
-        request.add("path", "RAW,ETH,USD,VOLUME24HOUR"); // Chainlink nodes 1.0.0 and later support this format
+        // request.add("path", "RAW.WEMIX.USD.VOLUME24HOUR"); // Chainlink nodes prior to 1.0.0 support this format
+        request.add("path", "RAW,KLAY,USD,VOLUME24HOUR"); // Chainlink nodes 1.0.0 and later support this format
 
         // Multiply the result by 1000000000000000000 to remove decimals
         int256 timesAmount = 10**18;

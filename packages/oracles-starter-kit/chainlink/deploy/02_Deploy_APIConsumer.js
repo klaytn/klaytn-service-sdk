@@ -40,10 +40,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     waitConfirmations: waitBlockConfirmations,
   })
 
-  if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-    log("Verifying...")
-    await verify(apiConsumer.address, args)
-  }
+  //TODO: implement verify
+  // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+  //   log("Verifying...")
+  //   await verify(apiConsumer.address, args)
+  // }
 
   // Checking for funding...
   if (networkConfig.fundAmount && networkConfig.fundAmount > 0) {
@@ -62,7 +63,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   log("Run API Consumer contract with following command:")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
-  log(`yarn workspace @oracles-starter-kit/chainlink hardhat request-data --contract ${apiConsumer.address} --network ${networkName}`)
+  log(`yarn hardhat request-data --contract ${apiConsumer.address} --network ${networkName}`)
   log("----------------------------------------------------")
 }
 module.exports.tags = ["all", "api", "main"]

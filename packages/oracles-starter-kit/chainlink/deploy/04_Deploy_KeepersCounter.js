@@ -21,16 +21,17 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true,
     waitConfirmations: waitBlockConfirmations,
   })
-  if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-    log("Verifying...")
-    await verify(keepersCounter.address, args)
-  }
+  //TODO: implement verify
+  // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+  //   log("Verifying...")
+  //   await verify(keepersCounter.address, args)
+  // }
   log(
     "Head to https://keepers.chain.link/ to register your contract for upkeeps. Then run the following command to track the counter updates: "
   )
   const networkName = network.name == "hardhat" ? "localhost" : network.name
   log(
-    `yarn workspace @oracles-starter-kit/chainlink hardhat read-keepers-counter --contract ${keepersCounter.address} --network ${networkName}`
+    `yarn hardhat read-keepers-counter --contract ${keepersCounter.address} --network ${networkName}`
   )
   log("----------------------------------------------------")
 }

@@ -1,9 +1,9 @@
 {
-  "name": "klaytn-developer-package",
+  "name": "klaytn-developer-sdk",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:Sotatek-ThooLuu/klaytn-developer-package.git",
-  "author": "Sotatek-ThooLuu <thoo.luu@sotatek.com>",
+  "repository": "https://github.com/klaytn/klaytn-developer-sdk",
+  "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
   "private": true,
   "scripts": {

@@ -15,9 +15,9 @@ contract PriceConsumerV3 {
      *
      * @param _priceFeed - Price Feed Address
      *
-     * Network: Goerli
-     * Aggregator: ETH/USD
-     * Address: 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
+     * Network: Baobab
+     * Aggregator: LINK/KLAY
+     * Address: 0xf49f81b3d2F2a79b706621FA2D5934136352140c
      */
     constructor(address _priceFeed) {
         priceFeed = AggregatorV3Interface(_priceFeed);

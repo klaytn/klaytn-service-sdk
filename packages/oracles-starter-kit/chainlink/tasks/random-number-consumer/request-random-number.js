@@ -30,7 +30,7 @@ task("request-random-number", "Requests a random number for a Chainlink VRF enab
     )
     console.log("Run the following to read the returned random number:")
     console.log(
-      "yarn workspace @oracles-starter-kit/chainlink hardhat read-random-number --contract " + contractAddr + " --network " + network.name
+      "yarn hardhat read-random-number --contract " + contractAddr + " --network " + network.name
     )
   })
 
