@@ -1,5 +1,5 @@
 
-![Logo](./LogoNegative.png)
+![Logo](./KlaytnLogo.png)
 - [Klaytn Developer SDK](#klaytn-developer-sdk)
   - [Oracles Integration](#oracles-module)
     - [Chainlink](#chainlink)
