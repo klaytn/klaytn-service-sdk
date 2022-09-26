@@ -1,9 +1,10 @@
-[Open in Github](https://github.com/klaytn/klaytn-developer-sdk)
+
+![Logo](./LogoNegative.png)
 - [Klaytn Developer SDK](#klaytn-developer-sdk)
-  - [Oracles Module](#oracles-module)
+  - [Oracles Integration](#oracles-module)
     - [Chainlink](#chainlink)
     - [Witnet](#witnet)
-  - [Bridges Module](#bridges-module)
+  - [Bridges Integration](#bridges-module)
 - [Getting Started](#getting-started)
   - [Requirement](#requirement)
   - [Quickstart](#quickstart)
@@ -12,21 +13,21 @@
 <br/>
 
 # Klaytn Developer SDK
-<p style="font-size:x-large">All the necessary tools in one place to build on Klaytn ecosystem</p>
+<p style="font-size:x-large">Klaytn Developer SDK is a monorepo of all the ecosystem tools. It has all the packages necessary to build on Klaytn ecosystem</p>
 
 ## Oracles Module
 ### Chainlink
 Implementation of the following 4 Chainlink features using the [Hardhat](https://hardhat.org/) development environment:
-- [Chainlink Data Feeds](https://docs.chain.link/docs/using-chainlink-reference-contracts)
-- [Chainlink VRF](https://docs.chain.link/docs/chainlink-vrf)
-- [Chainlink Keepers](https://docs.chain.link/docs/chainlink-keepers/introduction/)
-- [Request & Receive data](https://docs.chain.link/docs/request-and-receive-data)
+- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
+- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
+- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
+- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
 
 ### Witnet
-`In process`
+`In progress`
 
 ## Bridges Module
-`In process`
+`In progress`
 
 <br/>
 
@@ -64,4 +65,4 @@ npm i
 <br/>
 
 # Usage
-You can freely run script in root or in packages by `cd` into the package you want to use
+You can run the scripts in root or in respective packages by `cd` into the packages. 

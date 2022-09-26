@@ -56,7 +56,7 @@ export PRIVATE_KEY='abcdef'
 
 > You can also use a `MNEMONIC` instead of a `PRIVATE_KEY` environment variable by uncommenting the section in the `hardhat.config.js`, and commenting out the `PRIVATE_KEY` line. However this is not recommended. 
 
-For other networks like mainnet and polygon, you can use different environment variables for your RPC URL and your private key. See the `hardhat.config.js` to learn more. 
+For mainnet, you can use different environment variables for your RPC URL and your private key. See the `hardhat.config.js` to learn more. 
 
 3. Get some Baobab Testnet KLAY and LINK 
 Go to the [Klaytn faucets](https://baobab.wallet.klaytn.foundation/faucet) to get some KLAY.
@@ -89,14 +89,14 @@ After deploying your contracts, the deployment output will give you the contract
 The Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
 
 ```bash
-yarn hardhat read-price-feed --contract insert-contract-address-here
+yarn hardhat read-price-feed --contract insert-contract-address-here --network baobab
 ```
 
 ### Request & Receive Data
 The APIConsumer contract has two tasks, one to request external data based on a set of parameters, and one to check to see what the result of the data request is. This contract needs to be funded with link first:
 
 ```bash
-yarn hardhat fund-link --contract insert-contract-address-here
+yarn hardhat fund-link --contract insert-contract-address-here --network baobab
 ```
 > **WARNING**: `chainlink-plugin-fund-link` have not supported `baobab network`. You have to fund link manually
 
@@ -118,7 +118,7 @@ The VRFConsumer contract has two tasks, one to request a random number, and one 
 VRF_SUBSCRIPTION_ID=subscription_id
 ```
 
-Then, deploy your VRF V2 contract consumer to the network of your recent subscription using subscription id as constructor argument.
+Then, deploy your VRF V2 contract consumer(if its not deployed already with the subscription id) to the network with your recent subscription using subscription id as constructor argument.
 
 ```bash
 yarn hardhat deploy   
