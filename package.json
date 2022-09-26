@@ -1,0 +1,18 @@
+{
+  "name": "klaytn-developer-sdk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/klaytn/klaytn-developer-sdk",
+  "author": "Klaytn Community <developer@klaytn.foundation>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "chainlink:help": "yarn workspace @oracles-starter-kit/chainlink hardhat --help",
+    "chainlink:compile": "yarn workspace @oracles-starter-kit/chainlink compile",
+    "chainlink:deploy": "yarn workspace @oracles-starter-kit/chainlink hardhat deploy",
+    "chainlink:test": "yarn workspace @oracles-starter-kit/chainlink test"
+  },
+  "workspaces": [
+    "packages/**/*"
+  ]
+}
