@@ -24,6 +24,8 @@ const networkConfig = {
     oracle: "0xfC3BdAbD8a6A73B40010350E2a61716a21c87610",
     jobId: "ca98366cc7314957b8c012c72f05aeeb",
     vrfCoordinator: "0x771143FcB645128b07E41D79D82BE707ad8bDa1C",
+    witnetPriceRouter: "0xeD074DA2A76FD2Ca90C1508930b4FB4420e413B0",
+    witnetRandomness: "0xb4b2e2e00e9d6e5490d55623e4f403ec84c6d33f",
     fee: "100000000000000",
     fundAmount: "100000000000000",
   }
