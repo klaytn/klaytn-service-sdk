@@ -12,8 +12,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts()
   const chainId = network.config.chainId
 
-  let witnetRandomAddress = networkConfig[chainId]["witnetRandomness"]
+  let witnetRandomAddress
   
+  if (chainId == 31337) {
+    WitnetRandomnessMock = await ethers.getContract("WitnetRandomnessMock")
+    witnetRandomAddress = WitnetRandomnessMock.address
+  } else {
+    witnetRandomAddress = networkConfig[chainId]["witnetRandomness"]
+  }
+
   const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
@@ -38,4 +45,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   log("----------------------------------------------------")
 }
 
-module.exports.tags = ["all", "feed", "main"]
+module.exports.tags = ["all", "witnet-random", "main"]
