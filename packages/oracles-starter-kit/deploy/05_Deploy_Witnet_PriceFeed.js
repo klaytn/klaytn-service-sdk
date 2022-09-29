@@ -12,7 +12,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts()
   const chainId = network.config.chainId
 
-  let priceFeedAddress = networkConfig[chainId]["witnetPriceRouter"]
+  let priceRouterAddress;
+  if (chainId == 31337) {
+    witnetRouterMock = await ethers.getContract("MockWitnetRouter")
+    priceRouterAddress = witnetRouterMock.address
+  } else {
+    priceRouterAddress = networkConfig[chainId]["witnetPriceRouter"]
+  }
   
   // Price Feed Address, values can be obtained at https://docs.witnet.io/smart-contracts/witnet-data-feeds/addresses
   // Default one below is KLAY/USDT contract on Baobab
@@ -20,9 +26,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
   log("----------------------------------------------------")
-  const priceConsumerV3 = await deploy("WitnetPriceFeed", {
+  const witnetPriceFeed = await deploy("WitnetPriceFeed", {
     from: deployer,
-    args: [priceFeedAddress],
+    args: [priceRouterAddress],
     log: true,
     waitConfirmations: waitBlockConfirmations,
   })
@@ -36,8 +42,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   log("Run Witnet Price Feed contract with command:")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
-  log(`yarn hardhat read-witnet-price-feed --contract ${priceConsumerV3.address} --network ${networkName}`)
+  log(`yarn hardhat read-witnet-price-feed --contract ${witnetPriceFeed.address} --network ${networkName}`)
   log("----------------------------------------------------")
 }
 
-module.exports.tags = ["all", "feed", "main"]
+module.exports.tags = ["all", "witnet-feed", "main"]
