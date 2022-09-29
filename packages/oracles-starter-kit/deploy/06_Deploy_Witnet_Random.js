@@ -24,7 +24,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
-  log("----------------------------------------------------")
+
   const witnetRandom = await deploy("WitnetRandom", {
     from: deployer,
     args: [witnetRandomAddress],

@@ -25,7 +25,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
-  log("----------------------------------------------------")
+
   const witnetPriceFeed = await deploy("WitnetPriceFeed", {
     from: deployer,
     args: [priceRouterAddress],

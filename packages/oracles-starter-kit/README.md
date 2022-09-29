@@ -1,4 +1,4 @@
-## Chainlink Module
+# Oracle Starter Kit
 - [Usage](#usage)
   - [Deploying Contracts](#deploying-contracts)
   - [Setup Baobab Klaytn network](#setup-baobab-klaytn-network)
@@ -14,7 +14,7 @@
 ## Usage
 If you run `yarn hardhat --help` you'll get an output of all the tasks you can run. Please setup the Baobab network before running any task. 
 
-### Setup Baobab Klaytn network
+## Setup Baobab Klaytn network
 In your `hardhat.config.js` you'll see section like:
 
 ```
@@ -92,7 +92,7 @@ The Price Feeds consumer contract has one task, to read the latest price of a sp
 yarn hardhat read-price-feed --contract insert-contract-address-here --network baobab
 ```
 
-### Request & Receive Data
+### Chainlink Request & Receive Data
 The APIConsumer contract has two tasks, one to request external data based on a set of parameters, and one to check to see what the result of the data request is. This contract needs to be funded with link first:
 
 ```bash
@@ -111,7 +111,7 @@ Once you have successfully made a request for external data, you can see the res
 yarn hardhat read-data --contract insert-contract-address-here
 ```
 
-### VRF Get a random number
+### Chainlink VRF Get a random number
 The VRFConsumer contract has two tasks, one to request a random number, and one to read the result of the random number request. To start, go to [VRF Subscription Page](https://vrf.chain.link/goerli) and create the new subscription. Save your subscription ID and put it in `.env` file as `VRF_SUBSCRIPTION_ID`:
 
 ```bash
@@ -136,7 +136,7 @@ Once you have successfully made a request for a random number, you can see the r
 yarn hardhat read-random-number --contract insert-contract-address-here
 ```
 
-### Keepers
+### Chainlink Keepers
 The KeepersCounter contract is a simple Chainlink Keepers enabled contract that simply maintains a counter variable that gets incremented each time the performUpkeep task is performed by a Chainlink Keeper. Once the contract is deployed, you should head to [https://keepers.chain.link/](https://keepers.chain.link/) to register it for upkeeps, then you can use the task below to view the counter variable that gets incremented by Chainlink Keepers
 
 
@@ -144,7 +144,36 @@ The KeepersCounter contract is a simple Chainlink Keepers enabled contract that 
 yarn hardhat read-keepers-counter --contract insert-contract-address-here
 ```
 
+### Witnet Price Feeds
+The Witnet Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
+
+```bash
+yarn hardhat read-witnet-price-feed --contract insert-contract-address-here --network baobab
+```
+
+### Witnet Randomness
+The Witnet Randomness has 4 tasks:
+- Request new randomness:
+```bash
+yarn hardhat request-witnet-randomness --contract insert-contract-address-here --network baobab
+```
+- Get the latest randomizing block:
+```bash
+yarn hardhat read-latest-randomizing-block --contract insert-contract-address-here --network baobab
+```
+- Fetch Witnet random number:
+```bash
+yarn hardhat fetch-witnet-random-number --contract insert-contract-address-here --network baobab
+```
+> **WARNING**:
+Calling fetch-witnet-random-number right after request-witnet-randomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete
+- Get the random number:
+```bash
+yarn hardhat read-witnet-random-number --contract insert-contract-address-here --network baobab
+```
+
 ## Resources
 
 - [Chainlink Documentation](https://docs.chain.link/)
+- [Witnet Documentation](https://docs.witnet.io/)
 - [Hardhat Documentation](https://hardhat.org/getting-started/)

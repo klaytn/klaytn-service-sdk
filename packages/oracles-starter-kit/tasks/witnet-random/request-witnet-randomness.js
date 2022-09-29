@@ -29,7 +29,7 @@ task("request-witnet-random-number", "Requests a random number for a Witnet enab
       " random number request successfully called. Transaction Hash: ",
       transaction.hash
     )
-    console.log("Run the following to read the returned random number:")
+    console.log("Run the following to fetch the random number:")
     console.log(
       "yarn hardhat fetch-witnet-random-number --contract " + contractAddr + " --network " + network.name
       )

@@ -12,8 +12,9 @@ task("read-witnet-price-feed", "Calls an Witnet Price Feed Contract to read data
 
     //Create connection to Witnet Price Feed Contract and call the createRequestTo function
     const witnetPriceFeedContract = new ethers.Contract(contractAddr, WitnetPriceFeed.interface, signer)
-    let result = (await witnetPriceFeedContract.getKlayUsdPrice()).toString()
-    console.log("Data is: ", result)
+    let result = (await witnetPriceFeedContract.getKlayUsdPrice())
+    console.log("Last price is: ", result[0].toString())
+    console.log("Last timestamp is: ", result[1].toString())
     if (result == 0 && ["hardhat", "localhost", "ganache"].indexOf(network.name) == 0) {
       console.log("You'll either need to wait another minute, or fix something!")
     }
