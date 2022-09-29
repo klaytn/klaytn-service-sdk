@@ -31,8 +31,9 @@ task("request-witnet-random-number", "Requests a random number for a Witnet enab
     )
     console.log("Run the following to read the returned random number:")
     console.log(
-      "yarn hardhat read-witnet-random-number --contract " + contractAddr + " --network " + network.name
-    )
+      "yarn hardhat fetch-witnet-random-number --contract " + contractAddr + " --network " + network.name
+      )
+    console.warn("Calling fetch-witnet-random-number right after request-witnet-randomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete.");
   })
 
 module.exports = {}

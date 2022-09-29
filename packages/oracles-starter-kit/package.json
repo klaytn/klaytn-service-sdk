@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "compile": "hardhat compile",
+    "deploy": "hardhat deploy",
     "test": "hardhat test test/unit/*_test.js --network hardhat",
     "fuzzing": "docker run -it --rm -v $PWD:/src trailofbits/eth-security-toolbox"
   },

@@ -1,4 +1,4 @@
-task("read-lastest-randomizing-block", "Reads the lastest randomizing block returned to a contract by Witnet Random")
+task("read-latest-randomizing-block", "Reads the latest randomizing block returned to a contract by Witnet Random")
   .addParam("contract", "The address of the Witnet Random contract that you want to read")
   .setAction(async (taskArgs) => {
     const contractAddr = taskArgs.contract
@@ -17,9 +17,9 @@ task("read-lastest-randomizing-block", "Reads the lastest randomizing block retu
       signer
     )
 
-    const lastestRandomizingBlock = await witnetRandomContract.latestRandomizingBlock()
+    const latestRandomizingBlock = await witnetRandomContract.latestRandomizingBlock()
     console.log(
-      `The lastest randomizing block is: ${lastestRandomizingBlock.toString()}`
+      `The latest randomizing block is: ${latestRandomizingBlock.toString()}`
     )
   })
 
