@@ -36,6 +36,15 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
       log: true,
       args: [linkToken.address],
     })
+    await deploy("WitnetRandomnessMock", {
+      from: deployer,
+      log: true,
+      args: [1, BASE_FEE],
+    })
+    await deploy("MockWitnetRouter", {
+      from: deployer, 
+      log: true, 
+    });
     log("Mocks Deployed!")
     log("----------------------------------------------------")
     log("You are deploying to a local network, you'll need a local network running to interact")

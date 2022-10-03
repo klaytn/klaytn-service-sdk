@@ -18,13 +18,14 @@
 ## Oracles Module
 ### Chainlink
 Implementation of the following 4 Chainlink features using the [Hardhat](https://hardhat.org/) development environment:
-- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
-- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
-- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
-- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/chainlink/README.md)
+- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/README.md)
 
 ### Witnet
-`In progress`
+- [Witnet Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Witnet Randomness on Klaytn](/packages/oracles-starter-kit/README.md)
 
 ## Bridges Module
 `In progress`
