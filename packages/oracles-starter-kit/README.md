@@ -4,9 +4,12 @@
   - [Setup Baobab Klaytn network](#setup-baobab-klaytn-network)
 - [Interacting with Deployed Contracts](#interacting-with-deployed-contracts)
   - [Chainlink Price Feeds](#chainlink-price-feeds)
-  - [Request & Receive Data](#request--receive-data)
-  - [VRF Get a random number](#vrf-get-a-random-number)
-  - [Keepers](#keepers)
+  - [Request & Receive Data](#chainlink-request--receive-data)
+  - [VRF Get a random number](#chainlink-vrf-get-a-random-number)
+  - [Keepers](#chainlink-keepers)
+  - [Witnet Price Feeds](#witnet-price-feeds)
+  - [Witnet Randomness](#witnet-randomness)
+- [Witnet Web Oracle Request](#witnet-web-oracle-request)
 - [Resources](#resources)
 
 <br/>
@@ -137,12 +140,16 @@ yarn hardhat read-random-number --contract insert-contract-address-here
 ```
 
 ### Chainlink Keepers
-The KeepersCounter contract is a simple Chainlink Keepers enabled contract that simply maintains a counter variable that gets incremented each time the performUpkeep task is performed by a Chainlink Keeper. Once the contract is deployed, you should head to [https://keepers.chain.link/](https://keepers.chain.link/) to register it for upkeeps, then you can use the task below to view the counter variable that gets incremented by Chainlink Keepers
+<!-- The KeepersCounter contract is a simple Chainlink Keepers enabled contract that simply maintains a counter variable that gets incremented each time the performUpkeep task is performed by a Chainlink Keeper. Once the contract is deployed, you should head to [https://keepers.chain.link/](https://keepers.chain.link/) to register it for upkeeps, then you can use the task below to view the counter variable that gets incremented by Chainlink Keepers
 
 
 ```bash
 yarn hardhat read-keepers-counter --contract insert-contract-address-here
-```
+``` -->
+> **WARNING**:
+The Baobab network is not supported by Chainlink Automation (aka Chainlink Keepers) yet. Because of that, the response of the Keeper will always be 0. You can ignore this feature in the current version.
+
+<br/>
 
 ### Witnet Price Feeds
 The Witnet Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
@@ -170,6 +177,25 @@ Calling fetch-witnet-random-number right after request-witnet-randomness will mo
 - Get the random number:
 ```bash
 yarn hardhat read-witnet-random-number --contract insert-contract-address-here --network baobab
+```
+
+## Witnet Web Oracle Request
+We have 2 examples for Witnet HTTP Request:
+- KlayPrice: a GET request example to get Klay token price in USD
+- postRequestExample: a POST request example echoes back any data and headers that you send in your POST requests (based on this [tutorial](https://docs.witnet.io/smart-contracts/witnet-web-oracle/make-a-post-request))
+
+Inside `witnet-queries` folder you will find predefined Witnet oracle queries.
+
+You can follow this [link](https://docs.witnet.io/smart-contracts/witnet-web-oracle/make-a-get-request) to learn how to create other queries.
+
+To compile the Witnet queries into Solidity contracts, run:
+```
+npx rad2sol --target ./witnet-queries --write-contracts ./contracts/witnet-requests
+```
+
+After the contracts have been created, you can query locally to preview the result by running:
+```
+npx witnet-toolkit try-query --from-solidity ./contracts/witnet-requests/{contract-file-name}
 ```
 
 ## Resources

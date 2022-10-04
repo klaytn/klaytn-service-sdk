@@ -12,7 +12,12 @@
     "oracle:deploy": "yarn workspace oracles-starter-kit hardhat deploy",
     "oracle:test": "yarn workspace oracles-starter-kit test"
   },
-  "workspaces": [
-    "packages/**/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/**/*"
+    ],
+    "nohoist": [
+      "**/witnet-solidity-bridge"
+    ]
+  }
 }
