@@ -1,7 +1,12 @@
+import { config } from "dotenv";
+config();
 import { Contract,BigNumber, utils, Wallet, providers } from 'ethers';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { parseUnits } from "@ethersproject/units";
 import BridgeABI from './contract/abi/Bridge.sol/Bridge.json';
+import { 
+  GetTransferStatusRequest,
+} from "./ts-proto/gateway/gateway_pb";
 
 const bridgeInterface = new utils.Interface(BridgeABI.abi);
 const provider = new providers.JsonRpcProvider(process.env.KLAYTN_RPC);
@@ -37,4 +42,12 @@ export const getTransferId = (address, tokenAddress, value, toChainId, nonce, fr
       fromChainId.toString(),
     ],
   );
+}
+
+export const getTransferStatus = async(client, transferId) => {
+  const statusRequest = new GetTransferStatusRequest();
+  statusRequest.setTransferId(transferId);
+  const transferStatus = await client.getTransferStatus(statusRequest, null);
+  console.log(`-Transfer Status:`, transferStatus.toObject());
+  return transferStatus.toObject();
 }

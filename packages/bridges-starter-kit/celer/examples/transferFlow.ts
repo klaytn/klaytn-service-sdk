@@ -1,22 +1,21 @@
 import { JSDOM } from 'jsdom';
 const { window } = new JSDOM();
 global.XMLHttpRequest = window.XMLHttpRequest;
-
+import { config } from "dotenv";
+config();
 // import estimateAmt request message 
 import { 
   EstimateAmtRequest,
   GetTransferStatusRequest,
-} from "./ts-proto/gateway/gateway_pb";
+} from "../ts-proto/gateway/gateway_pb";
 
 // import grpc-web WebClient
 import { 
   WebClient 
-} from "./ts-proto/gateway/GatewayServiceClientPb";
+} from "../ts-proto/gateway/GatewayServiceClientPb";
 
-import { config } from "dotenv";
-config();
-import { bridge, transactor, getTransferId } from './helper';
-import { formatDecimalPart, safeParseUnits } from "celer-web-utils/lib/format";
+import { bridge, transactor, getTransferId, getTransferStatus } from '../helper';
+import { safeParseUnits } from "celer-web-utils/lib/format";
 import { BigNumber } from "@ethersproject/bignumber";
 
 const address = process.env.WALLET_ADDRESS || '';
@@ -113,11 +112,8 @@ const client = new WebClient(process.env.CBRIDGE_GATEWAY_URL || '', null, null);
             BigNumber.from(estimateAmount.getMaxSlippage() || 0),
           ),
     );
-  } catch (error) {
-    console.log(`-Error`);
+  } catch (error: any) {
+    console.log(`-Error:`, error.error.error.error.message);
   }
-  const statusRequest = new GetTransferStatusRequest();
-  statusRequest.setTransferId(transferId);
-  const transferStatus = await client.getTransferStatus(statusRequest, null);
-  console.log(`-Transfer Status:`, transferStatus.toObject())
+  await getTransferStatus(client, transferId);
 })()
