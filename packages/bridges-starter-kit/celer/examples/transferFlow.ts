@@ -21,7 +21,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 const address = process.env.WALLET_ADDRESS || '';
 
 const estimateRequest = new EstimateAmtRequest();
-estimateRequest.setSrcChainId(1);
+estimateRequest.setSrcChainId(8217);
 estimateRequest.setDstChainId(56);
 estimateRequest.setTokenSymbol("USDT");
 estimateRequest.setUsrAddr(address);

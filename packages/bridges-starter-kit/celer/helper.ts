@@ -4,11 +4,15 @@ import { Contract,BigNumber, utils, Wallet, providers } from 'ethers';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { parseUnits } from "@ethersproject/units";
 import BridgeABI from './contract/abi/Bridge.sol/Bridge.json';
+import OriginalTokenVaultABI from './contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json';
+
 import { 
   GetTransferStatusRequest,
 } from "./ts-proto/gateway/gateway_pb";
 
 const bridgeInterface = new utils.Interface(BridgeABI.abi);
+const originalTokenVaultInterface = new utils.Interface(OriginalTokenVaultABI.abi);
+
 const provider = new providers.JsonRpcProvider(process.env.KLAYTN_RPC);
 const signer = new Wallet(process.env.PRIVATE_KEY || '', provider);
 
@@ -28,6 +32,8 @@ export const transactor = async (tx) => {
 }
 
 export const bridge = new Contract(process.env.KLAYTN_BRIDGE_CONTRACT || '', bridgeInterface, signer);
+
+export const originalTokenVault = new Contract(process.env.BNB_ORIGINAL_TOKEN_VAULT_CONTRACT || '', originalTokenVaultInterface, signer); //BNB originalTokenVault contract
 
 export const getTransferId = (address, tokenAddress, value, toChainId, nonce, fromChainId) => {
   return utils.solidityKeccak256(
@@ -51,3 +57,17 @@ export const getTransferStatus = async(client, transferId) => {
   console.log(`-Transfer Status:`, transferStatus.toObject());
   return transferStatus.toObject();
 }
+
+export enum NonEVMMode {
+  off, // Both from and to chains are EVM
+  flowTest,
+  flowMainnet,
+}
+
+export const convertNonEVMAddressToEVMCompatible = async (address: string, mode: NonEVMMode) => {
+  if (mode === NonEVMMode.flowMainnet || mode === NonEVMMode.flowTest) {
+    const addressWithoutOx = address.toLowerCase().replace("0x", "");
+    return "0x" + addressWithoutOx.padStart(40, "0");
+  }
+  return address;
+};
