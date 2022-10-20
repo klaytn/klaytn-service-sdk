@@ -12,7 +12,7 @@ import { getTransferId, getTransferObject } from "../helper"
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL as string
 const addr: string = process.env.WALLET_ADDRESS as string
 
-;(async () => {
+(async () => {
     // 0. get transfer config for transaction
     const transferConfigs = await getTransferConfigs(rpc)
     const transferObject = getTransferObject(transferConfigs)
