@@ -5,13 +5,13 @@ global.XMLHttpRequest = window.XMLHttpRequest
 import { config } from "dotenv"
 config()
 
-import { getEstimate, requestRefund } from "../APIs"
+import { getEstimation, requestRefund } from "../APIs"
 
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
 const addr: string = process.env.WALLET_ADDRESS!
 
 ;(async () => {
-    const estimated = await getEstimate(rpc, addr, 8217, "USDT", "10000", 1000000)
+    const estimated = await getEstimation(rpc, addr, 8217, "USDT", "10000", 1000000)
     if (estimated)
         requestRefund(
             rpc,

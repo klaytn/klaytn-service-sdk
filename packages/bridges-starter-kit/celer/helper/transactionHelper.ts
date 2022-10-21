@@ -44,14 +44,17 @@ export const transactor = async (tx: any): Promise<void> => {
 
 export const getTransferObject = (
     transferConfigs: ITransferConfigs,
-    transferValue: string = "10000"
+    srcChainId: number,
+    dstChainId: number,
+    tokenSymbol: string,
+    transferValue: string
 ): ITransferObject => {
     const transferObject: ITransferObject = {}
-    const transferToken = transferConfigs.chain_token["8217"].token.find(
-        ({ token }) => token.symbol === "USDT"
+    const transferToken = transferConfigs.chain_token[`${srcChainId}`].token.find(
+        ({ token }) => token.symbol === tokenSymbol
     )
-    const fromChain = transferConfigs.chains.find(({ id }) => id === 8217)
-    const toChain = transferConfigs.chains.find(({ id }) => id === 56)
+    const fromChain = transferConfigs.chains.find(({ id }) => id === srcChainId)
+    const toChain = transferConfigs.chains.find(({ id }) => id === dstChainId)
 
     const value = safeParseUnits(transferValue, transferToken?.token?.decimal ?? 18)
     const nonce = new Date().getTime()
