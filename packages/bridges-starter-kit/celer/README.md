@@ -1,4 +1,4 @@
-# cBridge-typescript-client
+# Klaytn cBridge starter kit
 
 cBridge provides a simple liquidity provider experience and high liquidity efficiency for users when they manage their funds in different
 chains with lower costs. Learn more about flow and terminology from this doc:
@@ -11,58 +11,43 @@ chains with lower costs. Learn more about flow and terminology from this doc:
 - [proto](./proto): gRPC-Web Protobuf definitions.
 - [ts-proto](./ts-proto): Generated .d.ts gRPC-Web bindings.
 
+## Setup
+Set variables in `.env`. Note: The below values are used on mainnet
+
+CBRIDGE_GATEWAY_URL=https://cbridge-prod2.celer.app
+KLAYTN_RPC=https://public-node-api.klaytnapi.com/v1/cypress
+KLAYTN_BRIDGE_CONTRACT=0x4C882ec256823eE773B25b414d36F92ef58a7c0C
+BNB_ORIGINAL_TOKEN_VAULT_CONTRACT=0x78bc5Ee9F11d133A08b331C2e18fE81BE0Ed02DC
+WALLET_ADDRESS=your_wallet_address  
+PRIVATE_KEY=your_private_key
+
 ## Quick Start
-
-### Refund via REST API
-
-Set `CBRIDGE_GATEWAY_URL` to one of the following in `.env`:
-
-- Testnet: https://cbridge-v2-test.celer.network
-- Mainnet: https://cbridge-prod2.celer.network
-
-Run via:
+You can run the below commands to test
+### Transfer
 
 ```sh
-ts-node examples/refund.ts
+ts-node examples/transferFlow.ts
 ```
 
-or
+### Refund
 
 ```sh
-node examples/refund.js
+ts-node examples/refundFlow.ts
 ```
 
-### Refund via gRPC-Web API
-
-1. Install [grpc-web](https://github.com/grpc/grpc-web)
+### Mint Canonical Token
 
 ```sh
-npm install grpc-web
+ts-node examples/mintCanonicalToken.ts
 ```
 
-2. Imports
+### Burn Canonical Token
 
-```javascript
-// Import request, response and relative messages
-import { WithdrawReq, WithdrawLq, WithdrawType } from '../../proto/sgn/cbridge/v1/tx_pb';
-
-// Import gRPC-web WebClient
-import { WebClient } from '../proto/sgn/gateway/v1/GatewayServiceClientPb';
+```sh
+ts-node examples/burnCanonicalToken.ts
 ```
 
-3. Call gateway with gRPC-Web client
+## Reference Docs:
 
-```javascript
-// construct request
-const bytes = ethers.utils.arrayify(sig);
-const req = new WithdrawLiquidityRequest();
-req.setWithdrawReq(withdrawReqProto.serializeBinary());
-req.setSig(bytes);
-req.setEstimatedReceivedAmt(estimatedAmount);
-req.setMethodType(WithdrawMethodType.WD_METHOD_TYPE_ONE_RM);
-
-// Withdraw liquidity via gRPC-Web client
-
-const client = new WebClient(`${process.env.CBRIDGE_GATEWAY_URL}`, null, null);
-client.withdrawLiquidity(req, null);
-```
+- https://cbridge-docs.celer.network/developer/cbridge-sdk
+- https://github.com/celer-network/cBridge-typescript-client
