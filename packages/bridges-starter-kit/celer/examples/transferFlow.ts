@@ -9,13 +9,13 @@ import { estimateAmt, getTransferConfigs, getTransferStatus, poolBasedTransfer }
 import { getTransferId, getTransferObject } from "../helper"
 
 // transfer USDT from Klaytn to BNB
-const rpc: string = process.env.CBRIDGE_GATEWAY_URL as string
-const addr: string = process.env.WALLET_ADDRESS as string
+const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
+const addr: string = process.env.WALLET_ADDRESS!
 
-(async () => {
+;(async () => {
     // 0. get transfer config for transaction
     const transferConfigs = await getTransferConfigs(rpc)
-    const transferObject = getTransferObject(transferConfigs)
+    const transferObject = getTransferObject(transferConfigs, 8217, 56, "USDT", "10000")
     const transferId = getTransferId(
         addr,
         transferObject.transferToken?.token?.address,

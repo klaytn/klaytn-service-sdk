@@ -1,7 +1,7 @@
 import { WebClient } from "../ts-proto/gateway/GatewayServiceClientPb"
 import { WithdrawLiquidityRequest, WithdrawMethodType } from "../ts-proto/gateway/gateway_pb"
 import { WithdrawReq, WithdrawType } from "../ts-proto/sgn/cbridge/v1/tx_pb"
-import { getTransferStatus } from "./GetTransferStatus"
+import { getTransferStatus } from "./GetData"
 
 export const requestRefund = async (rpc: string, transferId: string, estimated: string) => {
     const client = new WebClient(rpc, null, null)
