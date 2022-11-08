@@ -14,7 +14,7 @@ import {
     getContract,
 } from "../helper"
 import { getTransferConfigs } from "../APIs"
-import { ethers } from "ethers"
+import { ethers, providers, Wallet } from "ethers"
 import PeggedTokenBridgeABI from '../contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
 import PeggedTokenBridgeV2ABI from '../contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
 
@@ -23,15 +23,21 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 
 ;(async () => {
     const transferConfigs = await getTransferConfigs(rpc)
-
-    const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version < 0)?.pegged_burn_contract_addr
-    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi)
-    const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version === 2)?.pegged_burn_contract_addr
-    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi)
-    const srcChainId = 8217 //Klaytn
-    const dstChainId = 1 //Ethereum
+    
+    const srcChainId =  1 //Ethereum
+    const dstChainId = 8217 //Klaytn
     const tokenSymbol = "USDC"
     const amount = "10000"
+
+    const burningSigner = new Wallet(
+        process.env.PRIVATE_KEY || "",
+        new providers.JsonRpcProvider(process.env.ETHEREUM_RPC)
+    )
+
+    const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version < 0)?.pegged_burn_contract_addr
+    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, burningSigner)
+    const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version === 2)?.pegged_burn_contract_addr
+    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, burningSigner)
 
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
