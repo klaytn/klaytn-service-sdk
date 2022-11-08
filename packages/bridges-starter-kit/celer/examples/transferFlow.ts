@@ -6,31 +6,53 @@ import { config } from "dotenv"
 config()
 
 import { estimateAmt, getTransferConfigs, getTransferStatus, poolBasedTransfer } from "../APIs"
-import { getTransferId, getTransferObject } from "../helper"
+import { getAllowance, getTransferId, getTransferObject, checkApprove, approve } from "../helper"
 
 // transfer USDT from Klaytn to BNB
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
-const addr: string = process.env.WALLET_ADDRESS!
+const walletAddress: string = process.env.WALLET_ADDRESS!
 
 ;(async () => {
     // 0. get transfer config for transaction
     const transferConfigs = await getTransferConfigs(rpc)
-    const transferObject = getTransferObject(transferConfigs, 8217, 56, "USDT", "10000")
+    const srcChainId = 8217 //Klaytn
+    const dstChainId = 1 //Ethereum
+    const tokenSymbol = "USDC"
+    const amount = "10000"
+
+    const { transferToken, value, toChain, nonce, fromChain } = getTransferObject(transferConfigs, srcChainId, dstChainId, tokenSymbol, amount)
+
+    /**Check user's on-chain token allowance for cBridge contract. 
+     * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
+    const allowance = await getAllowance(walletAddress, process.env.KLAYTN_BRIDGE_CONTRACT || '' , transferToken?.token?.address || '', fromChain?.id, transferToken?.token?.symbol, transferConfigs.pegged_pair_configs)
+    let needToApprove = false
+    needToApprove = checkApprove(allowance, amount, transferToken?.token)
+
+    if (needToApprove) {
+        const approveTx = await approve(process.env.KLAYTN_BRIDGE_CONTRACT || '', transferToken?.token)
+        if (!approveTx) {
+            console.log(`Cannot approve the token`)
+            return
+        } else {
+            needToApprove = false
+        }
+    }
+
     const transferId = getTransferId(
-        addr,
-        transferObject.transferToken?.token?.address,
-        transferObject.value,
-        transferObject.toChain?.id,
-        transferObject.nonce,
-        transferObject.fromChain?.id
+        walletAddress,
+        transferToken?.token?.address,
+        value,
+        toChain?.id,
+        nonce,
+        fromChain?.id
     )
     console.log("TransferId:", transferId)
 
     // 1. make an estimation for this transfer
-    const estimateRequest = estimateAmt(8217, 56, "USDT", addr, 3000, "100000")
+    const estimateRequest = estimateAmt(8217, 56, "USDT", walletAddress, 3000, "100000")
 
     // 2. submit an on-chain send transaction
-    await poolBasedTransfer(rpc, addr, estimateRequest, transferObject)
+    await poolBasedTransfer(rpc, walletAddress, estimateRequest, { transferToken, fromChain, toChain, value, nonce })
 
     // 3. Poll getTransferStatus for this transaction until the transfer is complete or needs a refund
     await getTransferStatus(rpc, transferId)

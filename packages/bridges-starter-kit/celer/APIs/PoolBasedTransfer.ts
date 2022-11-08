@@ -13,13 +13,12 @@ export const poolBasedTransfer = async (
 ): Promise<void> => {
     const client = new WebClient(rpc, null, null)
     const estimateAmount = await client.estimateAmt(estimateRequest, null)
-    const isNativeToken = false
-
+ 
     const { transferToken, toChain, value, nonce } = transferObject
 
     try {
         await transactor(
-            isNativeToken
+            transferToken?.token?.symbol === 'KLAY'
                 ? bridge.sendNative(
                       addr,
                       value,

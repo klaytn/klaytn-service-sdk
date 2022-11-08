@@ -17,9 +17,12 @@ Set variables in `.env`. Note: The below values are used on mainnet
 CBRIDGE_GATEWAY_URL=https://cbridge-prod2.celer.app
 KLAYTN_RPC=https://public-node-api.klaytnapi.com/v1/cypress
 KLAYTN_BRIDGE_CONTRACT=0x4C882ec256823eE773B25b414d36F92ef58a7c0C
-BNB_ORIGINAL_TOKEN_VAULT_CONTRACT=0x78bc5Ee9F11d133A08b331C2e18fE81BE0Ed02DC
+ORIGINAL_TOKEN_VAULT_CONTRACT=
+ORIGINAL_TOKEN_VAULT_V2_CONTRACT=
 WALLET_ADDRESS=your_wallet_address  
 PRIVATE_KEY=your_private_key
+PEGGED_TOKEN_BRIDGE_CONTRACT=
+PEGGED_TOKEN_BRIDGE_V2_CONTRACT=
 
 ## Quick Start
 You can run the below commands to test
@@ -35,13 +38,13 @@ ts-node examples/transferFlow.ts
 ts-node examples/refundFlow.ts
 ```
 
-### Mint Canonical Token
+### Mint
 
 ```sh
 ts-node examples/mintCanonicalToken.ts
 ```
 
-### Burn Canonical Token
+### Burn
 
 ```sh
 ts-node examples/burnCanonicalToken.ts

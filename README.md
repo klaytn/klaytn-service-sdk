@@ -18,18 +18,23 @@
 ## Oracles Module
 ### Chainlink
 Implementation of the following 4 Chainlink features using the [Hardhat](https://hardhat.org/) development environment:
-- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-price-feeds)
+- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-vrf-get-a-random-number)
+- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-keepers)
+- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-request--receive-data)
 
 ### Witnet
-- [Witnet Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Witnet Randomness on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Witnet Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#witnet-price-feeds)
+- [Witnet Randomness on Klaytn](/packages/oracles-starter-kit/README.md#witnet-randomness)
+
 
 ## Bridges Module
-`In progress`
-
+### Celer Bridge
+Implementations:
+- [Transfer](/packages/bridges-starter-kit/celer/README.md#transfer)
+- [Refund](/packages/bridges-starter-kit/celer/README.md#refund)
+- [Mint](/packages/bridges-starter-kit/celer/README.md#mint)
+- [Burn](/packages/bridges-starter-kit/celer/README.md#burn)
 <br/>
 
 # Getting started

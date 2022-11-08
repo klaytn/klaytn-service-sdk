@@ -10,7 +10,11 @@
     "oracle:help": "yarn workspace oracles-starter-kit hardhat --help",
     "oracle:compile": "yarn workspace oracles-starter-kit compile",
     "oracle:deploy": "yarn workspace oracles-starter-kit hardhat deploy",
-    "oracle:test": "yarn workspace oracles-starter-kit test"
+    "oracle:test": "yarn workspace oracles-starter-kit test",
+    "celer:test-transfer": "yarn workspace cbridge-starter-kit ts-node examples/transferFlow.ts",
+    "celer:test-refund": "yarn workspace cbridge-starter-kit ts-node examples/refundFlow.ts",
+    "celer:test-mint": "yarn workspace cbridge-starter-kit ts-node examples/mintCanonicalToken.ts",
+    "celer:test-burn": "yarn workspace cbridge-starter-kit ts-node examples/burnCanonicalToken.ts"
   },
   "workspaces": {
     "packages": [

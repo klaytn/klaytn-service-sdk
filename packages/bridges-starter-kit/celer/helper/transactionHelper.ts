@@ -1,9 +1,13 @@
-import { BigNumber, utils } from "ethers"
+import { BigNumber, Contract, ethers, utils } from "ethers"
 import { TransactionResponse } from "@ethersproject/abstract-provider"
 import { parseUnits } from "@ethersproject/units"
 import { safeParseUnits } from "celer-web-utils/lib/format"
 import { ITransferConfigs, ITransferObject } from "../constants/type"
 import { signer } from "./constant"
+import ERC20ABI from "../contract/abi/pegged/tokens/ERC20Permit/SingleBridgeTokenPermit.sol/SingleBridgeTokenPermit.json"
+import { Token } from "../constants/type"
+import { MaxUint256 } from "@ethersproject/constants"
+const tokenInterface = new utils.Interface(ERC20ABI.abi)
 
 export const getTransferId = (
     address: string,
@@ -27,7 +31,7 @@ export const getTransferId = (
     )
 }
 
-export const transactor = async (tx: any): Promise<void> => {
+export const transactor = async (tx: any): Promise<ethers.ContractTransaction> => {
     let result: TransactionResponse
     if (tx instanceof Promise) {
         result = await tx
@@ -40,6 +44,7 @@ export const transactor = async (tx: any): Promise<void> => {
         }
         result = await signer.sendTransaction(tx)
     }
+    return result;
 }
 
 export const getTransferObject = (
@@ -50,7 +55,7 @@ export const getTransferObject = (
     transferValue: string
 ): ITransferObject => {
     const transferObject: ITransferObject = {}
-    const transferToken = transferConfigs.chain_token[`${srcChainId}`].token.find(
+    const transferToken = transferConfigs.chain_token[`${srcChainId}`]?.token.find(
         ({ token }) => token.symbol === tokenSymbol
     )
     const fromChain = transferConfigs.chains.find(({ id }) => id === srcChainId)
@@ -61,4 +66,154 @@ export const getTransferObject = (
 
     Object.assign(transferObject, { transferToken, fromChain, toChain, value, nonce })
     return transferObject
+}
+
+export const getBridgeVersion = (
+    transferConfigs: ITransferConfigs,
+    srcChainId: number,
+    dstChainId: number,
+    tokenSymbol: string
+) => {
+    const depositConfigs = transferConfigs.pegged_pair_configs.filter(
+        (e) =>
+            e.org_chain_id === srcChainId &&
+            e.pegged_chain_id === dstChainId &&
+            e.org_token.token.symbol === tokenSymbol
+    )
+
+    if (depositConfigs.length) {
+        return depositConfigs[0].bridge_version
+    }
+
+    const burnConfigs = transferConfigs.pegged_pair_configs.filter(
+        (e) =>
+            e.org_chain_id === dstChainId &&
+            e.pegged_chain_id === srcChainId &&
+            e.org_token.token.symbol === tokenSymbol
+    )
+
+    if (burnConfigs.length) {
+        return burnConfigs[0].bridge_version
+    }
+
+    return
+}
+
+const isNonEVMChain = (chainId: number) => {
+    if (
+        chainId === 12340001 ||
+        chainId === 12340002 ||
+        chainId === 999999998 ||
+        chainId === 999999999
+    ) {
+        return true
+    }
+    return false
+}
+
+const getTokenBalanceAddress = (
+    originalAddress: string,
+    fromChainId: number | undefined = undefined,
+    tokenSymbol: string | undefined = undefined,
+    peggedPairs: Array<any> | undefined = undefined
+) => {
+    if (!fromChainId || !tokenSymbol || !peggedPairs) {
+        return originalAddress
+    }
+
+    const peggedTokens = peggedPairs?.filter((item) => {
+        return (
+            item.pegged_chain_id === fromChainId && tokenSymbol === item.pegged_token.token.symbol
+        )
+    })
+
+    if (
+        peggedTokens &&
+        peggedTokens.length > 0 &&
+        peggedTokens[0].canonical_token_contract_addr.length > 0
+    ) {
+        return peggedTokens[0].canonical_token_contract_addr
+    }
+
+    if (isNonEVMChain(fromChainId)) {
+        const nonEVMDeposit = peggedPairs?.find((peggedPairConfig) => {
+            return (
+                peggedPairConfig.org_chain_id === fromChainId &&
+                peggedPairConfig.org_token.token.symbol === tokenSymbol
+            )
+        })
+
+        if (nonEVMDeposit) {
+            return nonEVMDeposit.pegged_token.token.address
+        }
+
+        const nonEVMBurn = peggedPairs?.find((peggedPairConfig) => {
+            return (
+                peggedPairConfig.pegged_chain_id === fromChainId &&
+                peggedPairConfig.pegged_token.token.symbol === tokenSymbol
+            )
+        })
+
+        if (nonEVMBurn) {
+            return nonEVMBurn.org_token.token.address
+        }
+    }
+
+    return originalAddress
+}
+
+export const getAllowance = async (
+    walletAddress: string,
+    bridgeAddress: string,
+    originalAddress: string,
+    fromChainId: number | undefined = undefined,
+    tokenSymbol: string | undefined = undefined,
+    peggedPairs: Array<any> | undefined = undefined
+) => {
+    const tokenAddress = getTokenBalanceAddress(
+        originalAddress,
+        fromChainId,
+        tokenSymbol,
+        peggedPairs
+    )
+    const tokenContract = new Contract(tokenAddress, tokenInterface, signer)
+    const allowance = await tokenContract?.allowance(walletAddress, bridgeAddress)
+    return allowance
+}
+
+export const checkApprove = (allowance: BigNumber, amount: string, token?: Token) : boolean => {
+    /**Native token case */
+    if (token?.symbol === "KLAY") {
+        return false
+    }
+    if (!allowance || allowance.isZero()) {
+        return true
+    }
+    try {
+        const isGreatThanAllowance = safeParseUnits(amount || "0", token?.decimal ?? 18).gt(
+            allowance
+        )
+        console.log(`The amount is greater than the allowance`)
+        return isGreatThanAllowance
+    } catch {
+        return true
+    }
+}
+
+export const approve = async (bridgeAddress: string, token?: Token) => {
+    if (!token) {
+        return
+    }
+    /**must not be the native token */
+    if (token?.symbol !== "KLAY") {
+        try {
+            const tokenContract = new Contract(token.address, tokenInterface, signer)
+            const approveTx = await transactor(tokenContract.approve(bridgeAddress, MaxUint256))
+            await approveTx.wait()
+            return approveTx
+        } catch (e) {
+            console.error(`-Failed to approve token. Error:`, e)
+            return
+        }
+    }
 }
