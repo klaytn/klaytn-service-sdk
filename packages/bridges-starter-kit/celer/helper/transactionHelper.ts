@@ -9,6 +9,10 @@ import { Token } from "../constants/type"
 import { MaxUint256 } from "@ethersproject/constants"
 const tokenInterface = new utils.Interface(ERC20ABI.abi)
 
+export const getBridgeContractAddress = (transferConfigs: ITransferConfigs, chainId: number) => {
+    return transferConfigs.chains.find(chain => chain.id === chainId)?.contract_addr
+}
+
 export const getTransferId = (
     address: string,
     tokenAddress?: string,
@@ -68,7 +72,7 @@ export const getTransferObject = (
     return transferObject
 }
 
-export const getBridgeVersion = (
+export const getPegConfig = (
     transferConfigs: ITransferConfigs,
     srcChainId: number,
     dstChainId: number,
@@ -82,7 +86,7 @@ export const getBridgeVersion = (
     )
 
     if (depositConfigs.length) {
-        return depositConfigs[0].bridge_version
+        return depositConfigs[0]
     }
 
     const burnConfigs = transferConfigs.pegged_pair_configs.filter(
@@ -93,7 +97,7 @@ export const getBridgeVersion = (
     )
 
     if (burnConfigs.length) {
-        return burnConfigs[0].bridge_version
+        return burnConfigs[0]
     }
 
     return
@@ -164,7 +168,7 @@ const getTokenBalanceAddress = (
 
 export const getAllowance = async (
     walletAddress: string,
-    bridgeAddress: string,
+    spenderAddress: string,
     originalAddress: string,
     fromChainId: number | undefined = undefined,
     tokenSymbol: string | undefined = undefined,
@@ -177,7 +181,7 @@ export const getAllowance = async (
         peggedPairs
     )
     const tokenContract = new Contract(tokenAddress, tokenInterface, signer)
-    const allowance = await tokenContract?.allowance(walletAddress, bridgeAddress)
+    const allowance = await tokenContract?.allowance(walletAddress, spenderAddress)
     return allowance
 }
 
@@ -200,7 +204,7 @@ export const checkApprove = (allowance: BigNumber, amount: string, token?: Token
     }
 }
 
-export const approve = async (bridgeAddress: string, token?: Token) => {
+export const approve = async (spenderAddress: string, token?: Token) => {
     if (!token) {
         return
     }
@@ -208,7 +212,7 @@ export const approve = async (bridgeAddress: string, token?: Token) => {
     if (token?.symbol !== "KLAY") {
         try {
             const tokenContract = new Contract(token.address, tokenInterface, signer)
-            const approveTx = await transactor(tokenContract.approve(bridgeAddress, MaxUint256))
+            const approveTx = await transactor(tokenContract.approve(spenderAddress, MaxUint256))
             await approveTx.wait()
             return approveTx
         } catch (e) {

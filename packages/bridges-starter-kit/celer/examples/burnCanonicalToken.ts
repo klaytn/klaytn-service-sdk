@@ -6,15 +6,17 @@ config()
 
 import {
     getTransferObject,
-    getBridgeVersion,
-    peggedTokenBridge,
-    peggedTokenBridgeV2,
+    getPegConfig,
     transactor,
     getAllowance,
     checkApprove,
     approve,
+    getContract,
 } from "../helper"
 import { getTransferConfigs } from "../APIs"
+import { ethers } from "ethers"
+import PeggedTokenBridgeABI from '../contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
+import PeggedTokenBridgeV2ABI from '../contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
 
 const rpc = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress = process.env.WALLET_ADDRESS || ""
@@ -22,6 +24,10 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 ;(async () => {
     const transferConfigs = await getTransferConfigs(rpc)
 
+    const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version < 0)?.pegged_burn_contract_addr
+    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi)
+    const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version === 2)?.pegged_burn_contract_addr
+    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi)
     const srcChainId = 8217 //Klaytn
     const dstChainId = 1 //Ethereum
     const tokenSymbol = "USDC"
@@ -34,13 +40,16 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         tokenSymbol,
         amount
     )
-    const bridgeVersion = getBridgeVersion(transferConfigs, srcChainId, dstChainId, tokenSymbol)
 
+    const pegConfig = getPegConfig(transferConfigs, srcChainId, dstChainId, tokenSymbol)
+    const bridgeVersion = pegConfig?.bridge_version
+
+    const spenderAddress = bridgeVersion === 2 ? peggedTokenBridgeV2Address : peggedTokenBridgeAddress
     /**Check user's on-chain token allowance for cBridge contract.
      * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
     const allowance = await getAllowance(
         walletAddress,
-        process.env.KLAYTN_BRIDGE_CONTRACT || "",
+        spenderAddress || "",
         transferToken?.token?.address || "",
         srcChainId,
         transferToken?.token?.symbol,
@@ -51,7 +60,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 
     if (needToApprove) {
         const approveTx = await approve(
-            process.env.KLAYTN_BRIDGE_CONTRACT || "",
+            spenderAddress || "",
             transferToken?.token
         )
         if (!approveTx) {
@@ -64,10 +73,29 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 
     try {
         if (bridgeVersion === 2) {
-            await transactor(
-                peggedTokenBridge!.burn(transferToken?.token?.address, value, walletAddress, nonce)
+            const transferId = ethers.utils.solidityKeccak256(
+                [
+                    "address",
+                    "address",
+                    "uint256",
+                    "uint64",
+                    "address",
+                    "uint64",
+                    "uint64",
+                    "address",
+                ],
+                [
+                    walletAddress,
+                    transferToken?.token?.address,
+                    amount.toString(),
+                    dstChainId.toString(),
+                    walletAddress,
+                    nonce?.toString(),
+                    pegConfig?.pegged_chain_id.toString(),
+                    peggedTokenBridgeV2.address,
+                ]
             )
-        } else {
+            console.log("TransferId:", transferId)
             await transactor(
                 peggedTokenBridgeV2!.burn(
                     transferToken?.token?.address,
@@ -76,6 +104,22 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     walletAddress,
                     nonce
                 )
+            )
+        } else {
+            const transferId = ethers.utils.solidityKeccak256(
+                ["address", "address", "uint256", "address", "uint64", "uint64"],
+                [
+                    walletAddress,
+                    transferToken?.token?.address,
+                    amount.toString(),
+                    walletAddress,
+                    nonce?.toString(),
+                    pegConfig?.pegged_chain_id.toString(),
+                ]
+            )
+            console.log("TransferId:", transferId)
+            await transactor(
+                peggedTokenBridge!.burn(transferToken?.token?.address, value, walletAddress, nonce)
             )
         }
     } catch (error: any) {

@@ -2,10 +2,11 @@ import { ITransferObject } from "../constants/type"
 import { EstimateAmtRequest } from "../ts-proto/gateway/gateway_pb"
 import { WebClient } from "../ts-proto/gateway/GatewayServiceClientPb"
 
-import { bridge, transactor } from "../helper"
-import { BigNumber } from "ethers"
+import { transactor } from "../helper"
+import { BigNumber, Contract } from "ethers"
 
 export const poolBasedTransfer = async (
+    bridge: Contract,
     rpc: string,
     addr: string,
     estimateRequest: EstimateAmtRequest,

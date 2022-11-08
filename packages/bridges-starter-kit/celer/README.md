@@ -16,13 +16,8 @@ Set variables in `.env`. Note: The below values are used on mainnet
 
 CBRIDGE_GATEWAY_URL=https://cbridge-prod2.celer.app
 KLAYTN_RPC=https://public-node-api.klaytnapi.com/v1/cypress
-KLAYTN_BRIDGE_CONTRACT=0x4C882ec256823eE773B25b414d36F92ef58a7c0C
-ORIGINAL_TOKEN_VAULT_CONTRACT=
-ORIGINAL_TOKEN_VAULT_V2_CONTRACT=
 WALLET_ADDRESS=your_wallet_address  
 PRIVATE_KEY=your_private_key
-PEGGED_TOKEN_BRIDGE_CONTRACT=
-PEGGED_TOKEN_BRIDGE_V2_CONTRACT=
 
 ## Quick Start
 You can run the below commands to test
