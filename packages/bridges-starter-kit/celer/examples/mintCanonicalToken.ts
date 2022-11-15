@@ -59,7 +59,10 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         transferConfigs.pegged_pair_configs
     )
     let needToApprove = false;
-    needToApprove = checkApprove(allowance, amount, transferToken?.token)
+    let isNative = transferConfigs.chains.filter(chain => 
+        (chain.id == srcChainId && chain.gas_token_symbol.toUpperCase() == tokenSymbol.toUpperCase())).length > 0;
+        console.log("isNative "+isNative);
+    needToApprove = checkApprove(allowance, amount, transferToken?.token, isNative)
 
     if (needToApprove) {
         console.log("Approving the tokens");
@@ -112,7 +115,8 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     value,
                     pegConfig?.pegged_chain_id,
                     walletAddress,
-                    nonce
+                    nonce,
+                    {gasLimit: 100000 }
                 ),
                 srcChainId
             )
@@ -137,7 +141,8 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     value,
                     pegConfig?.pegged_chain_id,
                     walletAddress,
-                    nonce
+                    nonce,
+                    {gasLimit: 100000 }
                 ),
                 srcChainId
             )

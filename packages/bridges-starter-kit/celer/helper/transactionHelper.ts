@@ -185,7 +185,11 @@ export const getAllowance = async (
     return allowance
 }
 
-export const checkApprove = (allowance: BigNumber, amount: string, token?: Token) : boolean => {
+export const checkApprove = (allowance: BigNumber, amount: string, token?: Token, isNative?: boolean) : boolean => {
+    /**Native token case */
+    if(isNative) {
+        return false;
+    }
     if (!allowance || allowance.isZero()) {
         return true
     }
@@ -208,8 +212,8 @@ export const approve = async (spenderAddress: string, token?: Token, amount?: st
     try {
         const tokenContract = new Contract(token.address, tokenInterface, getSigner(chainId))
         const approveTx = await transactor(
-            tokenContract.approve(spenderAddress, safeParseUnits(amount || "0", token?.decimal ?? 18)),
-            chainId
+                tokenContract.approve(spenderAddress, safeParseUnits(amount || "0", token?.decimal ?? 18), {gasLimit: 100000 }),
+                chainId
             )
         await approveTx.wait()
         return approveTx

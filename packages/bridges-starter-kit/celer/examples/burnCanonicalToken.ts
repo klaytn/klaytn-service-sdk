@@ -56,8 +56,10 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         transferToken?.token?.symbol,
         transferConfigs.pegged_pair_configs
     )
-    let needToApprove = false
-    needToApprove = checkApprove(allowance, amount, transferToken?.token)
+    let needToApprove = false;
+    let isNative = transferConfigs.chains.filter(chain => 
+        (chain.id == srcChainId && chain.gas_token_symbol.toUpperCase() == tokenSymbol.toUpperCase())).length > 0;
+    needToApprove = checkApprove(allowance, amount, transferToken?.token, isNative)
 
     if (needToApprove) {
         const approveTx = await approve(
@@ -105,7 +107,8 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                         value,
                         dstChainId,
                         walletAddress,
-                        nonce
+                        nonce,
+                        {gasLimit: 100000 }
                     ),
                     srcChainId
                 )
@@ -124,7 +127,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
             )
             console.log("TransferId:", transferId)
             let result = await transactor(
-                            peggedTokenBridge!.burn(transferToken?.token?.address, value, walletAddress, nonce),
+                            peggedTokenBridge!.burn(transferToken?.token?.address, value, walletAddress, nonce, {gasLimit: 100000 }),
                             srcChainId
                         );
             console.log(result);

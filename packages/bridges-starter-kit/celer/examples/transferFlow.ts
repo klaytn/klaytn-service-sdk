@@ -30,8 +30,10 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
      * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
     console.log("1. Checking Allowance of tokens to cBridge contract");
     const allowance = await getAllowance(walletAddress, bridgeAddress || '' , transferToken?.token?.address || '', fromChain?.id, transferToken?.token?.symbol, transferConfigs.pegged_pair_configs)
-    let needToApprove = false
-    needToApprove = checkApprove(allowance, amount, transferToken?.token)
+    let needToApprove = false;
+    let isNative = transferConfigs.chains.filter(chain => 
+        (chain.id == srcChainId && chain.gas_token_symbol.toUpperCase() == tokenSymbol.toUpperCase())).length > 0;
+    needToApprove = checkApprove(allowance, amount, transferToken?.token, isNative)
 
     if (needToApprove) {
         console.log("Approving the tokens");
@@ -59,9 +61,9 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
     const estimateRequest = estimateAmt(srcChainId, dstChainId, tokenSymbol, walletAddress, slippageTolerance, amount)
 
     console.log("3. submit an on-chain send transaction");
-    let result = await poolBasedTransfer(bridgeContract, rpc, walletAddress, estimateRequest, { transferToken, fromChain, toChain, value, nonce }, srcChainId)
+    let result = await poolBasedTransfer(bridgeContract, rpc, walletAddress, estimateRequest, { transferToken, fromChain, toChain, value, nonce }, srcChainId, isNative)
     console.log(result);
-    
+
     console.log("Delaying for 300 seconds for checking transfer status");
     await new Promise(r => setTimeout(r, 300000))
 

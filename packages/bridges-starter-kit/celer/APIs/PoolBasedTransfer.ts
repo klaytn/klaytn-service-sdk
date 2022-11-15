@@ -11,7 +11,8 @@ export const poolBasedTransfer = async (
     addr: string,
     estimateRequest: EstimateAmtRequest,
     transferObject: ITransferObject,
-    srcChainId: number
+    srcChainId: number,
+    isNative?: boolean
 ): Promise<any> => {
     const client = new WebClient(rpc, null, null)
     const estimateAmount = await client.estimateAmt(estimateRequest, null)
@@ -20,15 +21,25 @@ export const poolBasedTransfer = async (
 
     try {
         let result = await transactor(
-            bridge.send(
-                addr,
-                transferToken?.token?.address,
-                value,
-                BigNumber.from(toChain?.id),
-                BigNumber.from(nonce),
-                BigNumber.from(estimateAmount.getMaxSlippage() || 0)
-            ),
-            srcChainId
+            isNative
+                ? bridge.sendNative(
+                      addr,
+                      value,
+                      BigNumber.from(toChain?.id),
+                      BigNumber.from(nonce),
+                      BigNumber.from(estimateAmount.getMaxSlippage() || 0),
+                      { value: value, gasLimit: 100000 }
+                  )
+                : bridge.send(
+                      addr,
+                      transferToken?.token?.address,
+                      value,
+                      BigNumber.from(toChain?.id),
+                      BigNumber.from(nonce),
+                      BigNumber.from(estimateAmount.getMaxSlippage() || 0),
+                      {gasLimit: 100000 }
+                  ),
+                  srcChainId
         )
         return result;
     } catch (err: any) {
