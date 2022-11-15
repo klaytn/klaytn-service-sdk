@@ -47,9 +47,9 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     const vaultVersion = pegConfig?.vault_version
     const spenderAddress = vaultVersion === 2 ? originalTokenVaultV2Address : originalTokenVaultAddress
 
-    /**Check user's on-chain token allowance for cBridge contract.
+    /**Check user's on-chain token allowance for Originaltoken contract.
      * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
-    console.log("1. Checking Allowance of tokens to cBridge contract");
+    console.log("1. Checking Allowance of tokens to OriginalToken contract");
     const allowance = await getAllowance(
         walletAddress,
         spenderAddress || '',

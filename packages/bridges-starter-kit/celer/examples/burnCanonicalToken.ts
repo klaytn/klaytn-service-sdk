@@ -22,6 +22,7 @@ const rpc = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress = process.env.WALLET_ADDRESS || ""
 
 ;(async () => {
+    console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(rpc)
     
     const srcChainId = parseInt(process.env.CHAIN2_ID!);
@@ -46,8 +47,9 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     const bridgeVersion = pegConfig?.bridge_version
 
     const spenderAddress = bridgeVersion === 2 ? peggedTokenBridgeV2Address : peggedTokenBridgeAddress
-    /**Check user's on-chain token allowance for cBridge contract.
+    /**Check user's on-chain token allowance for peggedtoken contract.
      * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
+    console.log("1. Checking Allowance of tokens to PeggedToken contract");
     const allowance = await getAllowance(
         walletAddress,
         spenderAddress || "",
@@ -62,6 +64,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     needToApprove = checkApprove(allowance, amount, transferToken?.token, isNative)
 
     if (needToApprove) {
+        console.log("Approving the tokens");
         const approveTx = await approve(
             spenderAddress || "",
             transferToken?.token,
@@ -74,6 +77,9 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         } else {
             needToApprove = false
         }
+        console.log(approveTx);
+        console.log("Delaying for 300 seconds before performing the transaction");
+        await new Promise(r => setTimeout(r, 300000))
     }
 
     try {
@@ -101,6 +107,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 ]
             )
             console.log("TransferId:", transferId)
+            console.log("3. submit an on-chain send transaction");
             let result =  await transactor(
                     peggedTokenBridgeV2!.burn(
                         transferToken?.token?.address,
@@ -113,6 +120,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     srcChainId
                 )
             console.log(result);
+            console.log("Check the transfer status of the transaction");
         } else {
             const transferId = ethers.utils.solidityKeccak256(
                 ["address", "address", "uint256", "address", "uint64", "uint64"],
@@ -126,8 +134,13 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 ]
             )
             console.log("TransferId:", transferId)
+            console.log("3. submit an on-chain send transaction");
             let result = await transactor(
-                            peggedTokenBridge!.burn(transferToken?.token?.address, value, walletAddress, nonce, {gasLimit: 100000 }),
+                            peggedTokenBridge!.burn(transferToken?.token?.address, 
+                                value, 
+                                walletAddress, 
+                                nonce, 
+                                {gasLimit: 100000 }),
                             srcChainId
                         );
             console.log(result);
