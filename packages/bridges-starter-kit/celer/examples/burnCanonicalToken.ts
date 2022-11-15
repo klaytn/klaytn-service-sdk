@@ -24,20 +24,15 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 ;(async () => {
     const transferConfigs = await getTransferConfigs(rpc)
     
-    const srcChainId =  1 //Ethereum
-    const dstChainId = 8217 //Klaytn
-    const tokenSymbol = "USDC"
-    const amount = "10000"
+    const srcChainId = parseInt(process.env.CHAIN2_ID!);
+    const dstChainId = parseInt(process.env.CHAIN1_ID!);
+    const tokenSymbol =  process.env.TOKEN_SYMBOL!;
+    const amount = process.env.AMOUNT!;
 
-    const burningSigner = new Wallet(
-        process.env.PRIVATE_KEY || "",
-        new providers.JsonRpcProvider(process.env.ETHEREUM_RPC)
-    )
-
-    const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version < 0)?.pegged_burn_contract_addr
-    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, burningSigner)
+    const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version < 2)?.pegged_burn_contract_addr
+    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, srcChainId)
     const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === srcChainId && config.bridge_version === 2)?.pegged_burn_contract_addr
-    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, burningSigner)
+    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, srcChainId)
 
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
@@ -67,7 +62,9 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     if (needToApprove) {
         const approveTx = await approve(
             spenderAddress || "",
-            transferToken?.token
+            transferToken?.token,
+            amount,
+            srcChainId
         )
         if (!approveTx) {
             console.log(`Cannot approve the token`)
@@ -102,15 +99,17 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 ]
             )
             console.log("TransferId:", transferId)
-            await transactor(
-                peggedTokenBridgeV2!.burn(
-                    transferToken?.token?.address,
-                    value,
-                    dstChainId,
-                    walletAddress,
-                    nonce
+            let result =  await transactor(
+                    peggedTokenBridgeV2!.burn(
+                        transferToken?.token?.address,
+                        value,
+                        dstChainId,
+                        walletAddress,
+                        nonce
+                    ),
+                    srcChainId
                 )
-            )
+            console.log(result);
         } else {
             const transferId = ethers.utils.solidityKeccak256(
                 ["address", "address", "uint256", "address", "uint64", "uint64"],
@@ -124,9 +123,12 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 ]
             )
             console.log("TransferId:", transferId)
-            await transactor(
-                peggedTokenBridge!.burn(transferToken?.token?.address, value, walletAddress, nonce)
-            )
+            let result = await transactor(
+                            peggedTokenBridge!.burn(transferToken?.token?.address, value, walletAddress, nonce),
+                            srcChainId
+                        );
+            console.log(result);
+            console.log("Check the transfer status of the transaction");
         }
     } catch (error: any) {
         console.log(`-Error:`, error)

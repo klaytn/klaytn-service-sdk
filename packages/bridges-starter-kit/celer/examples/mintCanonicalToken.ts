@@ -22,17 +22,18 @@ const rpc = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress = process.env.WALLET_ADDRESS || ""
 
 ;(async () => {
+    console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(rpc)
 
-    const srcChainId = 8217 //Klaytn
-    const dstChainId = 56 //BNB Chain
-    const tokenSymbol = "USDT"
-    const amount = "10000"
+    const srcChainId = parseInt(process.env.CHAIN1_ID!);
+    const dstChainId = parseInt(process.env.CHAIN2_ID!);
+    const tokenSymbol =  process.env.TOKEN_SYMBOL!;
+    const amount = process.env.AMOUNT!;
 
-    const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === srcChainId && config.vault_version < 0)?.pegged_deposit_contract_addr
-    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi)
+    const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === srcChainId && config.vault_version < 2)?.pegged_deposit_contract_addr
+    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, srcChainId)
     const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === srcChainId && config.vault_version === 2)?.pegged_deposit_contract_addr
-    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi)
+    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, srcChainId)
 
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
@@ -48,6 +49,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 
     /**Check user's on-chain token allowance for cBridge contract.
      * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
+    console.log("1. Checking Allowance of tokens to cBridge contract");
     const allowance = await getAllowance(
         walletAddress,
         spenderAddress || '',
@@ -56,13 +58,16 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         transferToken?.token?.symbol,
         transferConfigs.pegged_pair_configs
     )
-    let needToApprove = false
+    let needToApprove = false;
     needToApprove = checkApprove(allowance, amount, transferToken?.token)
 
     if (needToApprove) {
+        console.log("Approving the tokens");
         const approveTx = await approve(
             spenderAddress || "",
-            transferToken?.token
+            transferToken?.token,
+            amount,
+            srcChainId
         )
         if (!approveTx) {
             console.log(`Cannot approve the token`)
@@ -70,6 +75,9 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         } else {
             needToApprove = false
         }
+        console.log(approveTx);
+        console.log("Delaying for 300 seconds before performing the transaction");
+        await new Promise(r => setTimeout(r, 300000))
     }
 
     try {
@@ -97,15 +105,16 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 ]
             )
             console.log("TransferId:", transferId)
+            console.log("3. submit an on-chain send transaction");
             await transactor(
-                // eslint-disable-next-line
                 originalTokenVaultV2!.deposit(
                     transferToken?.token?.address, //token address on original chain
                     value,
                     pegConfig?.pegged_chain_id,
                     walletAddress,
                     nonce
-                )
+                ),
+                srcChainId
             )
         } else {
             const transferId = ethers.utils.solidityKeccak256(
@@ -121,16 +130,19 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 ]
             )
             console.log("TransferId:", transferId)
-            await transactor(
-                // eslint-disable-next-line
+            console.log("3. submit an on-chain send transaction");
+            let result = await transactor(
                 originalTokenVault!.deposit(
                     transferToken?.token?.address, //token address on original chain
                     value,
                     pegConfig?.pegged_chain_id,
                     walletAddress,
                     nonce
-                )
+                ),
+                srcChainId
             )
+            console.log(result);
+            console.log("Check the transfer status of the transaction");
         }
     } catch (error: any) {
         console.log(`-Error:`, error)

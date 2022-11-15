@@ -3,7 +3,7 @@ import { TransactionResponse } from "@ethersproject/abstract-provider"
 import { parseUnits } from "@ethersproject/units"
 import { safeParseUnits } from "celer-web-utils/lib/format"
 import { ITransferConfigs, ITransferObject } from "../constants/type"
-import { signer } from "./constant"
+import { getSigner } from "./constant"
 import ERC20ABI from "../contract/abi/pegged/tokens/ERC20Permit/SingleBridgeTokenPermit.sol/SingleBridgeTokenPermit.json"
 import { Token } from "../constants/type"
 import { MaxUint256 } from "@ethersproject/constants"
@@ -35,10 +35,10 @@ export const getTransferId = (
     )
 }
 
-export const transactor = async (tx: any): Promise<ethers.ContractTransaction> => {
-    let result: TransactionResponse
+export const transactor = async (tx: any, chainId?: number): Promise<ethers.ContractTransaction> => {
+    let result: TransactionResponse;
     if (tx instanceof Promise) {
-        result = await tx
+        result = await tx;
     } else {
         if (!tx.gasPrice) {
             tx.gasPrice = parseUnits("4.1", "gwei")
@@ -46,9 +46,9 @@ export const transactor = async (tx: any): Promise<ethers.ContractTransaction> =
         if (!tx.gasLimit) {
             tx.gasLimit = BigNumber.from(120000)
         }
-        result = await signer.sendTransaction(tx)
+        result = await getSigner(chainId).sendTransaction(tx);
     }
-    return result;
+    return result!;
 }
 
 export const getTransferObject = (
@@ -180,44 +180,41 @@ export const getAllowance = async (
         tokenSymbol,
         peggedPairs
     )
-    const tokenContract = new Contract(tokenAddress, tokenInterface, signer)
+    const tokenContract = new Contract(tokenAddress, tokenInterface, getSigner(fromChainId))
     const allowance = await tokenContract?.allowance(walletAddress, spenderAddress)
     return allowance
 }
 
 export const checkApprove = (allowance: BigNumber, amount: string, token?: Token) : boolean => {
-    /**Native token case */
-    if (token?.symbol === "KLAY") {
-        return false
-    }
     if (!allowance || allowance.isZero()) {
         return true
     }
+    console.log("Allowance: "+allowance.toString());
+    console.log("Amount   : "+safeParseUnits(amount || "0", token?.decimal ?? 18).toString());
     try {
         const isGreatThanAllowance = safeParseUnits(amount || "0", token?.decimal ?? 18).gt(
             allowance
         )
-        console.log(`The amount is greater than the allowance`)
         return isGreatThanAllowance
     } catch {
         return true
     }
 }
 
-export const approve = async (spenderAddress: string, token?: Token) => {
+export const approve = async (spenderAddress: string, token?: Token, amount?: string, chainId?: number) => {
     if (!token) {
         return
     }
-    /**must not be the native token */
-    if (token?.symbol !== "KLAY") {
-        try {
-            const tokenContract = new Contract(token.address, tokenInterface, signer)
-            const approveTx = await transactor(tokenContract.approve(spenderAddress, MaxUint256))
-            await approveTx.wait()
-            return approveTx
-        } catch (e) {
-            console.error(`-Failed to approve token. Error:`, e)
-            return
-        }
+    try {
+        const tokenContract = new Contract(token.address, tokenInterface, getSigner(chainId))
+        const approveTx = await transactor(
+            tokenContract.approve(spenderAddress, safeParseUnits(amount || "0", token?.decimal ?? 18)),
+            chainId
+            )
+        await approveTx.wait()
+        return approveTx
+    } catch (e) {
+        console.error(`-Failed to approve token. Error:`, e)
+        return
     }
 }

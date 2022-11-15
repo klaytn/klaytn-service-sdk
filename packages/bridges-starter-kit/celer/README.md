@@ -12,12 +12,7 @@ chains with lower costs. Learn more about flow and terminology from this doc:
 - [ts-proto](./ts-proto): Generated .d.ts gRPC-Web bindings.
 
 ## Setup
-Set variables in `.env`. Note: The below values are used on mainnet
-
-CBRIDGE_GATEWAY_URL=https://cbridge-prod2.celer.app
-KLAYTN_RPC=https://public-node-api.klaytnapi.com/v1/cypress
-WALLET_ADDRESS=your_wallet_address  
-PRIVATE_KEY=your_private_key
+Set variables in `.env`
 
 ## Quick Start
 You can run the below commands to test
@@ -49,3 +44,5 @@ ts-node examples/burnCanonicalToken.ts
 
 - https://cbridge-docs.celer.network/developer/cbridge-sdk
 - https://github.com/celer-network/cBridge-typescript-client
+- https://test-cbridge-v2.celer.network/
+- https://cbridge.celer.network/1/10/USDC
