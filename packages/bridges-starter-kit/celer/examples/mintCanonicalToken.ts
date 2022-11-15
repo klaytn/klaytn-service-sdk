@@ -30,6 +30,17 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     const tokenSymbol =  process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
 
+    // check if its a valid pair transfer
+    let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken => 
+        (chainToken.org_chain_id == srcChainId 
+            && chainToken.pegged_chain_id == dstChainId 
+            && chainToken.pegged_token?.token?.symbol.toUpperCase() == tokenSymbol
+        )).length > 0);
+
+    if(!isPairPresent) {
+        throw new Error("Please choose valid pairs");
+    }
+
     const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === srcChainId && config.vault_version < 2)?.pegged_deposit_contract_addr
     const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, srcChainId)
     const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === srcChainId && config.vault_version === 2)?.pegged_deposit_contract_addr

@@ -24,6 +24,14 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
     const bridgeAddress = getBridgeContractAddress(transferConfigs, srcChainId)
     const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, srcChainId)
 
+    // check if tokensymbol is present in both chain tokens list
+    let isPresentInSrc = !!(transferConfigs.chain_token[srcChainId]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == tokenSymbol.toUpperCase()).length > 0);
+    let isPresentInDst = !!(transferConfigs.chain_token[dstChainId]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == tokenSymbol.toUpperCase()).length > 0);
+
+    if(!(isPresentInSrc && isPresentInDst)) {
+        throw new Error("Please choose valid pairs");
+    }
+
     const { transferToken, value, toChain, nonce, fromChain } = getTransferObject(transferConfigs, srcChainId, dstChainId, tokenSymbol, amount)
 
     /**Check user's on-chain token allowance for cBridge contract. 
