@@ -61,7 +61,6 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     let needToApprove = false;
     let isNative = transferConfigs.chains.filter(chain => 
         (chain.id == srcChainId && chain.gas_token_symbol.toUpperCase() == tokenSymbol.toUpperCase())).length > 0;
-        console.log("isNative "+isNative);
     needToApprove = checkApprove(allowance, amount, transferToken?.token, isNative)
 
     if (needToApprove) {
