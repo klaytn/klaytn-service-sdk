@@ -5,21 +5,27 @@ global.XMLHttpRequest = window.XMLHttpRequest
 import { config } from "dotenv"
 config()
 
-import { getEstimation, requestRefund } from "../APIs"
+import { getEstimation, getTransferConfigs, requestRefund } from "../APIs"
+import { getBridgeContractAddress, getContract } from "../helper"
+import BridgeABI from "../contract/abi/Bridge.sol/Bridge.json"
 
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
 const addr: string = process.env.WALLET_ADDRESS!
+const srcChainId = parseInt(process.env.CHAIN1_ID!);
 
 ;(async () => {
     const chainId = parseInt(process.env.CHAIN1_ID!);
     const tokenSymbol = process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
     const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
-    const transferId = "0x56db0c7245e9fac0e66b393467cafabfe0c15bfb1b27af9b140bd4b6c3b3e60e"; //Replace your transfer Id here
-
+    const transferId = "BEB2A8B042690205BE60290B076E46CC782CBA32F5301D79AD14252C7E628EEB"; //Replace your transfer Id here
+    const transferConfigs = await getTransferConfigs(rpc);
+    const bridgeAddress = getBridgeContractAddress(transferConfigs, srcChainId)
+    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, srcChainId)
     const estimated = await getEstimation(rpc, addr, chainId, tokenSymbol, amount, slippageTolerance)
     if (estimated)
         requestRefund(
+            bridgeContract,
             rpc,
             transferId,
             estimated

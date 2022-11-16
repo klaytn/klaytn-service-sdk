@@ -1,9 +1,14 @@
 import { WebClient } from "../ts-proto/gateway/GatewayServiceClientPb"
-import { WithdrawLiquidityRequest, WithdrawMethodType } from "../ts-proto/gateway/gateway_pb"
+import { GetTransferStatusResponse, WithdrawLiquidityRequest, WithdrawMethodType } from "../ts-proto/gateway/gateway_pb"
 import { WithdrawReq, WithdrawType } from "../ts-proto/sgn/cbridge/v1/tx_pb"
 import { getTransferStatus } from "./GetData"
+import { parseRefundTxResponse } from "./withdraw"
+import { Contract, ContractTransaction } from "ethers"
+import { transactor } from "../helper"
 
-export const requestRefund = async (rpc: string, transferId: string, estimated: string) => {
+const srcChainId = parseInt(process.env.CHAIN1_ID!);
+
+export const requestRefund = async (bridge: Contract, rpc: string, transferId: string, estimated: string) => {
     const client = new WebClient(rpc, null, null)
 
     const timestamp = Math.floor(Date.now() / 1000)
@@ -19,22 +24,30 @@ export const requestRefund = async (rpc: string, transferId: string, estimated: 
 
     const wres = await client.withdrawLiquidity(req, null)
     let detailInter
-    if (!wres.getErr()) {
+    let withdrawalTx: ContractTransaction;
+    if (wres.getErr()) {
         detailInter = setInterval(async () => {
-            const res = await getTransferStatus(rpc, transferId)
-            if (res?.status) {
-                const status = res.status
-                if (status === 8) {
+            const res:GetTransferStatusResponse.AsObject  = await getTransferStatus(rpc, transferId)
+            if (res?.status == 8 && !withdrawalTx.blockNumber) {
                     console.log("status:", res.status)
-                    clearInterval(detailInter)
-                }
+                    // clearInterval(detailInter)
+                    const { wdmsg, sigs, signers, powers } =  parseRefundTxResponse(res.wdOnchain, res.signersList, res.sortedSigsList, res.powersList)
+                     withdrawalTx = await transactor(
+                        bridge.withdraw(
+                            wdmsg,
+                            sigs,
+                            signers,
+                            powers),
+                        srcChainId
+                    )
             } else if (res.status === 0) {
                 console.error("status: unknown")
                 clearInterval(detailInter)
-            } else {
-                clearInterval(detailInter)
+            } else if (res.status === 10) {
+                console.log("funds have been refunded")
+                // clearInterval(detailInter)
             }
-        }, 5000)
+        }, 2000)
     } else {
         console.log(`Refund error`, wres.getErr()?.toObject())
     }
