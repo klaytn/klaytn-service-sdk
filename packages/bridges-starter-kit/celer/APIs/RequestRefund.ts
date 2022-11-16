@@ -39,5 +39,6 @@ export const requestRefund = async (rpc: string, transferId: string, estimated: 
         }, 5000)
     } else {
         console.log(`Refund error`, wres.getErr()?.toObject())
+        throw new Error(wres.getErr()?.toObject()?.msg);
     }
 }
