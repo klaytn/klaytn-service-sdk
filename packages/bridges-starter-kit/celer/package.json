@@ -7,7 +7,12 @@
     "url": "git+https://github.com/celer-network/cBridge-typescript-client.git"
   },
   "scripts": {
-    "dev": "ts-node ./index.ts"
+    "test-transfer": "ts-node examples/poolTransferFlow.ts",
+    "transfer-refund": "ts-node examples/poolTransferRefundFlow.ts",
+    "test-mint": "ts-node examples/mintCanonicalToken.ts",
+    "mint-refund": "ts-node examples/mintCanonicalTokenRefund.ts",
+    "burn": "ts-node examples/burnCanonicalToken.ts",
+    "burn-refund": "ts-node examples/burnCanonicalTokenRefund.ts"
   },
   "license": "GPL-3.0",
   "bugs": {
