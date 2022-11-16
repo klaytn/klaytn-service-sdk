@@ -70,7 +70,7 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
         let result = await transactor(
             originalTokenContract.withdraw(
                 wdmsg, sigs, signers, powers,
-                {gasLimit: 100000 }
+                {gasLimit: 200000 }
             ),
             srcChainId
         );
