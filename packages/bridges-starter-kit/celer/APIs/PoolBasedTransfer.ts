@@ -27,7 +27,7 @@ export const poolBasedTransfer = async (
                       value,
                       BigNumber.from(toChain?.id),
                       BigNumber.from(nonce),
-                      BigNumber.from(estimateAmount.getMaxSlippage() || 0),
+                      BigNumber.from(estimateAmount.getMaxSlippage() || estimateRequest.getSlippageTolerance() || 0),
                       { value: value, gasLimit: 100000 }
                   )
                 : bridge.send(
