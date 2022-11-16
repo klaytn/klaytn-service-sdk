@@ -5,7 +5,7 @@ import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
-import { getTransferStatus, getTransferConfigs } from "../APIs"
+import { getTransferStatus, getTransferConfigs, requestRefund } from "../APIs"
 import {
     getContract,
     getPegConfig,
@@ -34,7 +34,14 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
     const vaultVersion = pegConfig?.vault_version;
     const originalTokenContract = vaultVersion === 2 ? originalTokenVaultV2 : originalTokenVault;
 
-    console.log("1. Check transfer status");
+    console.log("1. Gateway Withdrawal liquidity request");
+    requestRefund(
+        rpc,
+        transferId,
+        ""
+    );
+
+    console.log("2. Check transfer status");
     let statusResult = await getTransferStatus(rpc, transferId);
 
     if(statusResult.wdOnchain) {
@@ -43,7 +50,7 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
         let sorted_sigs = statusResult.sortedSigsList;
         let _powers = statusResult.powersList;
 
-        console.log("2. Executing orginalvault contract withdraw");
+        console.log("3. Executing orginalvault contract withdraw");
         const wdmsg = base64.decode(wd_onchain);
 
         const signers = _signers.map((item: any) => {
@@ -63,7 +70,7 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
         let result = await transactor(
             originalTokenContract.withdraw(
                 wdmsg, sigs, signers, powers,
-                {gasLimit: 100000 }
+                {gasLimit: 200000 }
             ),
             srcChainId
         );

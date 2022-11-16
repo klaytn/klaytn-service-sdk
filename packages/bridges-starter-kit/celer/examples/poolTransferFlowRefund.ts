@@ -17,7 +17,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
     const tokenSymbol = process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
     const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
-    const transferId = "0x6085feec485c109c7c23b2bee61b2ca3f8a78418ac859e48f088f24914a60b6d"; //Replace your transfer Id here
+    const transferId = "0x18edf8b96a918653916523b363a987e49852d6b67e556995899692e28b5060bf"; //Replace your transfer Id here
 
     const transferConfigs = await getTransferConfigs(rpc);
     const bridgeAddress = getBridgeContractAddress(transferConfigs, srcChainId)
@@ -70,7 +70,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
         let result = await transactor(
             bridgeContract.withdraw(
                 wdmsg, sigs, signers, powers,
-                {gasLimit: 100000 }
+                {gasLimit: 200000 }
             ),
             srcChainId
         );

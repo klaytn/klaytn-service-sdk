@@ -12,7 +12,7 @@
     "oracle:deploy": "yarn workspace oracles-starter-kit hardhat deploy",
     "oracle:test": "yarn workspace oracles-starter-kit test",
     "celer:test-transfer": "yarn workspace cbridge-starter-kit ts-node examples/poolTransferFlow.ts",
-    "celer:test-transfer-refund": "yarn workspace cbridge-starter-kit ts-node examples/poolTransferRefundFlow.ts",
+    "celer:test-transfer-refund": "yarn workspace cbridge-starter-kit ts-node examples/poolTransferFlowRefund.ts",
     "celer:test-mint": "yarn workspace cbridge-starter-kit ts-node examples/mintCanonicalToken.ts",
     "celer:test-mint-refund": "yarn workspace cbridge-starter-kit ts-node examples/mintCanonicalTokenRefund.ts",
     "celer:test-burn": "yarn workspace cbridge-starter-kit ts-node examples/burnCanonicalToken.ts",

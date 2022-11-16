@@ -5,7 +5,7 @@ import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
-import { getTransferStatus, getTransferConfigs } from "../APIs"
+import { getTransferStatus, getTransferConfigs, requestRefund } from "../APIs"
 import {
     getContract,
     getPegConfig,
@@ -34,7 +34,14 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
     const bridgeVersion = pegConfig?.bridge_version;
     const peggedTokenContact = bridgeVersion === 2 ? peggedTokenBridgeV2: peggedTokenBridge;
 
-    console.log("1. Check transfer status");
+    console.log("1. Gateway Withdrawal liquidity request");
+    requestRefund(
+        rpc,
+        transferId,
+        ""
+    );
+
+    console.log("2. Check transfer status");
     let statusResult = await getTransferStatus(rpc, transferId);
 
     if(statusResult.wdOnchain) {
@@ -59,11 +66,11 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
         const powers = _powers.map((item: any) => {
             return base64.decode(item);
         });
-
+        console.log("3. Executing peggedbridge contract");
         let result = await transactor(
             peggedTokenContact.mint(
                 wdmsg, sigs, signers, powers,
-                {gasLimit: 100000 }
+                {gasLimit: 200000 }
             ),
             srcChainId
         );
