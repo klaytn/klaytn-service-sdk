@@ -13,15 +13,8 @@ export const statusTracker = async (rpc: string, transferId: string, callback?: 
     let observerdStatus: number = statusCode ? statusCode : 0;
     const interval  = setInterval(async () => {
         const res: GetTransferStatusResponse.AsObject = await getTransferStatus(rpc, transferId);
-        console.log("Checking status...", res.status)
-       /** if (res.status === 0) {
-            if(observerdStatus === 0){ // skipping for once due to network issues may yet TX isn't included in SGN network
-                console.error("cBRIDGE => TRANSFER_UNKNOWN")
-                clearInterval(interval);
-            }
-            observerdStatus = res.status;
 
-        } else */ if (res.status === 1 && res.status !== observerdStatus) {
+        if (res.status === 1 && res.status !== observerdStatus) {
             observerdStatus = res.status;
             console.info("cBRIDGE => TRANSFER_SUBMITTING")
 
