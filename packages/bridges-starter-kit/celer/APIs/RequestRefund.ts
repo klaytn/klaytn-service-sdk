@@ -14,7 +14,9 @@ export const requestRefund = async (rpc: string, transferId: string, estimated: 
 
     const req = new WithdrawLiquidityRequest()
     req.setWithdrawReq(withdrawReqProto.serializeBinary())
-    req.setEstimatedReceivedAmt(estimated)
+    if(estimated) {
+        req.setEstimatedReceivedAmt(estimated)
+    }
     req.setMethodType(WithdrawMethodType.WD_METHOD_TYPE_ONE_RM)
 
     const wres = await client.withdrawLiquidity(req, null)
@@ -37,5 +39,8 @@ export const requestRefund = async (rpc: string, transferId: string, estimated: 
         }, 5000)
     } else {
         console.log(`Refund error`, wres.getErr()?.toObject())
+        if(!(wres.getErr()?.toObject() && wres.getErr()?.toObject().msg.indexOf('buildAndSignTx')! > -1)) {
+            throw new Error(wres.getErr()?.toObject().msg);
+        }
     }
 }

@@ -16,7 +16,7 @@ export const poolBasedTransfer = async (
 ): Promise<any> => {
     const client = new WebClient(rpc, null, null)
     const estimateAmount = await client.estimateAmt(estimateRequest, null)
-
+    console.log("Max slippage "+estimateAmount.getMaxSlippage());
     const { transferToken, toChain, value, nonce } = transferObject
 
     try {
@@ -36,7 +36,7 @@ export const poolBasedTransfer = async (
                       value,
                       BigNumber.from(toChain?.id),
                       BigNumber.from(nonce),
-                      BigNumber.from(estimateRequest.getSlippageTolerance() || 0),
+                      BigNumber.from(estimateAmount.getMaxSlippage() || estimateRequest.getSlippageTolerance() || 0),
                       {gasLimit: 100000 }
                   ),
                   srcChainId

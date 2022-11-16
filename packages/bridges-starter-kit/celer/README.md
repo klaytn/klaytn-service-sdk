@@ -12,20 +12,20 @@ chains with lower costs. Learn more about flow and terminology from this doc:
 - [ts-proto](./ts-proto): Generated .d.ts gRPC-Web bindings.
 
 ## Setup
-Set variables in `.env`
+Rename `.env.example to .env` and Set variables in `.env`
 
 ## Quick Start
 You can run the below commands to test
 ### Transfer
 
 ```sh
-ts-node examples/transferFlow.ts
+ts-node examples/poolTransferFlow.ts
 ```
 
 ### Refund
 
 ```sh
-ts-node examples/refundFlow.ts
+ts-node examples/poolTransferFlowRefund.ts
 ```
 
 ### Mint
@@ -34,10 +34,22 @@ ts-node examples/refundFlow.ts
 ts-node examples/mintCanonicalToken.ts
 ```
 
+### Mint Refund
+
+```sh
+ts-node examples/mintCanonicalTokenRefund.ts
+```
+
 ### Burn
 
 ```sh
 ts-node examples/burnCanonicalToken.ts
+```
+
+### Burn Refund
+
+```sh
+ts-node examples/burnCanonicalTokenRefund.ts
 ```
 
 ## Reference Docs:
