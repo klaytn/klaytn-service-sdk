@@ -17,7 +17,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
     const tokenSymbol = process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
     const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
-    const transferId = "0x6085feec485c109c7c23b2bee61b2ca3f8a78418ac859e48f088f24914a60b6d"; //Replace your transfer Id here
+    const transferId = "0xc075e435696c639388d49fe3d132b5a0a9bc62748efca53567d50e92d5454450"; //Replace your transfer Id here
 
     const transferConfigs = await getTransferConfigs(rpc);
     const bridgeAddress = getBridgeContractAddress(transferConfigs, srcChainId)
