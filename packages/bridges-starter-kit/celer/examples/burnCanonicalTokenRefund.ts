@@ -61,7 +61,7 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
         });
 
         let result = await transactor(
-            peggedTokenContact.withdraw(
+            peggedTokenContact.mint(
                 wdmsg, sigs, signers, powers,
                 {gasLimit: 100000 }
             ),
