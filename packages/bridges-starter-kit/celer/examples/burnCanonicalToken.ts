@@ -11,12 +11,13 @@ import {
     getAllowance,
     checkApprove,
     approve,
-    getContract,
+    getContract, getConfirmations
 } from "../helper"
 import { getTransferConfigs } from "../APIs"
 import { ethers, providers, Wallet } from "ethers"
 import PeggedTokenBridgeABI from '../contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
 import PeggedTokenBridgeV2ABI from '../contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
+import { statusTracker } from "../APIs/StatusTracker"
 
 const rpc = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress = process.env.WALLET_ADDRESS || ""
@@ -24,16 +25,16 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 ;(async () => {
     console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(rpc)
-    
+
     const srcChainId = parseInt(process.env.CHAIN2_ID!);
     const dstChainId = parseInt(process.env.CHAIN1_ID!);
     const tokenSymbol =  process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
 
     // check if its a valid pair transfer
-    let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken => 
-                        (chainToken.org_chain_id == dstChainId 
-                            && chainToken.pegged_chain_id == srcChainId 
+    let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
+                        (chainToken.org_chain_id == dstChainId
+                            && chainToken.pegged_chain_id == srcChainId
                             && chainToken.pegged_token?.token?.symbol.toUpperCase() == tokenSymbol
                         )).length > 0);
 
@@ -70,7 +71,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         transferConfigs.pegged_pair_configs
     )
     let needToApprove = false;
-    let isNative = transferConfigs.chains.filter(chain => 
+    let isNative = transferConfigs.chains.filter(chain =>
         (chain.id == srcChainId && chain.gas_token_symbol.toUpperCase() == tokenSymbol.toUpperCase())).length > 0;
     needToApprove = checkApprove(allowance, amount, transferToken?.token, isNative)
 
@@ -88,9 +89,10 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         } else {
             needToApprove = false
         }
-        console.log(approveTx);
-        console.log("Delaying for 300 seconds before performing the transaction");
-        await new Promise(r => setTimeout(r, 300000))
+        console.log("approveTx hash: " + approveTx.hash);
+        console.log("Waiting for the confirmations of approveTx");
+        const confirmationReceipt = await getConfirmations(approveTx.hash, 6); // instead of waiting for fixed time, wait for some confirmations
+        console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
     }
 
     try {
@@ -119,7 +121,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
             )
             console.log("TransferId:", transferId)
             console.log("3. submit an on-chain send transaction");
-            let result =  await transactor(
+            let burnTx =  await transactor(
                     peggedTokenBridgeV2!.burn(
                         transferToken?.token?.address,
                         value,
@@ -130,8 +132,12 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     ),
                     srcChainId
                 )
-            console.log(result);
-            console.log("Check the transfer status of the transaction");
+            console.log("burnTx hash: " + burnTx.hash);
+            console.log("Waiting for the confirmations of burnTx");
+            const confirmationReceipt = await getConfirmations(burnTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+            console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
+            console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
+            statusTracker(rpc, transferId)
         } else {
             const transferId = ethers.utils.solidityKeccak256(
                 ["address", "address", "uint256", "address", "uint64", "uint64"],
@@ -146,16 +152,20 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
             )
             console.log("TransferId:", transferId)
             console.log("3. submit an on-chain send transaction");
-            let result = await transactor(
-                            peggedTokenBridge!.burn(transferToken?.token?.address, 
-                                value, 
-                                walletAddress, 
-                                nonce, 
+            let burnTx = await transactor(
+                            peggedTokenBridge!.burn(transferToken?.token?.address,
+                                value,
+                                walletAddress,
+                                nonce,
                                 {gasLimit: 100000 }),
                             srcChainId
                         );
-            console.log(result);
-            console.log("Check the transfer status of the transaction");
+            console.log("burnTx hash: " + burnTx.hash);
+            console.log("Waiting for the confirmations of burnTx");
+            const confirmationReceipt = await getConfirmations(burnTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+            console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
+            console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
+            statusTracker(rpc, transferId)
         }
     } catch (error: any) {
         console.log(`-Error:`, error)

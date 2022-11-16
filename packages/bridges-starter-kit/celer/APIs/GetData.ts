@@ -26,7 +26,7 @@ export const getTransferStatus = async (
     const statusRequest = new GetTransferStatusRequest()
     statusRequest.setTransferId(transferId)
     const transferStatus = await client.getTransferStatus(statusRequest, null)
-    console.log("Transfer Status:", transferStatus.toObject())
+    // console.log("Transfer Status:", transferStatus.toObject())
 
     return transferStatus.toObject()
 }

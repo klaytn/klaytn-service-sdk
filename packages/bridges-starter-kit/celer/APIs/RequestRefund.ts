@@ -4,11 +4,12 @@ import { WithdrawReq, WithdrawType } from "../ts-proto/sgn/cbridge/v1/tx_pb"
 import { getTransferStatus } from "./GetData"
 import { parseRefundTxResponse } from "./withdraw"
 import { Contract, ContractTransaction } from "ethers"
-import { transactor } from "../helper"
+import { getConfirmations, transactor } from "../helper"
+import { statusTracker } from "./StatusTracker"
 
 const srcChainId = parseInt(process.env.CHAIN1_ID!);
 
-export const requestRefund = async (bridge: Contract, rpc: string, transferId: string, estimated: string) => {
+export const requestRefund = async (type: string, contractInstance: Contract, rpc: string, transferId: string, estimated: string) => {
     const client = new WebClient(rpc, null, null)
 
     const timestamp = Math.floor(Date.now() / 1000)
@@ -23,33 +24,39 @@ export const requestRefund = async (bridge: Contract, rpc: string, transferId: s
         req.setEstimatedReceivedAmt(estimated)
     }
     req.setMethodType(WithdrawMethodType.WD_METHOD_TYPE_ONE_RM)
-
+    console.log("2. Submitting withdrawal request to cBRIDGE network...");
     const wres = await client.withdrawLiquidity(req, null)
-    let detailInter
-    let withdrawalTx: ContractTransaction;
-    if (wres.getErr()) {
-        detailInter = setInterval(async () => {
-            const res:GetTransferStatusResponse.AsObject  = await getTransferStatus(rpc, transferId)
-            if (res?.status == 8 && !withdrawalTx.blockNumber) {
-                    console.log("status:", res.status)
-                    // clearInterval(detailInter)
-                    const { wdmsg, sigs, signers, powers } =  parseRefundTxResponse(res.wdOnchain, res.signersList, res.sortedSigsList, res.powersList)
-                     withdrawalTx = await transactor(
-                        bridge.withdraw(
-                            wdmsg,
-                            sigs,
-                            signers,
-                            powers),
-                        srcChainId
-                    )
-            } else if (res.status === 0) {
-                console.error("status: unknown")
-                clearInterval(detailInter)
-            } else if (res.status === 10) {
-                console.log("funds have been refunded")
-                // clearInterval(detailInter)
-            }
-        }, 2000)
+    let refundTx: ContractTransaction;
+    if (!wres.getErr() || wres.getErr()?.getCode() == 500) {
+        statusTracker(rpc, transferId, async (res: GetTransferStatusResponse.AsObject) => {
+            if (res.status !== 8) return console.error("invalid transfer status: " + res.status);
+            const { wdmsg, sigs, signers, powers } =  parseRefundTxResponse(res.wdOnchain, res.signersList, res.sortedSigsList, res.powersList)
+            console.log("3. Confirming Refund Request on-chain...")
+            refundTx = await transactor(
+                type === 'BURN' ?
+                    contractInstance.mint(
+                        wdmsg,
+                        sigs,
+                        signers,
+                        powers, {gasLimit: 200000 }) :
+                    contractInstance.withdraw(
+                        wdmsg,
+                        sigs,
+                        signers,
+                        powers, {gasLimit: 200000 }),
+                srcChainId
+            )
+            // TODO: should check for one confirmation on-chain
+            if ( !refundTx) return console.log("Error while refunding on-chain");
+
+            console.log("refundTx hash: " + refundTx.hash);
+            console.log("Waiting for the confirmations of refundTx");
+            const confirmationReceipt = await getConfirmations(refundTx.hash, 6); // instead of waiting for fixed time, wait for some confirmations
+            console.log(`refundTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
+
+            statusTracker(rpc, transferId, null,8);
+        }, 7)
+
     } else {
         console.log(`Refund error`, wres.getErr()?.toObject())
         throw new Error(wres.getErr()?.toObject()?.msg);

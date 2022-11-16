@@ -18,3 +18,9 @@ export const getContract = (address: string, abi: any, chainId?: number) => {
     const contractInterface = new utils.Interface(abi);
     return new Contract(address, contractInterface, contractSigner)
 }
+export const getConfirmations = async (txHash: string, confirmations: number) => {
+    const rpcUrl = process.env.CHAIN1_RPC!;
+    const provider = new providers.JsonRpcProvider(rpcUrl);
+    return provider.waitForTransaction(txHash, confirmations);
+
+}

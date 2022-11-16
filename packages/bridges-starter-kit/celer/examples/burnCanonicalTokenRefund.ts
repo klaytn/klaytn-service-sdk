@@ -5,7 +5,7 @@ import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
-import { getTransferStatus, getTransferConfigs, requestRefund } from "../APIs"
+import { getTransferStatus, getTransferConfigs, requestRefund, getEstimation } from "../APIs"
 import {
     getContract,
     getPegConfig,
@@ -15,13 +15,16 @@ import PeggedTokenBridgeABI from '../contract/abi/pegged/PeggedTokenBridge.sol/P
 import PeggedTokenBridgeV2ABI from '../contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
 
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
+const walletAddress: string = process.env.WALLET_ADDRESS!
 
 ;(async () => {
     const srcChainId = parseInt(process.env.CHAIN2_ID!);
     const dstChainId = parseInt(process.env.CHAIN1_ID!);
 
+    const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
     const tokenSymbol = process.env.TOKEN_SYMBOL!;
     const transferId = "0x6085feec485c109c7c23b2bee61b2ca3f8a78418ac859e48f088f24914a60b6d"; //Replace your transfer Id here
+    const amount = process.env.AMOUNT ? process.env.AMOUNT: "0"; // Replace mint amount here (if not set in .env file)
 
     const transferConfigs = await getTransferConfigs(rpc);
 
@@ -34,56 +37,29 @@ const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
     const bridgeVersion = pegConfig?.bridge_version;
     const peggedTokenContact = bridgeVersion === 2 ? peggedTokenBridgeV2: peggedTokenBridge;
 
-    console.log("1. Gateway Withdrawal liquidity request");
-    requestRefund(
-        rpc,
-        transferId,
-        ""
-    );
-
-    console.log("2. Check transfer status");
-    let statusResult = await getTransferStatus(rpc, transferId);
-
-    if(statusResult.wdOnchain) {
-        let wd_onchain:any = statusResult.wdOnchain;
-        let _signers = statusResult.signersList;
-        let sorted_sigs = statusResult.sortedSigsList;
-        let _powers = statusResult.powersList;
-
-        console.log("2. Executing orginalvault contract withdraw");
-        const wdmsg = base64.decode(wd_onchain);
-
-        const signers = _signers.map((item: any) => {
-            const decodeSigners = base64.decode(item);
-            const hexlifyObj = hexlify(decodeSigners);
-            return getAddress(hexlifyObj);
-        });
-
-        const sigs = sorted_sigs.map((item:any) => {
-            return base64.decode(item);
-        });
-
-        const powers = _powers.map((item: any) => {
-            return base64.decode(item);
-        });
-        console.log("3. Executing peggedbridge contract");
-        let result = await transactor(
-            peggedTokenContact.mint(
-                wdmsg, sigs, signers, powers,
-                {gasLimit: 200000 }
-            ),
-            srcChainId
-        );
-
-        console.log(result);
-        
-        console.log("Delaying for 300 seconds for checking refund confirmation status");
-        await new Promise(r => setTimeout(r, 300000))
-
-        console.log("4. Check transfer status");
-        await getTransferStatus(rpc, transferId)
+    console.log("1. Initiating refund request");
+    // Transfer status should not be 0, 5 OR 10
+    const transferStatus = await getTransferStatus(rpc, transferId);
+    if (transferStatus.status === 0) {
+        console.error("cBRIDGE => TRANSFER_ID UNKNOWN / INVALID");
+        return;
+    } else if (transferStatus.status === 5){
+        console.error("cBRIDGE => TRANSFER_ALREADY_COMPLETED / NON_REFUNDABLE");
+        return;
+    }else if (transferStatus.status === 10){
+        console.error("cBRIDGE => TRANSFER_ALREADY_REFUNDED");
+        return;
     } else {
-        console.log("Not able to trigger contract withdraw as status info is insufficient");
+        console.log("1. Estimating refund request...");
+        const estimated = await getEstimation(rpc, walletAddress, srcChainId, tokenSymbol, amount, slippageTolerance)
+
+        requestRefund(
+            "BURN",
+            peggedTokenContact,
+            rpc,
+            transferId,
+            estimated
+        )
     }
-    
+
 })()
