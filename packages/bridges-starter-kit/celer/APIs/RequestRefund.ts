@@ -39,8 +39,5 @@ export const requestRefund = async (rpc: string, transferId: string, estimated: 
         }, 5000)
     } else {
         console.log(`Refund error`, wres.getErr()?.toObject())
-        if(!(wres.getErr()?.toObject() && wres.getErr()?.toObject().msg.indexOf('buildAndSignTx')! > -1)) {
-            throw new Error(wres.getErr()?.toObject().msg);
-        }
     }
 }
