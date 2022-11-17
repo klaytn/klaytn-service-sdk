@@ -22,6 +22,7 @@ import { statusTracker } from "../APIs/StatusTracker"
 const rpc = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress = process.env.WALLET_ADDRESS || ""
 
+
 ;(async () => {
     console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(rpc)
@@ -113,7 +114,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 [
                     walletAddress,
                     transferToken?.token?.address,
-                    amount.toString(),
+                    value?.toString(),
                     dstChainId.toString(),
                     walletAddress,
                     nonce?.toString(),
@@ -130,10 +131,11 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                         dstChainId,
                         walletAddress,
                         nonce,
-                        {gasLimit: 100000 }
+                        {gasLimit: 200000 }
                     ),
                     srcChainId
                 )
+            // TODO: should if tx was passed or failed (logically)
             console.log("burnTx hash: " + burnTx.hash);
             console.log("Waiting for the confirmations of burnTx");
             const confirmationReceipt = await getConfirmations(burnTx.hash, confirmations, srcChainRPC); // instead of waiting for fixed time, wait for some confirmations
@@ -146,7 +148,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 [
                     walletAddress,
                     transferToken?.token?.address,
-                    amount.toString(),
+                    value?.toString(),
                     walletAddress,
                     nonce?.toString(),
                     pegConfig?.pegged_chain_id.toString(),
@@ -159,7 +161,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                                 value,
                                 walletAddress,
                                 nonce,
-                                {gasLimit: 100000 }),
+                                {gasLimit: 200000 }),
                             srcChainId
                         );
             console.log("burnTx hash: " + burnTx.hash);

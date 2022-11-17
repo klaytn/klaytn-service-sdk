@@ -129,7 +129,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     pegConfig?.pegged_chain_id,
                     walletAddress,
                     nonce,
-                    {gasLimit: 100000 }
+                    {gasLimit: 200000 }
                 ),
                 srcChainId
             )
@@ -162,7 +162,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     pegConfig?.pegged_chain_id,
                     walletAddress,
                     nonce,
-                    {gasLimit: 100000 }
+                    {gasLimit: 200000 }
                 ),
                 srcChainId
             )

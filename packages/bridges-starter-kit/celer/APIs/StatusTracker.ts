@@ -47,7 +47,6 @@ export const statusTracker = async (rpc: string, transferId: string, callback?: 
         }else if (res.status === 8 && res.status !== observerdStatus) {
             observerdStatus = res.status;
             console.warn("cBRIDGE => TRANSFER_REFUND_TO_BE_CONFIRMED")
-            // TODO: WithdrawalTx
             callback ? callback(res) : null;
 
         }else if (res.status === 9 && res.status !== observerdStatus) {

@@ -28,7 +28,7 @@ export const poolBasedTransfer = async (
                       BigNumber.from(toChain?.id),
                       BigNumber.from(nonce),
                       BigNumber.from( estimateRequest.getSlippageTolerance() || estimateAmount.getMaxSlippage() || 0),
-                      { value: value, gasLimit: 100000 }
+                      { value: value, gasLimit: 200000 }
                   )
                 : bridge.send(
                       addr,
@@ -37,7 +37,7 @@ export const poolBasedTransfer = async (
                       BigNumber.from(toChain?.id),
                       BigNumber.from(nonce),
                       BigNumber.from(estimateRequest.getSlippageTolerance() || estimateAmount.getMaxSlippage() || 0),
-                      {gasLimit: 100000 }
+                      {gasLimit: 200000 }
                   ),
                   srcChainId
         )
