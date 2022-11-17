@@ -16,8 +16,7 @@ export const poolBasedTransfer = async (
 ): Promise<ContractTransaction | undefined> => {
     const client = new WebClient(rpc, null, null)
     const estimateAmount = await client.estimateAmt(estimateRequest, null)
-    console.log("Max slippage "+estimateAmount.getMaxSlippage());
-    console.log("Slippage Tolerance "+estimateAmount.getSlippageTolerance());
+
     const { transferToken, toChain, value, nonce } = transferObject
 
     try {

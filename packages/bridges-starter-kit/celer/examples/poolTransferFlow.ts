@@ -32,6 +32,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
     const tokenSymbol = process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
     const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
+    const confirmations: number = parseInt(process.env.CONFIRMATIONS ? process.env.CONFIRMATIONS : "6");
 
     const bridgeAddress = getBridgeContractAddress(transferConfigs, srcChainId)
     const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, srcChainId)
@@ -66,7 +67,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
         }
         console.log("approveTx hash: " + approveTx.hash);
         console.log("Waiting for the confirmations of approveTx");
-        const confirmationReceipt = await getConfirmations(approveTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+        const confirmationReceipt = await getConfirmations(approveTx.hash, confirmations); // instead of waiting for fixed time, wait for some confirmations
         console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
     }
 
@@ -87,9 +88,9 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
     let poolTransferTx = await poolBasedTransfer(bridgeContract, rpc, walletAddress, estimateRequest, { transferToken, fromChain, toChain, value, nonce }, srcChainId, isNative)
 
     if ( !poolTransferTx) return;
-    console.log("approveTx hash: " + poolTransferTx.hash);
+    console.log("poolTransferTx hash: " + poolTransferTx.hash);
     console.log("Waiting for the confirmations of poolTransferTx");
-    const confirmationReceipt = await getConfirmations(poolTransferTx.hash, 6); // instead of waiting for fixed time, wait for some confirmations
+    const confirmationReceipt = await getConfirmations(poolTransferTx.hash, confirmations); // instead of waiting for fixed time, wait for some confirmations
     console.log(`poolTransferTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
 
     console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");

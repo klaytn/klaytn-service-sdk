@@ -8,6 +8,7 @@ import { getConfirmations, transactor } from "../helper"
 import { statusTracker } from "./StatusTracker"
 
 const srcChainId = parseInt(process.env.CHAIN1_ID!);
+const confirmations: number = parseInt(process.env.CONFIRMATIONS ? process.env.CONFIRMATIONS : "6");
 
 export const requestRefund = async (type: string, contractInstance: Contract, rpc: string, transferId: string, estimated: string) => {
     const client = new WebClient(rpc, null, null)
@@ -33,7 +34,7 @@ export const requestRefund = async (type: string, contractInstance: Contract, rp
             const { wdmsg, sigs, signers, powers } =  parseRefundTxResponse(res.wdOnchain, res.signersList, res.sortedSigsList, res.powersList)
             console.log("3. Confirming Refund Request on-chain...")
             refundTx = await transactor(
-                type === 'BURN' ?
+                type === "BURN" ?
                     contractInstance.mint(
                         wdmsg,
                         sigs,
@@ -46,12 +47,11 @@ export const requestRefund = async (type: string, contractInstance: Contract, rp
                         powers, {gasLimit: 200000 }),
                 srcChainId
             )
-            // TODO: should check for one confirmation on-chain
             if ( !refundTx) return console.log("Error while refunding on-chain");
 
             console.log("refundTx hash: " + refundTx.hash);
             console.log("Waiting for the confirmations of refundTx");
-            const confirmationReceipt = await getConfirmations(refundTx.hash, 6); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await getConfirmations(refundTx.hash, confirmations, type === "BURN" ? process.env.CHAIN2_RPC!: process.env.CHAIN1_RPC!); // instead of waiting for fixed time, wait for some confirmations
             console.log(`refundTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
 
             statusTracker(rpc, transferId, null,8);

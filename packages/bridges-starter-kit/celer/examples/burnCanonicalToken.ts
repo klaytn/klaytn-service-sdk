@@ -27,9 +27,11 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     const transferConfigs = await getTransferConfigs(rpc)
 
     const srcChainId = parseInt(process.env.CHAIN2_ID!);
+    const srcChainRPC: string = process.env.CHAIN2_RPC!;
     const dstChainId = parseInt(process.env.CHAIN1_ID!);
     const tokenSymbol =  process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
+    const confirmations: number = parseInt(process.env.CONFIRMATIONS ? process.env.CONFIRMATIONS : "6");
 
     // check if its a valid pair transfer
     let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
@@ -91,7 +93,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         }
         console.log("approveTx hash: " + approveTx.hash);
         console.log("Waiting for the confirmations of approveTx");
-        const confirmationReceipt = await getConfirmations(approveTx.hash, 6); // instead of waiting for fixed time, wait for some confirmations
+        const confirmationReceipt = await getConfirmations(approveTx.hash, confirmations, srcChainRPC); // instead of waiting for fixed time, wait for some confirmations
         console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
     }
 
@@ -134,7 +136,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                 )
             console.log("burnTx hash: " + burnTx.hash);
             console.log("Waiting for the confirmations of burnTx");
-            const confirmationReceipt = await getConfirmations(burnTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await getConfirmations(burnTx.hash, confirmations, srcChainRPC); // instead of waiting for fixed time, wait for some confirmations
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(rpc, transferId)
@@ -162,7 +164,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                         );
             console.log("burnTx hash: " + burnTx.hash);
             console.log("Waiting for the confirmations of burnTx");
-            const confirmationReceipt = await getConfirmations(burnTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await getConfirmations(burnTx.hash, confirmations, srcChainRPC); // instead of waiting for fixed time, wait for some confirmations
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(rpc, transferId)

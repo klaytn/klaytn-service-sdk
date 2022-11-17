@@ -30,6 +30,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
     const dstChainId = parseInt(process.env.CHAIN2_ID!);
     const tokenSymbol =  process.env.TOKEN_SYMBOL!;
     const amount = process.env.AMOUNT!;
+    const confirmations: number = parseInt(process.env.CONFIRMATIONS ? process.env.CONFIRMATIONS : "6");
 
     // check if its a valid pair transfer
     let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
@@ -91,7 +92,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
         }
         console.log("approveTx hash: " + approveTx.hash);
         console.log("Waiting for the confirmations of approveTx");
-        const confirmationReceipt = await getConfirmations(approveTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+        const confirmationReceipt = await getConfirmations(approveTx.hash, confirmations); // instead of waiting for fixed time, wait for some confirmations
         console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
     }
 
@@ -135,7 +136,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 
             console.log("depositTx hash: " + depositTx.hash);
             console.log("Waiting for the confirmations of depositTx");
-            const confirmationReceipt = await getConfirmations(depositTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await getConfirmations(depositTx.hash, confirmations); // instead of waiting for fixed time, wait for some confirmations
             console.log(`depositTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(rpc, depositId);
@@ -167,7 +168,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
             )
             console.log("depositTx hash: " + depositTx.hash);
             console.log("Waiting for the confirmations of depositTx");
-            const confirmationReceipt = await getConfirmations(depositTx.hash, 2); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await getConfirmations(depositTx.hash, confirmations); // instead of waiting for fixed time, wait for some confirmations
             console.log(`depositTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(rpc, depositId);

@@ -1,12 +1,6 @@
 import {getTransferStatus } from "./GetData"
 import { GetTransferStatusResponse } from "../ts-proto/gateway/gateway_pb"
-import { JSDOM } from "jsdom"
-const { window } = new JSDOM()
-import { config } from "dotenv"
 import { clearInterval } from "timers"
-config()
-const rpc = process.env.CBRIDGE_GATEWAY_URL!
-global.XMLHttpRequest = window.XMLHttpRequest
 
 
 export const statusTracker = async (rpc: string, transferId: string, callback?: any, statusCode?: number) => {
@@ -41,9 +35,8 @@ export const statusTracker = async (rpc: string, transferId: string, callback?: 
         }else if (res.status === 6 && res.status !== observerdStatus) {
             observerdStatus = res.status;
             console.warn("cBRIDGE => TRANSFER_TO_BE_REFUNDED")
-            console.log("Initiate the Refund process, e.g: examples/refundFlow.ts")
+            console.log("Initiate the Refund process, e.g: examples/***FlowRefund.ts")
             console.log("Tx Details: ", res)
-            // TODO: refund flow should be handled [request refund]
             clearInterval(interval)
                 callback ? callback(res) : null;
 
@@ -72,4 +65,3 @@ export const statusTracker = async (rpc: string, transferId: string, callback?: 
 
 
 }
-// statusTracker(rpc, "0xde4f0de83c4190d31c3126c969e16574d0be4fe5f894fb1218db584ebf0ef1b4", "transfer");
