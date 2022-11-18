@@ -100,7 +100,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
 
     try {
         if (bridgeVersion === 2) {
-            const transferId = ethers.utils.solidityKeccak256(
+            const burnId = ethers.utils.solidityKeccak256(
                 [
                     "address",
                     "address",
@@ -122,7 +122,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     peggedTokenBridgeV2.address,
                 ]
             )
-            console.log("TransferId:", transferId)
+            console.log("burnId:", burnId)
             console.log("3. submit an on-chain send transaction");
             let burnTx =  await transactor(
                     peggedTokenBridgeV2!.burn(
@@ -141,9 +141,9 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
             const confirmationReceipt = await getConfirmations(burnTx.hash, confirmations, srcChainRPC); // instead of waiting for fixed time, wait for some confirmations
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
-            statusTracker(rpc, transferId)
+            statusTracker(rpc, burnId)
         } else {
-            const transferId = ethers.utils.solidityKeccak256(
+            const burnId = ethers.utils.solidityKeccak256(
                 ["address", "address", "uint256", "address", "uint64", "uint64"],
                 [
                     walletAddress,
@@ -154,7 +154,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
                     pegConfig?.pegged_chain_id.toString(),
                 ]
             )
-            console.log("TransferId:", transferId)
+            console.log("burnId:", burnId)
             console.log("3. submit an on-chain send transaction");
             let burnTx = await transactor(
                             peggedTokenBridge!.burn(transferToken?.token?.address,
@@ -169,7 +169,7 @@ const walletAddress = process.env.WALLET_ADDRESS || ""
             const confirmationReceipt = await getConfirmations(burnTx.hash, confirmations, srcChainRPC); // instead of waiting for fixed time, wait for some confirmations
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
-            statusTracker(rpc, transferId)
+            statusTracker(rpc, burnId)
         }
     } catch (error: any) {
         console.log(`-Error:`, error)

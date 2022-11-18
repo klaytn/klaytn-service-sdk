@@ -23,7 +23,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
 
     const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
     const tokenSymbol = process.env.TOKEN_SYMBOL!;
-    const transferId = "0x6085feec485c109c7c23b2bee61b2ca3f8a78418ac859e48f088f24914a60b6d"; //Replace your transfer Id here
+    const burnId = "0x8b7b9a37a88342c5e0c53b518544a073b46d1677c490d2c4a9eb663404b36421"; //Replace your transfer Id here
     const amount = process.env.AMOUNT ? process.env.AMOUNT: "0"; // Replace mint amount here (if not set in .env file)
 
     const transferConfigs = await getTransferConfigs(rpc);
@@ -39,7 +39,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
 
     console.log("1. Initiating refund request");
     // Transfer status should not be 0, 5 OR 10
-    const transferStatus = await getTransferStatus(rpc, transferId);
+    const transferStatus = await getTransferStatus(rpc, burnId);
     if (transferStatus.status === 0) {
         console.error("cBRIDGE => TRANSFER_ID UNKNOWN / INVALID");
         return;
@@ -57,7 +57,7 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
             "BURN",
             peggedTokenContact,
             rpc,
-            transferId,
+            burnId,
             estimated
         )
     }

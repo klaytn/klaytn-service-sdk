@@ -11,7 +11,7 @@
     "transfer-refund": "ts-node examples/poolTransferFlowRefund.ts",
     "test-mint": "ts-node examples/mintCanonicalToken.ts",
     "mint-refund": "ts-node examples/mintCanonicalTokenRefund.ts",
-    "burn": "ts-node examples/burnCanonicalToken.ts",
+    "test-burn": "ts-node examples/burnCanonicalToken.ts",
     "burn-refund": "ts-node examples/burnCanonicalTokenRefund.ts"
   },
   "license": "GPL-3.0",

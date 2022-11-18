@@ -16,40 +16,55 @@ Rename `.env.example to .env` and Set variables in `.env`
 
 ## Quick Start
 You can run the below commands to test
-### Transfer
-
+## 1. Transfer
+To transfer funds from one chain (source chain) to another chain (destination chain) please perform the following steps:
+1. Make sure .env is updated
+2. Run following command
 ```sh
-ts-node examples/poolTransferFlow.ts
+npm run test-transfer
 ```
 
-### Refund
-
+### 1.2. Refund Transfer
+To refund failed transfer funds, please perform the following steps:
+1. Make sure transferId is updated in `examples/poolTransferFlowRefund.ts`
+   2. you can get `transferId` from logs of **Transfer**
+2. Run following command
 ```sh
-ts-node examples/poolTransferFlowRefund.ts
+npm run transfer-refund
 ```
 
-### Mint
-
+## 2. Mint
+To mint tokens from source chain to destination chain, please perform the following steps:
+1. Make sure .env is updated with relevant information
+2. Run following command
 ```sh
-ts-node examples/mintCanonicalToken.ts
+npm run test-mint
 ```
 
-### Mint Refund
-
+### 2.1. Mint Refund
+To refund failed mint tokens, please perform the following steps:
+1. Make sure `depositId` is updated in `examples/mintCanonicalTokenRefund.ts`
+    2. you can get `depositId` from logs of **Mint**
+2. Run following command
 ```sh
-ts-node examples/mintCanonicalTokenRefund.ts
+npm run mint-refund
 ```
 
-### Burn
-
+## 3. Burn
+To burn / withdraw tokens from source chain (the chain on where you want to burn/withdraw your tokens) to destination chain (the chain on where you want to receive your burnt tokens), please perform the following steps:
+1. Make sure .env is updated with relevant information
+2. Run following command
 ```sh
-ts-node examples/burnCanonicalToken.ts
+npm run test-burn
 ```
 
-### Burn Refund
-
+### 3.1. Burn Refund
+To refund failed burn tokens, please perform the following steps:
+1. Make sure `burnId` is updated in `examples/burnCanonicalTokenRefund.ts`
+    2. you can get `burnId` from logs of **Burn**
+2. Run following command
 ```sh
-ts-node examples/burnCanonicalTokenRefund.ts
+npm run burn-refund
 ```
 
 ## Reference Docs:

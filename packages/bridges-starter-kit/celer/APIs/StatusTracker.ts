@@ -16,7 +16,7 @@ export const statusTracker = async (rpc: string, transferId: string, callback?: 
             observerdStatus = res.status;
             console.error("cBRIDGE => TRANSFER_FAILED")
             console.log("Tx Details: ", res)
-            clearInterval(interval); // TODO: this may entering into default refund mode so monitoring status may still require
+            clearInterval(interval);
 
         } else if (res.status === 3 && res.status !== observerdStatus) {
             observerdStatus = res.status;
