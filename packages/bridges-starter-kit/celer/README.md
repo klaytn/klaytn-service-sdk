@@ -43,7 +43,7 @@ To refund failed transfer funds, please perform the following steps:
    1.1. you can get `transferId` from logs of **Transfer**
 2. Run following command
 ```sh
-npm run transfer-refund
+npm run test-transfer-refund
 ```
 
 ## 2.Mint Canonical Token
@@ -60,7 +60,7 @@ To refund failed mint tokens, please perform the following steps:
     1.1. you can get `depositId` from logs of **Mint**
 2. Run following command
 ```sh
-npm run mint-refund
+npm run test-mint-refund
 ```
 
 ## 3.Burn Canonical Token
@@ -77,7 +77,7 @@ To refund failed burn tokens, please perform the following steps:
     1.1. you can get `burnId` from logs of **Burn**
 2. Run following command
 ```sh
-npm run burn-refund
+npm run test-burn-refund
 ```
 
 ## Reference Docs:

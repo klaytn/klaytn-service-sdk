@@ -8,11 +8,11 @@
   },
   "scripts": {
     "test-transfer": "ts-node examples/poolTransferFlow.ts",
-    "transfer-refund": "ts-node examples/poolTransferFlowRefund.ts",
+    "test-transfer-refund": "ts-node examples/poolTransferFlowRefund.ts",
     "test-mint": "ts-node examples/mintCanonicalToken.ts",
-    "mint-refund": "ts-node examples/mintCanonicalTokenRefund.ts",
+    "test-mint-refund": "ts-node examples/mintCanonicalTokenRefund.ts",
     "test-burn": "ts-node examples/burnCanonicalToken.ts",
-    "burn-refund": "ts-node examples/burnCanonicalTokenRefund.ts"
+    "test-burn-refund": "ts-node examples/burnCanonicalTokenRefund.ts"
   },
   "license": "GPL-3.0",
   "bugs": {
