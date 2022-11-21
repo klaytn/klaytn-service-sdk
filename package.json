@@ -7,16 +7,16 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "oracle:help": "yarn workspace oracles-starter-kit hardhat --help",
+    "oracle:help": "yarn workspace oracles-starter-kit help",
     "oracle:compile": "yarn workspace oracles-starter-kit compile",
-    "oracle:deploy": "yarn workspace oracles-starter-kit hardhat deploy",
+    "oracle:deploy": "yarn workspace oracles-starter-kit deploy",
     "oracle:test": "yarn workspace oracles-starter-kit test",
-    "celer:test-transfer": "yarn workspace cbridge-starter-kit ts-node examples/poolTransferFlow.ts",
-    "celer:test-transfer-refund": "yarn workspace cbridge-starter-kit ts-node examples/poolTransferFlowRefund.ts",
-    "celer:test-mint": "yarn workspace cbridge-starter-kit ts-node examples/mintCanonicalToken.ts",
-    "celer:test-mint-refund": "yarn workspace cbridge-starter-kit ts-node examples/mintCanonicalTokenRefund.ts",
-    "celer:test-burn": "yarn workspace cbridge-starter-kit ts-node examples/burnCanonicalToken.ts",
-    "celer:test-burn-refund": "yarn workspace cbridge-starter-kit ts-node examples/burnCanonicalTokenRefund.ts"
+    "celer:test-transfer": "yarn workspace cbridge-starter-kit test-transfer",
+    "celer:test-transfer-refund": "yarn workspace cbridge-starter-kit test-transfer-refund",
+    "celer:test-mint": "yarn workspace cbridge-starter-kit ts-node test-mint",
+    "celer:test-mint-refund": "yarn workspace cbridge-starter-kit ts-node test-mint-refund",
+    "celer:test-burn": "yarn workspace cbridge-starter-kit test-burn",
+    "celer:test-burn-refund": "yarn workspace cbridge-starter-kit test-burn-refund"
   },
   "workspaces": {
     "packages": [
