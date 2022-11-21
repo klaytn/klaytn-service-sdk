@@ -13,8 +13,8 @@
     "oracle:test": "yarn workspace oracles-starter-kit test",
     "celer:test-transfer": "yarn workspace cbridge-starter-kit test-transfer",
     "celer:test-transfer-refund": "yarn workspace cbridge-starter-kit test-transfer-refund",
-    "celer:test-mint": "yarn workspace cbridge-starter-kit ts-node test-mint",
-    "celer:test-mint-refund": "yarn workspace cbridge-starter-kit ts-node test-mint-refund",
+    "celer:test-mint": "yarn workspace cbridge-starter-kit test-mint",
+    "celer:test-mint-refund": "yarn workspace cbridge-starter-kit test-mint-refund",
     "celer:test-burn": "yarn workspace cbridge-starter-kit test-burn",
     "celer:test-burn-refund": "yarn workspace cbridge-starter-kit test-burn-refund"
   },
