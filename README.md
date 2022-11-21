@@ -1,13 +1,14 @@
 
 ![Logo](./KlaytnLogo.png)
 - [Klaytn Developer SDK](#klaytn-developer-sdk)
-  - [Oracles Integration](#oracles-module)
+  - [Oracles Module](#oracles-module)
     - [Chainlink](#chainlink)
     - [Witnet](#witnet)
-  - [Bridges Integration](#bridges-module)
-- [Getting Started](#getting-started)
-  - [Requirement](#requirement)
-  - [Quickstart](#quickstart)
+  - [Bridges Module](#bridges-module)
+    - [Celer Bridge](#celer-bridge)
+- [Getting started](#getting-started)
+    - [Requirement](#requirement)
+    - [Quickstart](#quickstart)
 - [Usage](#usage)
 
 <br/>
@@ -31,10 +32,12 @@ Implementation of the following 4 Chainlink features using the [Hardhat](https:/
 ## Bridges Module
 ### Celer Bridge
 Implementations:
-- [Transfer](/packages/bridges-starter-kit/celer/README.md#transfer)
-- [Refund](/packages/bridges-starter-kit/celer/README.md#refund)
-- [Mint](/packages/bridges-starter-kit/celer/README.md#mint)
-- [Burn](/packages/bridges-starter-kit/celer/README.md#burn)
+- [PoolBased Transfer](/packages/bridges-starter-kit/celer/README.md#1poolbased-transfer)
+- [PoolBased Transfer Refund](/packages/bridges-starter-kit/celer/README.md#12poolbased-transfer-refund)
+- [MintCanoncialToken](/packages/bridges-starter-kit/celer/README.md#2mint-canonical-token)
+- [MintCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#21mint-canoncial-token-refund)
+- [BurnCanoncialToken](/packages/bridges-starter-kit/celer/README.md#3burn-canonical-token)
+- [BurnCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#31burn-canoncial-token-refund)
 <br/>
 
 # Getting started
