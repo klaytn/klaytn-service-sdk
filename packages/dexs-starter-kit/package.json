@@ -1,0 +1,23 @@
+{
+  "name": "dexs-starter-kit",
+  "version": "1.0.0",
+  "description": "it includes dex-contracts integration & examples",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "klaytn",
+    "contracts",
+    "dex",
+    "swap",
+    "trade",
+    "farming",
+    "pool"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@klaytn/dex-contracts": "^0.0.2"
+  }
+}
