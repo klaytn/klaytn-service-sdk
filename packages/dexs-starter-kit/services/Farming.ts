@@ -1,5 +1,5 @@
 import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
-import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers'
+import { Wallet, providers, ContractTransaction, BigNumber, utils } from 'ethers'
 
 export default class Farming {
     public farming: Farm;
@@ -22,7 +22,6 @@ export default class Farming {
         const user: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.farming.userInfo(poolId, signerAddress);
         // check if given amount is valid
         if((user.amount).lt(BigNumber.from(amount))) throw new Error('func#withdraw deposited amount < withdrawing amount');
-
         return this.farming.withdraw(poolId, amount);
 
     }
@@ -44,6 +43,22 @@ export default class Farming {
         return this.farming.pendingPtn(poolId, signerAddress);
 
     }
+
+    // administrative functions
+    public async updateMultiplier(poolId: string, multiplier: string): Promise<string> {
+       return  this.farming.interface.encodeFunctionData('updateMultiplier', [poolId, multiplier]);
+    }
+    public async updatePtnPerBlock(poolId: string): Promise<string> {
+       return  this.farming.interface.encodeFunctionData('updatePtnPerBlock', [poolId]);
+    }
+    public async add( allocPoint: string, lpToken: string, bonusMultiplier: string, bonusEndBlock:string ): Promise<string> {
+       return  this.farming.interface.encodeFunctionData('add', [allocPoint, lpToken, bonusMultiplier, bonusEndBlock]);
+    }
+    public async set( allocPoint: string, poolId: string): Promise<string> {
+       return  this.farming.interface.encodeFunctionData('set', [allocPoint, poolId]);
+    }
+
+    // Getters
 
     public getFarm(): Farm {
         return this.farming
