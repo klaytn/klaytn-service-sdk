@@ -11,34 +11,34 @@ export class Liquidity {
     }
     public getRouter(): DexRouter { return this.router}
 
-    public async add(tokenA: string, tokenB: string, amountADesired: number, amountBDesired: number, amountAMin: number, amountBMin: number, deadline: number): Promise<ContractTransaction> {
-        const token0: KIP7 = new KIP7__factory().attach(tokenA);
-        const token1: KIP7 = new KIP7__factory().attach(tokenB);
+    public async add(token0Address: string, token1Address: string, amountADesired: string, amountBDesired: string, amountAMin: string, amountBMin: string, deadline: string): Promise<ContractTransaction> {
+        const token0: KIP7 = KIP7__factory.connect(token0Address, this.router.provider);
+        const token1: KIP7 = KIP7__factory.connect(token1Address, this.router.provider);
         const signerAddress: string = await this.router.signer.getAddress();
         const allowanceA: BigNumber = await token0.allowance(signerAddress,this.router.address);
-        // check if tokenA allowance sufficient
-        if (allowanceA.lt(BigNumber.from(amountADesired))) throw new Error('func#addLiquidity: tokenA insufficient allowance')
+        // check if token0 allowance sufficient
+        if (allowanceA.lt(BigNumber.from(amountADesired))) throw new Error('addLiquidity => token0 insufficient allowance')
         const allowanceB: BigNumber = await token1.allowance(signerAddress,this.router.address);
-        // check if tokenB allowance sufficient
-        if (allowanceB.lt(BigNumber.from(amountBDesired))) throw new Error('func#addLiquidity: tokenB insufficient allowance')
+        // check if token1 allowance sufficient
+        if (allowanceB.lt(BigNumber.from(amountBDesired))) throw new Error('addLiquidity => token1 insufficient allowance')
 
-        /*const tx: ContractTransaction = await*/ return this.router.addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin, signerAddress, deadline);
+        /*const tx: ContractTransaction = await*/ return this.router.addLiquidity(token0Address, token1Address, amountADesired, amountBDesired, amountAMin, amountBMin, signerAddress, deadline, {gasLimit: 6721975});
     }
 
-    public async addWithKlay(token: string, amountTokenDesired: number, amountKlayDesired: number, amountTokenMin: number, amountKlayMin: number, deadline: number): Promise<ContractTransaction> {
+    public async addWithKlay(token: string, amountTokenDesired: string, amountKlayDesired: string, amountTokenMin: string, amountKlayMin: string, deadline: string): Promise<ContractTransaction> {
         const token0: KIP7 = new KIP7__factory().attach(token);
         const signerAddress: string = await this.router.signer.getAddress();
         const allowanceA: BigNumber = await token0.allowance(signerAddress,this.router.address);
-        // check if tokenA allowance sufficient
+        // check if token0 allowance sufficient
         if (allowanceA.lt(BigNumber.from(amountTokenDesired))) throw new Error('func#addLiquidityWithKlay: token insufficient allowance')
         const klayBalance: BigNumber = await this.router.signer.getBalance();
-        // check if tokenB allowance sufficient
+        // check if token1 allowance sufficient
         if (klayBalance.lt(BigNumber.from(amountKlayDesired))) throw new Error('func#addLiquidityWithKlay: KLAY insufficient balance')
 
         /*const tx: ContractTransaction = await*/ return this.router.addLiquidityKLAY(token, amountTokenDesired, amountTokenMin, amountKlayMin, signerAddress, deadline, {value: amountKlayDesired});
     }
 
-    public async remove(pair: DexPair, liquidity: number, amountAMin: number, amountBMin: number, deadline: number): Promise<ContractTransaction> {
+    public async remove(pair: DexPair, liquidity: string, amountAMin: string, amountBMin: string, deadline: string): Promise<ContractTransaction> {
         const signerAddress: string = await this.router.signer.getAddress();
 
         const liquidityBalance = await pair.balanceOf(signerAddress)
@@ -48,13 +48,13 @@ export class Liquidity {
         const allowance = await pair.allowance(signerAddress, this.router.address)
         // check if liquidity allowance sufficient
         if (allowance.lt(BigNumber.from(liquidity))) throw new Error('func#removeLiquidity: insufficient liquidity allowance')
-        const tokenA = await pair.token0()
-        const tokenB = await pair.token1()
+        const token0 = await pair.token0()
+        const token1 = await pair.token1()
 
-        /*const tx: ContractTransaction = await*/ return this.router.removeLiquidity(tokenA, tokenB, liquidity, amountAMin, amountBMin, signerAddress, deadline);
+        /*const tx: ContractTransaction = await*/ return this.router.removeLiquidity(token0, token1, liquidity, amountAMin, amountBMin, signerAddress, deadline);
     }
 
-    public async removeWithKlay(pair: DexPair, liquidity: number, amountTokenMin: number, amountKlayMin: number, deadline: number): Promise<ContractTransaction> {
+    public async removeWithKlay(pair: DexPair, liquidity: string, amountTokenMin: string, amountKlayMin: string, deadline: string): Promise<ContractTransaction> {
         const signerAddress: string = await this.router.signer.getAddress();
 
         const liquidityBalance = await pair.balanceOf(signerAddress)
@@ -70,8 +70,8 @@ export class Liquidity {
         /*const tx: ContractTransaction = await*/ return this.router.removeLiquidityKLAY(token, liquidity, amountTokenMin, amountKlayMin, signerAddress, deadline);
     }
 
-    public async getPair(tokenA: string, tokenB: string, privKey: string, rpcURL: string):Promise<DexPair> {
-        const pairAddress: string = await this.factory.getPair(tokenA, tokenB)
+    public async getPair(token0Address: string, token1Address: string, privKey: string, rpcURL: string):Promise<DexPair> {
+        const pairAddress: string = await this.factory.getPair(token0Address, token1Address)
         return DexPair__factory.connect(pairAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)))
     }
     public async getAddressOfWKLAY():Promise<string> {

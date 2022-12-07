@@ -4,7 +4,7 @@ import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers'
 export class Staking {
     public staking: StakingInitializable;
 
-    constructor(routerAddress: string, factoryAddress: string, privKey: string, rpcURL: string) {
+    constructor(routerAddress: string, privKey: string, rpcURL: string) {
         this.staking = StakingInitializable__factory.connect(routerAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     }
 

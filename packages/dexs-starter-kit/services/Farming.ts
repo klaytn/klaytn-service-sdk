@@ -4,7 +4,7 @@ import { Wallet, providers, ContractTransaction, BigNumber, utils } from 'ethers
 export class Farming {
     public farming: Farm;
 
-    constructor(routerAddress: string, factoryAddress: string, privKey: string, rpcURL: string) {
+    constructor(routerAddress: string, privKey: string, rpcURL: string) {
         this.farming = Farming__factory.connect(routerAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     }
 
