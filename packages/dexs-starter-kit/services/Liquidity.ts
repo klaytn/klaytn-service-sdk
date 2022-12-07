@@ -1,7 +1,7 @@
 import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
 import { Signer, Wallet, providers, BigNumber, ContractTransaction, Contract } from 'ethers'
 
-export default class Liquidity {
+export class Liquidity {
     public router: DexRouter;
     public factory: DexFactory;
 
@@ -53,13 +53,6 @@ export default class Liquidity {
 
         /*const tx: ContractTransaction = await*/ return this.router.removeLiquidity(tokenA, tokenB, liquidity, amountAMin, amountBMin, signerAddress, deadline);
     }
-    public async getPair(tokenA: string, tokenB: string, privKey: string, rpcURL: string):Promise<DexPair> {
-        const pairAddress: string = await this.factory.getPair(tokenA, tokenB)
-        return DexPair__factory.connect(pairAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)))
-    }
-    public async getAddressOfWKLAY():Promise<string> {
-        return this.router.WKLAY()
-    }
 
     public async removeWithKlay(pair: DexPair, liquidity: number, amountTokenMin: number, amountKlayMin: number, deadline: number): Promise<ContractTransaction> {
         const signerAddress: string = await this.router.signer.getAddress();
@@ -75,6 +68,14 @@ export default class Liquidity {
         const token = token0 !== WKLAY ? token0 : await pair.token1();
 
         /*const tx: ContractTransaction = await*/ return this.router.removeLiquidityKLAY(token, liquidity, amountTokenMin, amountKlayMin, signerAddress, deadline);
+    }
+
+    public async getPair(tokenA: string, tokenB: string, privKey: string, rpcURL: string):Promise<DexPair> {
+        const pairAddress: string = await this.factory.getPair(tokenA, tokenB)
+        return DexPair__factory.connect(pairAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)))
+    }
+    public async getAddressOfWKLAY():Promise<string> {
+        return this.router.WKLAY()
     }
 
 }

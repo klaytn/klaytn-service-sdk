@@ -1,7 +1,7 @@
 import { StakingInitializable, StakingInitializable__factory, KIP7, KIP7__factory } from '@klaytn/dex-contracts/typechain';
 import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers'
 
-export default class Staking {
+export class Staking {
     public staking: StakingInitializable;
 
     constructor(routerAddress: string, factoryAddress: string, privKey: string, rpcURL: string) {

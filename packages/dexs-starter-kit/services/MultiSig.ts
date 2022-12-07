@@ -1,7 +1,7 @@
 import { MultiSigWallet, MultiSigWallet__factory } from '@klaytn/dex-contracts/typechain';
 import { Wallet, providers, ContractTransaction } from 'ethers'
 
-export default class MultiSig {
+export class MultiSig {
     public multiSig: MultiSigWallet;
 
     constructor(multiSigAddress: string, privKey: string, rpcURL: string) {

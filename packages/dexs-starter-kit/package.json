@@ -2,7 +2,7 @@
   "name": "dexs-starter-kit",
   "version": "1.0.0",
   "description": "it includes dex-contracts integration & examples",
-  "main": "index.js",
+  "main": "services/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +15,7 @@
     "farming",
     "pool"
   ],
-  "author": "",
+  "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
   "dependencies": {
     "@klaytn/dex-contracts": "^0.0.2"

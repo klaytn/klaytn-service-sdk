@@ -1,7 +1,7 @@
 import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
 import { Wallet, providers, ContractTransaction, BigNumber, utils } from 'ethers'
 
-export default class Farming {
+export class Farming {
     public farming: Farm;
 
     constructor(routerAddress: string, factoryAddress: string, privKey: string, rpcURL: string) {
