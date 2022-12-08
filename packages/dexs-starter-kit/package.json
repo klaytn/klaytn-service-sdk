@@ -12,6 +12,7 @@
     "example:swap:tokensForExactTokens": "ts-node examples/Swap/swapTokensForExactTokens.ts",
     "example:swap:exactKlayForTokens": "ts-node examples/Swap/swapExactKlayForTokens.ts",
     "example:swap:tokensForExactKlay": "ts-node examples/Swap/swapTokensForExactKlay.ts",
+    "example:swap:exactTokensForKlay": "ts-node examples/Swap/swapExactTokensForKlay.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
