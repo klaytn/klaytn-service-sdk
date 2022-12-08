@@ -7,6 +7,7 @@
     "example:liquidity:add": "ts-node examples/Liquidity/addLiquidity.ts",
     "example:liquidity:addWithKlay": "ts-node examples/Liquidity/addLiquidityWithKlay.ts",
     "example:liquidity:remove": "ts-node examples/Liquidity/removeLiquidity.ts",
+    "example:liquidity:removeWithKlay": "ts-node examples/Liquidity/removeLiquidityWithKlay.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
@@ -21,7 +22,7 @@
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
   "dependencies": {
-    "@klaytn/dex-contracts": "^0.0.2",
+    "@klaytn/dex-contracts": "^0.0.6",
     "mocha": "^10.1.0",
     "ts-node": "^8.6.2"
   }
