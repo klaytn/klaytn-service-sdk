@@ -30,7 +30,7 @@ export class Swap {
 
         /*const tx: ContractTransaction = await*/ return this.router.swapTokensForExactTokens(amountOut, amountDesiredMaxIn, path, signerAddress, deadline);
     }
-    public async exactKlayForTokens(amountKlayIn: string, amountDesiredOutMin: string, path: [string], deadline: string): Promise<ContractTransaction> {
+    public async exactKlayForTokens(amountKlayIn: string, amountDesiredOutMin: string, path: string[], deadline: string): Promise<ContractTransaction> {
         if (path.length < 2) throw new Error('func#exactKlayForTokens: path length must be at least 2');
         // const inputToken: KIP7 = new KIP7__factory().attach(path[0]); // WKLAY no approval required as router internally wrapping KLAY into WKLAY to proceed
         const signerAddress: string = await this.router.signer.getAddress();
