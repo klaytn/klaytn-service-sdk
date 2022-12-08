@@ -41,13 +41,13 @@ export class Swap {
         /*const tx: ContractTransaction = await*/ return this.router.swapExactKLAYForTokens(amountDesiredOutMin, path, signerAddress, deadline, {value: amountKlayIn});
     }
 
-    public async tokensForExactKlay(amountKlayOut: string, amountDesiredTokenMaxIn: string, path: [string], deadline: string): Promise<ContractTransaction> {
-        if (path.length < 2) throw new Error('func#tokensForExactTokens: path length must be at least 2');
-        const inputToken: KIP7 = new KIP7__factory().attach(path[0]);
+    public async tokensForExactKlay(amountKlayOut: string, amountDesiredTokenMaxIn: string, path: string[], deadline: string): Promise<ContractTransaction> {
+        if (path.length < 2) throw new Error('tokensForExactTokens => path length must be at least 2');
+        const inputToken: KIP7 = KIP7__factory.connect(path[0], this.router.provider);
         const signerAddress: string = await this.router.signer.getAddress();
         const allowance: BigNumber = await inputToken.allowance(signerAddress,this.router.address);
         // check if input token's allowance sufficient
-        if (allowance.lt(BigNumber.from(amountDesiredTokenMaxIn))) throw new Error(`func#tokensForExactTokens: inputToken insufficient allowance`)
+        if (allowance.lt(BigNumber.from(amountDesiredTokenMaxIn))) throw new Error(`tokensForExactTokens => inputToken insufficient allowance`)
 
         /*const tx: ContractTransaction = await*/ return this.router.swapTokensForExactKLAY(amountKlayOut, amountDesiredTokenMaxIn, path, signerAddress, deadline);
     }
