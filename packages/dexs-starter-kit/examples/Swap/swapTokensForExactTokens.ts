@@ -14,7 +14,7 @@ config()
     const amountIn = process.env.TOKEN_AMOUNT_IN!
     const amountOut = process.env.TOKEN_AMOUNT_OUT!
 
-    if(path.length < 2) throw new Error('swapTokensForExactTokens => invalid path');
+    if(path.length == 2) throw new Error('swapTokensForExactTokens => invalid path');
 
     console.log('swapTokensForExactTokens => tokenIn')
     console.log('swapTokensForExactTokens => tokenIn => balance => checking')
