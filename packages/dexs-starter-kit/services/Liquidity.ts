@@ -26,14 +26,14 @@ export class Liquidity {
     }
 
     public async addWithKlay(token: string, amountTokenDesired: string, amountKlayDesired: string, amountTokenMin: string, amountKlayMin: string, deadline: string): Promise<ContractTransaction> {
-        const token0: KIP7 = new KIP7__factory().attach(token);
+        const token0: KIP7 = KIP7__factory.connect(token, this.router.provider);
         const signerAddress: string = await this.router.signer.getAddress();
         const allowanceA: BigNumber = await token0.allowance(signerAddress,this.router.address);
         // check if token0 allowance sufficient
-        if (allowanceA.lt(BigNumber.from(amountTokenDesired))) throw new Error('func#addLiquidityWithKlay: token insufficient allowance')
+        if (allowanceA.lt(BigNumber.from(amountTokenDesired))) throw new Error('addLiquidityWithKlay => token insufficient allowance')
         const klayBalance: BigNumber = await this.router.signer.getBalance();
         // check if token1 allowance sufficient
-        if (klayBalance.lt(BigNumber.from(amountKlayDesired))) throw new Error('func#addLiquidityWithKlay: KLAY insufficient balance')
+        if (klayBalance.lt(BigNumber.from(amountKlayDesired))) throw new Error('addLiquidityWithKlay => KLAY insufficient balance')
 
         /*const tx: ContractTransaction = await*/ return this.router.addLiquidityKLAY(token, amountTokenDesired, amountTokenMin, amountKlayMin, signerAddress, deadline, {value: amountKlayDesired});
     }
