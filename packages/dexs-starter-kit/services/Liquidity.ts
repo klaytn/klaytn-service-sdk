@@ -43,11 +43,11 @@ export class Liquidity {
 
         const liquidityBalance = await pair.balanceOf(signerAddress)
         // check if liquidity balance sufficient
-        if (liquidityBalance.lt(BigNumber.from(liquidity))) throw new Error('func#removeLiquidity: insufficient liquidity balance')
+        if (liquidityBalance.lt(BigNumber.from(liquidity))) throw new Error('removeLiquidity => insufficient liquidity balance')
 
         const allowance = await pair.allowance(signerAddress, this.router.address)
         // check if liquidity allowance sufficient
-        if (allowance.lt(BigNumber.from(liquidity))) throw new Error('func#removeLiquidity: insufficient liquidity allowance')
+        if (allowance.lt(BigNumber.from(liquidity))) throw new Error('removeLiquidity => insufficient liquidity allowance')
         const token0 = await pair.token0()
         const token1 = await pair.token1()
 

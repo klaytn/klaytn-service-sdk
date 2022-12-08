@@ -5,6 +5,8 @@
   "main": "services/index.ts",
   "scripts": {
     "example:liquidity:add": "ts-node examples/Liquidity/addLiquidity.ts",
+    "example:liquidity:addWithKlay": "ts-node examples/Liquidity/addLiquidityWithKlay.ts",
+    "example:liquidity:remove": "ts-node examples/Liquidity/removeLiquidity.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
