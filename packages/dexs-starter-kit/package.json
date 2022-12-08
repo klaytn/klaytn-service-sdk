@@ -9,6 +9,7 @@
     "example:liquidity:remove": "ts-node examples/Liquidity/removeLiquidity.ts",
     "example:liquidity:removeWithKlay": "ts-node examples/Liquidity/removeLiquidityWithKlay.ts",
     "example:swap:exactTokensForTokens": "ts-node examples/Swap/swapExactTokensForTokens.ts",
+    "example:swap:tokensForExactTokens": "ts-node examples/Swap/swapTokensForExactTokens.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [

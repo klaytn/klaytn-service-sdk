@@ -47,7 +47,6 @@ config()
     const reserves = await pair.getReserves()
     const reservesSorted = await pair.token0() == path[0] ? [reserves[0], reserves[1]] : [reserves[1], reserves[0]];
     const outputAmount = await router.router.getAmountOut(amountIn, reservesSorted[0], reservesSorted[1])
-    console.log((outputAmount.toString()))
     if(outputAmount.lt(BigNumber.from((amountOut)))) throw new Error('swapExactTokensForTokens => pair => insufficient amountIn for expected amountOut')
     console.log('swapExactTokensForTokens => router => transaction')
     let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
