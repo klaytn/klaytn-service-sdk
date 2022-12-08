@@ -9,6 +9,7 @@
     - [Requirement](#requirement)
     - [Quickstart](#quickstart)
 - [Usage](#usage)
+  - [Want to Contribute to Klaytn Developer SDK? ](#want-to-contribute-to-klaytn-developer-sdk-)
 
 <br/>
 
@@ -74,3 +75,4 @@ In line with our commitment to decentralization, all Klaytn codebase and its doc
 
 - [Contribution Guide](./CONTRIBUTING.md)
 - [License](./LICENSE)
+- [Code of Conducts](./code-of-conduct.md)
