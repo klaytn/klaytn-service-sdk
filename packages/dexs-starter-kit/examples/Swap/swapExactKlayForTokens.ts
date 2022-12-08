@@ -33,12 +33,13 @@ config()
     const pair: DexPair = await router.getPair(path[0], path[1], privKey, rpcURL);
     if (pair.address == constants.AddressZero) throw new Error('SwapExactKlayForTokens => pair => not found');
     console.log('swapExactKlayForTokens => router => pair => found')
+    console.log('swapExactKlayForTokens => router => pair => estimating price')
     const reserves = await pair.getReserves()
     const reservesSorted = await pair.token0() == path[0] ? [reserves[0], reserves[1]] : [reserves[1], reserves[0]];
     const outputAmount = await router.router.getAmountOut(amountIn, reservesSorted[0], reservesSorted[1])
 
     if(!outputAmount.gte(BigNumber.from((amountOut)))) throw new Error('swapExactKlayForTokens => pair => insufficient amountIn for expected amountOut')
-
+    console.log('swapExactKlayForTokens => router => pair => Good')
     console.log('swapExactKlayForTokens => router => transaction')
     let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     const swapTx = await router.exactKlayForTokens(amountIn, amountOut, path, deadline.toString())
