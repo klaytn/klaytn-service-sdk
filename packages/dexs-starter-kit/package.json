@@ -14,9 +14,12 @@
     "example:swap:tokensForExactKlay": "ts-node examples/Swap/swapTokensForExactKlay.ts",
     "example:swap:exactTokensForKlay": "ts-node examples/Swap/swapExactTokensForKlay.ts",
     "example:swap:klayForExactTokens": "ts-node examples/Swap/swapKlayForExactTokens.ts",
+    "example:farming:minterRole": "ts-node examples/Farming/minterRole.ts",
     "example:farming:addPool": "ts-node examples/Farming/addPool.ts",
     "example:farming:setPool": "ts-node examples/Farming/setPool.ts",
     "example:multisig:submitTransaction": "ts-node examples/Multisig/submitTransaction.ts",
+    "example:multisig:confirm&Execute": "ts-node examples/Multisig/confirmAndExecuteTransaction.ts",
+    "example:multisig:executeTransaction": "ts-node examples/Multisig/executeTransaction.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
