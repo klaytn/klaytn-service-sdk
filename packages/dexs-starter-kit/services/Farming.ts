@@ -1,4 +1,5 @@
-import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
+// import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
+import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '../contracts';
 import { Wallet, providers, ContractTransaction, BigNumber, utils } from 'ethers'
 
 export class Farming {
