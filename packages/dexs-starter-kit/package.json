@@ -16,6 +16,7 @@
     "example:swap:klayForExactTokens": "ts-node examples/Swap/swapKlayForExactTokens.ts",
     "example:farming:addPool": "ts-node examples/Farming/addPool.ts",
     "example:farming:setPool": "ts-node examples/Farming/setPool.ts",
+    "example:multisig:submitTransaction": "ts-node examples/Multisig/submitTransaction.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
