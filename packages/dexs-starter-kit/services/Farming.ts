@@ -1,5 +1,5 @@
 // import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
-import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '../contracts';
+import { Farming as Farm, Farming__factory, DexPair, DexPair__factory, PlatformToken, PlatformToken__factory } from '../contracts';
 import { Wallet, providers, ContractTransaction, BigNumber, utils } from 'ethers'
 
 export class Farming {
@@ -53,10 +53,16 @@ export class Farming {
        return  this.farming.interface.encodeFunctionData('updatePtnPerBlock', [poolId]);
     }
     public async add( allocPoint: string, lpToken: string, bonusMultiplier: string, bonusEndBlock:string ): Promise<string> {
-       return  this.farming.interface.encodeFunctionData('add', [allocPoint, lpToken, bonusMultiplier, bonusEndBlock]);
+       return  this.farming.interface.encodeFunctionData('add', [BigNumber.from(allocPoint), lpToken, BigNumber.from(bonusMultiplier), BigNumber.from(bonusEndBlock)]);
     }
     public async set( allocPoint: string, poolId: string): Promise<string> {
        return  this.farming.interface.encodeFunctionData('set', [allocPoint, poolId]);
+    }
+    public async ptnGrantRole( ptnAddress: string): Promise<string | boolean> {
+        let ptnToken: PlatformToken = PlatformToken__factory.connect(ptnAddress, this.farming.provider);
+        if(await ptnToken.hasRole(await ptnToken.MINTER_ROLE(), this.farming.address))
+            return false;
+        else return  ptnToken.interface.encodeFunctionData('grantRole', [await ptnToken.MINTER_ROLE(), this.farming.address]);
     }
 
     // Getters
