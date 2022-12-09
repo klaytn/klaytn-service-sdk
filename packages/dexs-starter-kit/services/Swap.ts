@@ -1,4 +1,5 @@
-import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
+// import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
+import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '../contracts';
 import { Signer, Wallet, providers, BigNumber, ContractTransaction, Contract } from 'ethers'
 
 export class Swap {
@@ -61,15 +62,15 @@ export class Swap {
 
         /*const tx: ContractTransaction = await*/ return this.router.swapExactTokensForTokens(amountIn, amountDesiredKlayOut, path, signerAddress, deadline);
     }
-    public async exactKlayForExactTokens(amountKlayIn: string, amountDesiredOut: string, path: [string], deadline: string): Promise<ContractTransaction> {
-        if (path.length < 2) throw new Error('func#exactKlayForTokens: path length must be at least 2');
+    public async klayForExactTokens(amountKlayIn: string, amountDesiredOut: string, path: string[], deadline: string): Promise<ContractTransaction> {
+        if (path.length < 2) throw new Error('klayForExactTokens => path length must be at least 2');
         // const inputToken: KIP7 = new KIP7__factory().attach(path[0]); // WKLAY no approval required as router internally wrapping KLAY into WKLAY to proceed
         const signerAddress: string = await this.router.signer.getAddress();
         const klayBalance: BigNumber = await this.router.signer.getBalance()
         // check if input token's allowance sufficient
-        if (klayBalance.lt(BigNumber.from(amountKlayIn))) throw new Error(`func#tokensForExactTokens: KLAY insufficient balance`)
+        if (klayBalance.lt(BigNumber.from(amountKlayIn))) throw new Error(`klayForExactTokens => KLAY insufficient balance`)
 
-        /*const tx: ContractTransaction = await*/ return this.router.swapExactKLAYForTokens(amountDesiredOut, path, signerAddress, deadline, {value: amountKlayIn});
+        /*const tx: ContractTransaction = await*/ return this.router.swapKLAYForExactTokens(amountDesiredOut, path, signerAddress, deadline, {value: amountKlayIn});
     }
 
     // Getters
