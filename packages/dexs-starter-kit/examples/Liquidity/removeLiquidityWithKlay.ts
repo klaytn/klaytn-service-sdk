@@ -1,5 +1,5 @@
 import { Liquidity } from '../../services';
-import { DexPair } from '@klaytn/dex-contracts/typechain';
+import { DexPair } from '../../contracts';
 import { BigNumber } from 'ethers'
 import { config } from 'dotenv'
 config()

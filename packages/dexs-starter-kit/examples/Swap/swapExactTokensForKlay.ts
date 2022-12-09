@@ -1,5 +1,5 @@
 import { Liquidity, Swap } from "../../services"
-import { KIP7__factory, KIP7, DexPair } from '@klaytn/dex-contracts/typechain';
+import { KIP7__factory, KIP7, DexPair } from '../../contracts';
 import { Wallet, providers, BigNumber, constants } from 'ethers'
 import { config } from 'dotenv'
 config()
