@@ -30,18 +30,9 @@ export class Farming {
         const signerAddress: string = await this.farming.signer.getAddress();
         const user: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.farming.userInfo(poolId, signerAddress);
         // check if given amount is valid
-        if((user.amount).gt(BigNumber.from(0))) throw new Error('func#emergencyWithdraw deposited LP not found');
+        if((user.amount).eq(BigNumber.from(0))) throw new Error('func#emergencyWithdraw deposited LP not found');
 
         return this.farming.emergencyWithdraw(poolId);
-
-    }
-    public async getPendingReward(poolId: string): Promise<BigNumber> {
-        const signerAddress: string = await this.farming.signer.getAddress();
-        const user: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.farming.userInfo(poolId, signerAddress);
-        // check if given amount is valid
-        if((user.amount).gt(BigNumber.from(0))) throw new Error('func#getPendingReward deposited LP not found');
-
-        return this.farming.pendingPtn(poolId, signerAddress);
 
     }
 
