@@ -13,16 +13,16 @@ export class Farming {
         const pool = await this.farming.poolInfo(poolId);
         const signerAddress: string = await this.farming.signer.getAddress();
         let lp:DexPair = DexPair__factory.connect(pool.lpToken, this.farming.provider);
-        if((await lp.balanceOf(signerAddress)).lt(BigNumber.from(amount))) throw new Error('func#deposit LP balance insufficient');
-        if((await lp.allowance(signerAddress, this.farming.address)).lt(BigNumber.from(amount))) throw new Error('func#deposit LP allowance insufficient');
+        if((await lp.balanceOf(signerAddress)).lt(BigNumber.from(amount))) throw new Error('deposit => LP balance insufficient');
+        if((await lp.allowance(signerAddress, this.farming.address)).lt(BigNumber.from(amount))) throw new Error('deposit => LP allowance insufficient');
         return this.farming.deposit(poolId, amount);
 
     }
-    public async withdraw(poolId: string, amount: number): Promise<ContractTransaction> {
+    public async withdraw(poolId: string, amount: string): Promise<ContractTransaction> {
         const signerAddress: string = await this.farming.signer.getAddress();
         const user: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.farming.userInfo(poolId, signerAddress);
         // check if given amount is valid
-        if((user.amount).lt(BigNumber.from(amount))) throw new Error('func#withdraw deposited amount < withdrawing amount');
+        if((user.amount).lt(BigNumber.from(amount))) throw new Error('withdraw => deposited amount < withdrawing amount');
         return this.farming.withdraw(poolId, amount);
 
     }
