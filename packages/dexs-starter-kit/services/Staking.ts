@@ -13,11 +13,12 @@ export class Staking {
     }
 
     public async deposit(amount: string): Promise<ContractTransaction> {
-        const stakeToken = await this.staking.pool()
-        const signerAddress = await this.staking.address
+        const pool = await this.staking.pool()
+        const signerAddress = await this.staking.signer.getAddress()
         // check allowance
-        const allowance = await new KIP7__factory().attach(stakeToken.stakedToken).allowance(signerAddress,this.staking.address)
-        if( allowance.lt(amount)) throw new Error("func#deposit insufficient allowance")
+        const allowance = await KIP7__factory.connect(pool.stakedToken, this.staking.provider).allowance(signerAddress,this.staking.address)
+
+        if( allowance.lt(BigNumber.from(amount))) throw new Error("deposit => insufficient allowance")
 
         return await this.staking.deposit(amount);
     }
@@ -26,7 +27,7 @@ export class Staking {
         const stakeToken: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.staking.userInfo(signerAddress);
 
         // check/validate staked token
-        if( stakeToken.amount.lt(amount)) throw new Error("func#withdraw insufficient amount of tokens staked")
+        if( stakeToken.amount.lt(BigNumber.from(amount))) throw new Error("withdraw => insufficient amount of tokens staked")
 
         return await this.staking.withdraw(amount);
     }
@@ -35,7 +36,7 @@ export class Staking {
         const stakeToken: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.staking.userInfo(signerAddress);
 
         // check/validate staked token
-        if( stakeToken.amount.eq(0)) throw new Error("func#emergencyWithdraw staked tokens not found")
+        if( stakeToken.amount.eq(0)) throw new Error("emergencyWithdraw => staked tokens not found")
 
         return await this.staking.emergencyWithdraw();
     }

@@ -32,6 +32,7 @@
     "example:staking:updateStartAndEndBlocks": "ts-node examples/Staking/updateStartAndEndBlocks.ts",
     "example:staking:recoverToken": "ts-node examples/Staking/recoverToken.ts",
     "example:staking:emergencyRewardWithdraw": "ts-node examples/Staking/emergencyRewardWithdraw.ts",
+    "example:staking:deposit": "ts-node examples/Staking/deposit.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
