@@ -20,16 +20,16 @@ export class Staking {
 
         if( allowance.lt(BigNumber.from(amount))) throw new Error("deposit => insufficient allowance")
 
-        return await this.staking.deposit(amount);
+        return await this.staking.deposit(amount, {gasLimit: 200000});
     }
     public async withdraw(amount: string): Promise<ContractTransaction> {
-        const signerAddress = await this.staking.address;
+        const signerAddress = await this.staking.signer.getAddress();
         const stakeToken: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.staking.userInfo(signerAddress);
 
         // check/validate staked token
         if( stakeToken.amount.lt(BigNumber.from(amount))) throw new Error("withdraw => insufficient amount of tokens staked")
 
-        return await this.staking.withdraw(amount);
+        return await this.staking.withdraw(amount, {gasLimit: 200000});
     }
     public async emergencyWithdraw(): Promise<ContractTransaction> {
         const signerAddress = await this.staking.address;
