@@ -18,7 +18,7 @@ export class MultiSig {
     }
     public async confirmAndExecuteTransaction(transactionId: string): Promise<ContractTransaction> {
         return this.multiSig.confirmAndExecuteTransaction(
-            transactionId
+            transactionId, {gasLimit: 6721975}
         )
     }
     public async revokeConfirmation(transactionId: string): Promise<ContractTransaction> {
@@ -28,7 +28,7 @@ export class MultiSig {
     }
     public async executeTransaction(transactionId: string): Promise<ContractTransaction> {
         return this.multiSig.executeTransaction(
-            transactionId
+            transactionId, {gasLimit: 6721975}
         )
     }
     public async isConfirmed(transactionId: string): Promise<boolean> {

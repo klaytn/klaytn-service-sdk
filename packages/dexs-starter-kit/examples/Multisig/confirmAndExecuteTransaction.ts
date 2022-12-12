@@ -31,9 +31,10 @@ config()
     console.log('confirmAndExecuteTransaction# Multisig => Transaction => waiting for block confirmations')
     await confirmTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
     console.log(`confirmAndExecuteTransaction# Multisig => Transaction => ${confirmTx.confirmations} blocks confirmed`)
-    if(BigNumber.from(confirmatoins.length+1).eq(await multiSig.multiSig.required()) )
+    const txInfo = await multiSig.multiSig.getTransactionInfo(transactionId);
+    if(txInfo.executed_ )
         console.log('confirmAndExecuteTransaction# Multisig => transactionId => executed')
     else
-        console.log(`confirmAndExecuteTransaction# Multisig => transactionId => confirmations #${confirmatoins.length+1}`)
+        console.log(`confirmAndExecuteTransaction# Multisig => transactionId => confirmations# ${txInfo.votesLength_.toString()}, required# ${(await multiSig.multiSig.required()).toString()}`)
 
 })()

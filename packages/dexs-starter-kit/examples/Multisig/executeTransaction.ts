@@ -31,7 +31,8 @@ config()
     console.log('ExecuteTransaction# Multisig => Transaction => waiting for block confirmations')
     await confirmTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
     console.log(`ExecuteTransaction# Multisig => Transaction => ${confirmTx.confirmations} blocks confirmed`)
-
+    if((await multiSig.multiSig.getTransactionInfo(transactionId)).executed_)
         console.log('ExecuteTransaction# Multisig => transactionId => executed')
+    else console.log('ExecuteTransaction# Multisig => OOPS => something went wrong!') // hint: increase gasLimit
 
 })()

@@ -53,7 +53,7 @@ export class Farming {
        return  this.farming.interface.encodeFunctionData('updatePtnPerBlock', [poolId]);
     }
     public async add( allocPoint: string, lpToken: string, bonusMultiplier: string, bonusEndBlock:string ): Promise<string> {
-       return  this.farming.interface.encodeFunctionData('add', [BigNumber.from(allocPoint), lpToken, BigNumber.from(bonusMultiplier), BigNumber.from(bonusEndBlock)]);
+       return  this.farming.interface.encodeFunctionData('add', [ allocPoint, lpToken, bonusMultiplier, bonusEndBlock]);
     }
     public async set( allocPoint: string, poolId: string): Promise<string> {
        return  this.farming.interface.encodeFunctionData('set', [allocPoint, poolId]);

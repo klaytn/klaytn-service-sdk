@@ -16,9 +16,10 @@ config()
 
     console.log('addFarmingPool# Farming => setting up')
     const farming = new Farming(farmingAddress, privKey, rpcURL);
-    console.log('addFarmingPool# Farming => Transaction => preparing')
-    const addRawTx = await farming.add(allocPoints, lpAddress, bonusMultiplier, bonusEndBlock)
+    console.log('addFarmingPool# Farming => Transaction => encoding')
+    const addRawTx = await farming.add(allocPoints, lpAddress, bonusMultiplier, bonusEndBlock);
+
     console.log('addFarmingPool# Farming => Transaction => ready to submit on MultiSig')
-    console.log('addFarmingPool# Farming => Transaction => details:', addRawTx)
+    console.log('addFarmingPool# Farming => Transaction => encoded data => ', addRawTx)
 
 })()
