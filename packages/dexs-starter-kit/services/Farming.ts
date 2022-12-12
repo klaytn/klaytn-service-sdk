@@ -9,10 +9,10 @@ export class Farming {
         this.farming = Farming__factory.connect(farmingAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     }
 
-    public async deposit(poolId: string, amount: number): Promise<ContractTransaction> {
+    public async deposit(poolId: string, amount: string): Promise<ContractTransaction> {
         const pool = await this.farming.poolInfo(poolId);
         const signerAddress: string = await this.farming.signer.getAddress();
-        let lp:DexPair = new DexPair__factory().attach(pool.lpToken);
+        let lp:DexPair = DexPair__factory.connect(pool.lpToken, this.farming.provider);
         if((await lp.balanceOf(signerAddress)).lt(BigNumber.from(amount))) throw new Error('func#deposit LP balance insufficient');
         if((await lp.allowance(signerAddress, this.farming.address)).lt(BigNumber.from(amount))) throw new Error('func#deposit LP allowance insufficient');
         return this.farming.deposit(poolId, amount);

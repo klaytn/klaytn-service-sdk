@@ -19,6 +19,7 @@
     "example:farming:setPool": "ts-node examples/Farming/setPool.ts",
     "example:farming:updateRewardPerBlock": "ts-node examples/Farming/updateRewardPerBlock.ts",
     "example:farming:updateMultiplier": "ts-node examples/Farming/updateMultiplier.ts",
+    "example:farming:deposit": "ts-node examples/Farming/deposit.ts",
     "example:multisig:submitTransaction": "ts-node examples/Multisig/submitTransaction.ts",
     "example:multisig:confirm&Execute": "ts-node examples/Multisig/confirmAndExecuteTransaction.ts",
     "example:multisig:executeTransaction": "ts-node examples/Multisig/executeTransaction.ts",
