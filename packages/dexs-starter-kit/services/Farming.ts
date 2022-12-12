@@ -56,7 +56,7 @@ export class Farming {
        return  this.farming.interface.encodeFunctionData('add', [ allocPoint, lpToken, bonusMultiplier, bonusEndBlock]);
     }
     public async set( allocPoint: string, poolId: string): Promise<string> {
-       return  this.farming.interface.encodeFunctionData('set', [allocPoint, poolId]);
+       return  this.farming.interface.encodeFunctionData('set', [poolId, allocPoint]);
     }
     public async ptnGrantRole( ptnAddress: string): Promise<string | boolean> {
         let ptnToken: PlatformToken = PlatformToken__factory.connect(ptnAddress, this.farming.provider);
