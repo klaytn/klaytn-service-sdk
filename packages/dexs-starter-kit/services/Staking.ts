@@ -1,5 +1,5 @@
 // import { StakingInitializable, StakingInitializable__factory, KIP7, KIP7__factory } from '@klaytn/dex-contracts/typechain';
-import { StakingInitializable, StakingInitializable__factory, KIP7, KIP7__factory } from '../contracts';
+import { StakingInitializable, StakingInitializable__factory, KIP7, KIP7__factory, StakingFactory, StakingFactory__factory } from '../contracts';
 import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers'
 
 export class Staking {
@@ -7,6 +7,9 @@ export class Staking {
 
     constructor(routerAddress: string, privKey: string, rpcURL: string) {
         this.staking = StakingInitializable__factory.connect(routerAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
+    }
+    public static FACTORY(factoryAddress: string, privKey: string, rpcURL: string ): StakingFactory {
+        return StakingFactory__factory.connect(factoryAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     }
 
     public async deposit(amount: string): Promise<ContractTransaction> {
@@ -38,6 +41,28 @@ export class Staking {
     }
 
     // administrative functions
+    public static deployPool(factory: StakingFactory,
+                            stakedTokenAddress: string,
+                            rewardTokenAddress: string,
+                            rewardPerBlock: string,
+                            startBlock: string,
+                            rewardEndBlock: string,
+                            poolLimitPerUser: string,
+                            numberBlocksForUserLimit: string,
+                            multiSigAddress: string ): string {
+        return factory.interface.encodeFunctionData(
+            'deployPool',
+            [
+                stakedTokenAddress,
+                rewardTokenAddress,
+                rewardPerBlock,
+                startBlock,
+                rewardEndBlock,
+                poolLimitPerUser,
+                numberBlocksForUserLimit,
+                multiSigAddress
+            ]);
+    }
     public async emergencyRewardWithdraw(amount: string, recipient: string): Promise<string> {
         return this.staking.interface.encodeFunctionData('emergencyRewardWithdraw', [amount, recipient]);
     }

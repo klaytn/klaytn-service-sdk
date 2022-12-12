@@ -25,6 +25,8 @@
     "example:multisig:submitTransaction": "ts-node examples/Multisig/submitTransaction.ts",
     "example:multisig:confirm&Execute": "ts-node examples/Multisig/confirmAndExecuteTransaction.ts",
     "example:multisig:executeTransaction": "ts-node examples/Multisig/executeTransaction.ts",
+    "example:staking:deployPool": "ts-node examples/Staking/deployPool.ts",
+    "example:staking:updatePoolLimit": "ts-node examples/Staking/updatePoolLimit.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
