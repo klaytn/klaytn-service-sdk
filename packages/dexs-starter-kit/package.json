@@ -29,6 +29,9 @@
     "example:staking:updatePoolLimit": "ts-node examples/Staking/updatePoolLimit.ts",
     "example:staking:stopReward": "ts-node examples/Staking/stopReward.ts",
     "example:staking:updateReward": "ts-node examples/Staking/updateReward.ts",
+    "example:staking:updateStartAndEndBlocks": "ts-node examples/Staking/updateStartAndEndBlocks.ts",
+    "example:staking:recoverToken": "ts-node examples/Staking/recoverToken.ts",
+    "example:staking:emergencyRewardWithdraw": "ts-node examples/Staking/emergencyRewardWithdraw.ts",
     "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
   },
   "keywords": [
