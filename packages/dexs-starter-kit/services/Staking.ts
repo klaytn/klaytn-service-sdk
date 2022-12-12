@@ -32,7 +32,7 @@ export class Staking {
         return await this.staking.withdraw(amount, {gasLimit: 200000});
     }
     public async emergencyWithdraw(): Promise<ContractTransaction> {
-        const signerAddress = await this.staking.address;
+        const signerAddress = await this.staking.signer.getAddress();
         const stakeToken: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.staking.userInfo(signerAddress);
 
         // check/validate staked token
