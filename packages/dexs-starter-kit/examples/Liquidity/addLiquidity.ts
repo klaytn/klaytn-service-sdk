@@ -1,4 +1,4 @@
-import { Liquidity } from '../../services';
+import { Liquidity } from '../../core';
 import { KIP7__factory } from '../../contracts';
 import { Wallet, providers, BigNumber } from 'ethers'
 import { config } from 'dotenv'

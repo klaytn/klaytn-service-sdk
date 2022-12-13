@@ -1,4 +1,4 @@
-import { Farming} from "../../services"
+import { Farming} from "../../core"
 import { KIP7__factory } from '../../contracts';
 import { Wallet, providers, BigNumber, constants } from 'ethers'
 import { config } from 'dotenv'

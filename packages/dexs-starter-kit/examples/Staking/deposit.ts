@@ -1,4 +1,4 @@
-import { Staking} from "../../services"
+import { Staking} from "../../core"
 import { KIP7__factory } from '../../contracts';
 import { Wallet, providers, BigNumber, constants } from 'ethers'
 import { config } from 'dotenv'

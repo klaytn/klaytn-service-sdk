@@ -1,4 +1,4 @@
-import { Liquidity } from '../../services';
+import { Liquidity } from '../../core';
 import { DexPair } from '../../contracts';
 import { BigNumber } from 'ethers'
 import { config } from 'dotenv'

@@ -1,4 +1,4 @@
-import { Farming} from "../../services"
+import { Farming} from "../../core"
 import { config } from 'dotenv'
 config()
 ;( async ()=> {

@@ -1,4 +1,4 @@
-import { MultiSig} from "../../services"
+import { MultiSig} from "../../core"
 import { config } from 'dotenv'
 config()
 ;( async ()=> {

@@ -2,7 +2,7 @@
   "name": "dexs-starter-kit",
   "version": "1.0.0",
   "description": "it includes dex-contracts integration & examples",
-  "main": "services/index.ts",
+  "main": "core/index.ts",
   "scripts": {
     "example:liquidity:add": "ts-node examples/Liquidity/addLiquidity.ts",
     "example:liquidity:addWithKlay": "ts-node examples/Liquidity/addLiquidityWithKlay.ts",
@@ -35,8 +35,7 @@
     "example:staking:emergencyRewardWithdraw": "ts-node examples/Staking/emergencyRewardWithdraw.ts",
     "example:staking:deposit": "ts-node examples/Staking/deposit.ts",
     "example:staking:withdraw": "ts-node examples/Staking/withdraw.ts",
-    "example:staking:emergencyWithdraw": "ts-node examples/Staking/emergencyWithdraw.ts",
-    "test:liquidity": "mocha --reporter spec -r ts-node/register test/Liquidity-test.ts "
+    "example:staking:emergencyWithdraw": "ts-node examples/Staking/emergencyWithdraw.ts"
   },
   "keywords": [
     "klaytn",

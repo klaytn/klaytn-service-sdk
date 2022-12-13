@@ -23,5 +23,5 @@
     "esm": true
   },
   "exclude": ["node_modules/**/*"],
-  "include": ["services/*.ts", "examples/*.ts"],
+  "include": ["core/*.ts", "examples/*.ts"],
 }

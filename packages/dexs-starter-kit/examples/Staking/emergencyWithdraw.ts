@@ -1,4 +1,4 @@
-import { Staking} from "../../services"
+import { Staking} from "../../core"
 import { BigNumber, constants } from 'ethers'
 import { config } from 'dotenv'
 config()

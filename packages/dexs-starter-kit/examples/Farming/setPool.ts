@@ -1,4 +1,4 @@
-import { Farming} from "../../services"
+import { Farming} from "../../core"
 import { constants } from 'ethers'
 import { config } from 'dotenv'
 config()

@@ -1,4 +1,4 @@
-import { Swap } from "../../services"
+import { Swap } from "../../core"
 import { DexPair } from '../../contracts';
 import { Wallet, providers, BigNumber, constants } from 'ethers'
 import { config } from 'dotenv'
