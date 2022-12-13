@@ -1,4 +1,3 @@
-// import { StakingInitializable, StakingInitializable__factory, KIP7, KIP7__factory } from '@klaytn/dex-contracts/typechain';
 import { StakingInitializable, StakingInitializable__factory, KIP7, KIP7__factory, StakingFactory, StakingFactory__factory } from '../contracts';
 import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers'
 

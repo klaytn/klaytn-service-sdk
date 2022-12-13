@@ -1,11 +1,3 @@
-/*import {
-        DexRouter, DexRouter__factory,
-        DexFactory, DexFactory__factory,
-        DexPair, DexPair__factory,
-        Farming, Farming__factory,
-        StakingInitializable, StakingInitializable__factory,
-        MultiSigWallet, MultiSigWallet__factory } from '@klaytn/dex-contracts/typechain';*/
-
 import {
         DexRouter, DexRouter__factory,
         DexFactory, DexFactory__factory,

@@ -1,4 +1,3 @@
-// import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
 import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '../contracts';
 import { Signer, Wallet, providers, BigNumber, ContractTransaction, Contract } from 'ethers'
 

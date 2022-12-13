@@ -1,4 +1,3 @@
-// import { Farming as Farm, Farming__factory, DexPair, DexPair__factory } from '@klaytn/dex-contracts/typechain';
 import { Farming as Farm, Farming__factory, DexPair, DexPair__factory, PlatformToken, PlatformToken__factory } from '../contracts';
 import { Wallet, providers, ContractTransaction, BigNumber, utils } from 'ethers'
 
@@ -30,7 +29,7 @@ export class Farming {
         const signerAddress: string = await this.farming.signer.getAddress();
         const user: [BigNumber, BigNumber] & { amount: BigNumber; rewardDebt: BigNumber } = await this.farming.userInfo(poolId, signerAddress);
         // check if given amount is valid
-        if((user.amount).eq(BigNumber.from(0))) throw new Error('func#emergencyWithdraw deposited LP not found');
+        if((user.amount).eq(BigNumber.from(0))) throw new Error('emergencyWithdraw => deposited LP not found');
 
         return this.farming.emergencyWithdraw(poolId);
 
