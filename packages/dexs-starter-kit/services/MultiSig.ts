@@ -1,4 +1,3 @@
-// import { MultiSigWallet, MultiSigWallet__factory } from '@klaytn/dex-contracts/typechain';
 import { MultiSigWallet, MultiSigWallet__factory } from '../contracts';
 import { Wallet, providers, ContractTransaction } from 'ethers'
 

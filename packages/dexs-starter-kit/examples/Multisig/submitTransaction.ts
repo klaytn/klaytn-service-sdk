@@ -1,6 +1,4 @@
 import { MultiSig} from "../../services"
-import { KIP7__factory, KIP7 } from '../../contracts';
-import { Wallet, providers, BigNumber, constants } from 'ethers'
 import { config } from 'dotenv'
 config()
 ;( async ()=> {
