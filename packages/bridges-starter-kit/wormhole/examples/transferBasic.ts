@@ -3,39 +3,44 @@ import {
 	parseSequenceFromLogEth,
 	getEmitterAddressEth,
   transferFromEthNative,
-  tryNativeToHexString
+  tryNativeToHexString,
+  CHAINS
 } from '@certusone/wormhole-sdk';
 import { Contract, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
 let Bridge =  require('./abi/bridge.json');
 require("dotenv").config();
 
+let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
+  acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };  
+  return acc;
+}, {});
+
 // Transfer from Source chain to Destination chain (Below code works only for EVM compatible chains)
 // Attest the token before performing a transfer
 
 let config = {
   wormhole: {
-    restAddress: process.env.WORMHOLE_REST_URL
+    restAddress: process.env.WORMHOLE_REST_URL?? ''
   }
 };
-const AMOUNT = process.env.AMOUNT_TO_BE_TRANSFERRED; // Amount to be transfered
+const AMOUNT = process.env.AMOUNT_TO_BE_TRANSFERRED?? ''; // Amount to be transfered
 const IS_NATIVE = process.env.IS_NATIVE_TRANSFER || "Y"; // Enable if Native coin is transfered
 
 const source = {
-  token: process.env.TOKEN, // source token
-  privatekey: process.env.SOURCE_PRIVATE_KEY,
-  rpcUrl: process.env.SOURCE_RPC_URL,
-  coreBridge: process.env.SOURCE_CORE_BRIDGE,
-  tokenBridge: process.env.SOURCE_TOKEN_BRIDGE,
-  wormholeChainId: process.env.SOURCE_WORMHOLE_CHAIN_ID
+  token: process.env.SOURCE_TOKEN?? '', // source token
+  privatekey: process.env.SOURCE_PRIVATE_KEY?? '',
+  rpcUrl: process.env.SOURCE_RPC_URL?? '',
+  coreBridge: process.env.SOURCE_CORE_BRIDGE?? '',
+  tokenBridge: process.env.SOURCE_TOKEN_BRIDGE?? '',
+  wormholeChainId: process.env.SOURCE_WORMHOLE_CHAIN_ID?? '13'
 };
 
 const destination = {
-  privatekey: process.env.DESTINATION_PRIVATE_KEY,
-  rpcUrl: process.env.DESTINATION_RPC_URL,
-  tokenBridge: process.env.DESTINATION_TOKEN_BRIDGE
-  wormholeChainId: process.env.DESTINATION_WORMHOLE_CHAIN_ID,
-  targetChainId: process.env.DESTINATION_CHAIN_ID
+  privatekey: process.env.DESTINATION_PRIVATE_KEY?? '',
+  rpcUrl: process.env.DESTINATION_RPC_URL?? '',
+  tokenBridge: process.env.DESTINATION_TOKEN_BRIDGE?? '',
+  wormholeChainId: process.env.DESTINATION_WORMHOLE_CHAIN_ID?? '2'
 };
 
 const sourceWallet = new Wallet(
@@ -48,7 +53,7 @@ const destinationnWallet = new Wallet(
 );
 
 const targetReceipient = Buffer.from(
-  tryNativeToHexString(destinationnWallet.address, "ethereum"),
+  tryNativeToHexString(destinationnWallet.address, CHAINSBYID[destination.wormholeChainId].name),
   "hex"
 );
 
@@ -62,7 +67,7 @@ const targetReceipient = Buffer.from(
       source.tokenBridge,
       sourceWallet,
       utils.parseUnits(AMOUNT, 18),
-      destination.wormholeChainId,
+      CHAINSBYID[destination.wormholeChainId].chainId,
       targetReceipient,
       undefined,
       undefined,
@@ -101,7 +106,7 @@ const targetReceipient = Buffer.from(
       sourceWallet,
       source.token,
       utils.parseUnits(AMOUNT, tokenContract?.decimal ?? 18),
-      destination.wormholeChainId,
+      CHAINSBYID[destination.wormholeChainId].chainId,
       targetReceipient,
       undefined,
       undefined,
