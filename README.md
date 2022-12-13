@@ -30,6 +30,15 @@ Implementation of the following 4 Chainlink features using the [Hardhat](https:/
 ## Bridges Module
 `In progress`
 
+## DEX Module
+### @klaytn/dex-contracts
+Integration of the following 5 DEX contracts:
+- [Swap](/packages/dexs-starter-kit/core/Swap.ts)
+- [Liquidity](/packages/dexs-starter-kit/core/Liquidity.ts)
+- [Farming](/packages/dexs-starter-kit/core/Farming.ts)
+- [Staking](/packages/dexs-starter-kit/core/Staking.ts)
+- [Multisig Wallet](/packages/dexs-starter-kit/core/MultiSig.ts)
+
 <br/>
 
 # Getting started
