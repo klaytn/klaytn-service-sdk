@@ -1,6 +1,4 @@
 import { MultiSig} from "../../services"
-import { KIP7__factory, KIP7 } from '../../contracts';
-import { Wallet, providers, BigNumber, constants } from 'ethers'
 import { config } from 'dotenv'
 config()
 ;( async ()=> {
@@ -17,13 +15,18 @@ config()
     const confirmatoins = await multiSig.multiSig.getConfirmations(transactionId)
     if(confirmatoins.length == 0) throw new Error('ExecuteTransaction# Multisig => transactionId => invalid')
 
-    console.log(`ExecuteTransaction# Multisig => transactionId => ${confirmatoins.length} owner(s) has already confirmed`)
+    const txInfo = await multiSig.multiSig.getTransactionInfo(transactionId);
+    const requiredConfirmations = await multiSig.multiSig.required();
 
+    if (txInfo.votesLength_.lt(requiredConfirmations)) throw new Error(`ExecuteTransaction# Multisig => transactionId => confirmations# ${txInfo.votesLength_.toString()}, required# ${requiredConfirmations.toString()}`)
+    if (txInfo.executed_) throw new Error('ExecuteTransaction# Multisig => transactionId => already executed')
+
+    console.log(`ExecuteTransaction# Multisig => transactionId => Good`)
     console.log('ExecuteTransaction# Multisig => owner => checking')
-    // if(confirmatoins.includes(pubKey)) throw new Error('ExecuteTransaction# Multisig => owner => already confirmed')
+
     const owners = await multiSig.multiSig.getOwners()
     if (!owners.includes( pubKey)) throw new Error('ExecuteTransaction# Multisig => owner => signer is not an owner');
-    console.log('ExecuteTransaction# Multisig => owner => valid')
+    console.log('ExecuteTransaction# Multisig => owner => Good')
 
     console.log('ExecuteTransaction# Multisig => Transaction => preparing')
     const confirmTx = await multiSig.executeTransaction(transactionId);
