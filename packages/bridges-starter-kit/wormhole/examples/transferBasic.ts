@@ -3,40 +3,39 @@ import {
 	parseSequenceFromLogEth,
 	getEmitterAddressEth,
   transferFromEthNative,
-  tryNativeToHexString,
-  CHAIN_ID_KLAYTN,
-  CHAIN_ID_ETH
+  tryNativeToHexString
 } from '@certusone/wormhole-sdk';
 import { Contract, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
+let Bridge =  require('./abi/bridge.json');
 require("dotenv").config();
 
-// Transfer from Klaytn to Goerli (Works only for EVM compatible chains)
+// Transfer from Source chain to Destination chain (Below code works only for EVM compatible chains)
 // Attest the token before performing a transfer
 
 let config = {
   wormhole: {
-    restAddress: 'https://wormhole-v2-testnet-api.certus.one'
+    restAddress: process.env.WORMHOLE_REST_URL
   }
 };
-const AMOUNT = "1"; // Amount to be transfered 1 Coin
-const IS_NATIVE = true; // Enable if Native coin is transfered
+const AMOUNT = process.env.AMOUNT_TO_BE_TRANSFERRED; // Amount to be transfered
+const IS_NATIVE = process.env.IS_NATIVE_TRANSFER || "Y"; // Enable if Native coin is transfered
 
 const source = {
-  token: "0x0FD3f122A9B6471928B60eeE73bF35D895C4Ee01", // source token
-  privatekey: process.env.PRIVATE_KEY || "",
-  rpcUrl: "https://api.baobab.klaytn.net:8651",
-  coreBridge: "0x1830CC6eE66c84D2F177B94D544967c774E624cA",
-  tokenBridge: "0xC7A13BE098720840dEa132D860fDfa030884b09A",
-  wormholeChainId: CHAIN_ID_KLAYTN
+  token: process.env.TOKEN, // source token
+  privatekey: process.env.SOURCE_PRIVATE_KEY,
+  rpcUrl: process.env.SOURCE_RPC_URL,
+  coreBridge: process.env.SOURCE_CORE_BRIDGE,
+  tokenBridge: process.env.SOURCE_TOKEN_BRIDGE,
+  wormholeChainId: process.env.SOURCE_WORMHOLE_CHAIN_ID
 };
 
 const destination = {
-  privatekey: process.env.PRIVATE_KEY || "",
-  rpcUrl: "https://ethereum-goerli-rpc.allthatnode.com",
-  tokenBridge: "0xF890982f9310df57d00f659cf4fd87e65adEd8d7",
-  wormholeChainId: CHAIN_ID_ETH, // Goerli
-  targetChainId: 5 // Goerli chainid
+  privatekey: process.env.DESTINATION_PRIVATE_KEY,
+  rpcUrl: process.env.DESTINATION_RPC_URL,
+  tokenBridge: process.env.DESTINATION_TOKEN_BRIDGE
+  wormholeChainId: process.env.DESTINATION_WORMHOLE_CHAIN_ID,
+  targetChainId: process.env.DESTINATION_CHAIN_ID
 };
 
 const sourceWallet = new Wallet(
@@ -52,13 +51,13 @@ const targetReceipient = Buffer.from(
   tryNativeToHexString(destinationnWallet.address, "ethereum"),
   "hex"
 );
-let Bridge =  require('./bridge.json');
+
 
 (async () => {
   console.log("1. Submit transaction - results in a Wormhole message being published");
 
   let receipt:any;
-  if(IS_NATIVE) {
+  if(IS_NATIVE === "Y") {
     receipt = await transferFromEthNative(
       source.tokenBridge,
       sourceWallet,
@@ -94,6 +93,8 @@ let Bridge =  require('./bridge.json');
         {gasLimit: 2000000})
       console.log("Approval TxnHash: "+approveTx.hash);
     }
+
+    await new Promise((r) => setTimeout(r, 2000));
 
     receipt = await transferFromEth(
       source.tokenBridge,
@@ -137,5 +138,5 @@ let Bridge =  require('./bridge.json');
     {gasLimit: 2000000 }
   );
   console.log(completeTransferTx);
-  console.log("Transaction status: https://goerli.etherscan.io/tx/"+completeTransferTx.hash);
+  console.log("Transaction status on Destination chain: "+completeTransferTx.hash);
 })();

@@ -2,36 +2,34 @@ import {
 	parseSequenceFromLogEth,
 	getEmitterAddressEth,
   attestFromEth,
-  tryNativeToHexString,
-  CHAIN_ID_KLAYTN,
-
+  tryNativeToHexString
 } from '@certusone/wormhole-sdk';
 import { Contract, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
-let Bridge =  require('./bridge.json');
+let Bridge =  require('./abi/bridge.json');
 require("dotenv").config();
 
-// Attest from Klaytn to Goerli (Works only for EVM compatible chains)
+// Attest a token from Source chain to Destination chain (Works only for EVM compatible chains)
 
 let config = {
   wormhole: {
-    restAddress: 'https://wormhole-v2-testnet-api.certus.one'
+    restAddress: process.env.WORMHOLE_REST_URL
   }
 };
 
 const source = {
-  token: "0x0FD3f122A9B6471928B60eeE73bF35D895C4Ee01", // Token to be attested
-  privatekey: process.env.PRIVATE_KEY || "",
-  rpcUrl: "https://api.baobab.klaytn.net:8651",
-  coreBridge: "0x1830CC6eE66c84D2F177B94D544967c774E624cA",
-  tokenBridge: "0xC7A13BE098720840dEa132D860fDfa030884b09A",
-  wormholeChainId: CHAIN_ID_KLAYTN
+  token: process.env.TOKEN, // Token to be attested
+  privatekey: process.env.SOURCE_PRIVATE_KEY,
+  rpcUrl: process.env.SOURCE_RPC_URL,
+  coreBridge: process.env.SOURCE_CORE_BRIDGE,
+  tokenBridge: process.env.SOURCE_TOKEN_BRIDGE,
+  wormholeChainId: process.env.SOURCE_CHAIN_ID
 };
 
 const destination = {
-  privatekey: process.env.PRIVATE_KEY || "",
-  rpcUrl: "https://ethereum-goerli-rpc.allthatnode.com",
-  tokenBridge: "0xF890982f9310df57d00f659cf4fd87e65adEd8d7"
+  privatekey: process.env.DESTINATION_PRIVATE_KEY,
+  rpcUrl: process.env.DESTINATION_RPC_URL,
+  tokenBridge: process.env.DESTINATION_TOKEN_BRIDGE
 };
 
 const sourceWallet = new Wallet(
@@ -79,13 +77,13 @@ const destinationnWallet = new Wallet(
       gasLimit: 2000000,
     }
   );
-  console.log("Wrapped Txn: https://goerli.etherscan.io/tx/"+wrappedTxn.hash);
+  console.log("Wrapped Transaction on Destination chain: "+wrappedTxn.hash);
   await new Promise((r) => setTimeout(r, 5000)); //Time out to let block propogate
   const wrappedTokenAddress = await targetTokenBridge.wrappedAsset(
     source.wormholeChainId,
     Buffer.from(tryNativeToHexString(source.token, "ethereum"), "hex"),
     {gasLimit: 2000000 }
   );
-  console.log("Wrapped token created at: ", wrappedTokenAddress);
+  console.log("Wrapped token on destination chain created at: ", wrappedTokenAddress);
 
 })();
