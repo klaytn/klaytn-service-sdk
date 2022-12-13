@@ -17,7 +17,7 @@ Wormhole is a communication bridge between Klaytn and other top decentralized fi
 
 ## Setup
 1. Copy `.env.example to .env` and Modify environment variables in `.env` as per the quick start commands.
-2. `npm install` (if yarn install is not performed on root level)
+2. `yarn install`
 
 ## Quick Start
 You can run the below commands to test
