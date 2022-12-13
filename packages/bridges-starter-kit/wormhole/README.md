@@ -32,7 +32,7 @@ To attest a token of one chain (source chain) to another chain (destination chai
 | SOURCE_RPC_URL | source chain rpc url      | https://api.baobab.klaytn.net:8651 |
 | SOURCE_CORE_BRIDGE | source chain core bridge address      | 0x1830CC6eE66c84D2F177B94D544967c774E624cA | [https://book.wormhole.com/reference/contracts.html#core-bridge-1](https://book.wormhole.com/reference/contracts.html#core-bridge-1) |
 | SOURCE_TOKEN_BRIDGE | source chain token bridge address      | 0xC7A13BE098720840dEa132D860fDfa030884b09A | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-| SOURCE_WORMHOLE_CHAIN_ID | source chain wormhole chainName      | klaytn | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
+| SOURCE_WORMHOLE_CHAIN_ID | source chain wormhole chainName      | 13 | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
 | DESTINATION_PRIVATE_KEY | destination chain private key containing base curreny required for performing transactions | Private key here |
 | DESTINATION_RPC_URL | destination chain rpc url      | https://ethereum-goerli-rpc.allthatnode.com | |
 | DESTINATION_TOKEN_BRIDGE | destination chain token bridge      | 0xF890982f9310df57d00f659cf4fd87e65adEd8d7 | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
@@ -52,11 +52,11 @@ To transfer tokens from source chain to destination chain between evm compatible
 | SOURCE_RPC_URL | source chain rpc url      | https://api.baobab.klaytn.net:8651 |
 | SOURCE_CORE_BRIDGE | source chain core bridge address      | 0x1830CC6eE66c84D2F177B94D544967c774E624cA | [https://book.wormhole.com/reference/contracts.html#core-bridge-1](https://book.wormhole.com/reference/contracts.html#core-bridge-1) |
 | SOURCE_TOKEN_BRIDGE | source chain token bridge address      | 0xC7A13BE098720840dEa132D860fDfa030884b09A | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-| SOURCE_WORMHOLE_CHAIN_ID | source chain wormhole chainName      | klaytn | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
+| SOURCE_WORMHOLE_CHAIN_ID | source chain wormhole chainName      | 13 | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
 | DESTINATION_PRIVATE_KEY | destination chain private key containing base curreny required for performing transactions | Private key here |
 | DESTINATION_RPC_URL | destination chain rpc url      | https://ethereum-goerli-rpc.allthatnode.com | |
 | DESTINATION_TOKEN_BRIDGE | destination chain token bridge      | 0xF890982f9310df57d00f659cf4fd87e65adEd8d7 | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-| DESTINATION_WORMHOLE_CHAIN_ID | destination wormhole chainName      | ethereum | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
+| DESTINATION_WORMHOLE_CHAIN_ID | destination wormhole chainName      | 2 | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
 | IS_NATIVE_TRANSFER | is native transfer (Y/N)      | Y | |
 | AMOUNT_TO_BE_TRANSFERRED | amount to be transferred (Ex: 1 coin) | 1 | |
 2. Make sure if the tokens/coins in source chain is sufficient
