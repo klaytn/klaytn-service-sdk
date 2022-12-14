@@ -22,7 +22,7 @@ Wormhole is a communication bridge between Klaytn and other top decentralized fi
 ## Quick Start
 You can run the below commands to test
 ## 1.Token Attestation
-To attest a token of one chain (source chain) to another chain (destination chain) please perform the following steps:
+To attest a token of one chain (source chain) to another chain (destination chain) for EVM compatible chains, please perform the following steps:
 1. Make sure .env is updated. Below table explains the environment variables required for attestation process. 
 
 | Variable        | Description           | Example  | References |
@@ -36,13 +36,13 @@ To attest a token of one chain (source chain) to another chain (destination chai
 | DESTINATION_PRIVATE_KEY | destination chain private key containing base curreny required for performing transactions | Private key here |
 | DESTINATION_RPC_URL | destination chain rpc url      | https://ethereum-goerli-rpc.allthatnode.com | |
 | DESTINATION_TOKEN_BRIDGE | destination chain token bridge      | 0xF890982f9310df57d00f659cf4fd87e65adEd8d7 | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-
-2. Run following command to attest
+2. Make sure the Token to be attested is present in source chain. Native fee coins in source and destination chain is sufficient
+3. Run following command to attest
 ```sh
 npm run test-attest
 ```
 ## 2.Transfer Tokens
-To transfer tokens from source chain to destination chain between evm compatible chains, please perform the following steps:
+To transfer tokens from source chain to destination chain for EVM compatible chains, please perform the following steps:
 1. Make sure .env is updated. Below table explains the environment variables required for attestation process. 
 
 | Variable        | Description           | Example  | References |
@@ -59,7 +59,7 @@ To transfer tokens from source chain to destination chain between evm compatible
 | DESTINATION_WORMHOLE_CHAIN_ID | destination wormhole chainName      | 2 | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
 | IS_NATIVE_TRANSFER | is native transfer (Y/N)      | Y | |
 | AMOUNT_TO_BE_TRANSFERRED | amount to be transferred (Ex: 1 coin) | 1 | |
-2. Make sure if the tokens/coins in source chain is sufficient
+2. Make sure the tokens/coins in source chain and native fee coins in destination chain is sufficient
 3. Run following command to transfer
 ```sh
 npm run test-transfer-basic
