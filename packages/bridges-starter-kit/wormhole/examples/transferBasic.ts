@@ -16,7 +16,7 @@ let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
   return acc;
 }, {});
 
-// Transfer from Source chain to Destination chain (Below code works only for EVM compatible chains)
+// Transfer native coins/tokens from Source chain to Destination chain (Below code works only for EVM compatible chains)
 // Attest the token before performing a transfer
 
 let config = {
@@ -75,11 +75,11 @@ const targetReceipient = Buffer.from(
     );
   } else {
     console.log("Check the tokens have enough approval to the tokenBridge");
-    let Erc20ABI =  require('./erc20.json');
+    let Erc20ABI =  require('./abi/erc20.json');
     const tokenInterface = new utils.Interface(Erc20ABI);
 
     // check allowance and approve
-    // Here we are approving and transfering 50 tokens. The ERC20 token we are transfering has 18 decimal places.
+    // Here we are approving and transfering specified tokens.
     const tokenContract = new Contract(source.token, tokenInterface, sourceWallet)
     const allowance = await tokenContract?.allowance(sourceWallet.address, source.tokenBridge);
     
