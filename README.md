@@ -6,6 +6,7 @@
     - [Witnet](#witnet)
   - [Bridges Module](#bridges-module)
     - [Celer Bridge](#celer-bridge)
+    - [Wormhole Bridge](#wormhole-bridge)
 - [Getting started](#getting-started)
     - [Requirement](#requirement)
     - [Quickstart](#quickstart)
@@ -38,6 +39,12 @@ Implementations:
 - [MintCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#21mint-canoncial-token-refund)
 - [BurnCanoncialToken](/packages/bridges-starter-kit/celer/README.md#3burn-canonical-token)
 - [BurnCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#31burn-canoncial-token-refund)
+<br/>
+
+### Wormhole Bridge
+Implementations:
+- [Token Attestation](/packages/bridges-starter-kit/wormhole/README.md#1token-attestation)
+- [Transfer Tokens](/packages/bridges-starter-kit/wormhole/README.md#2transfer-tokens)
 <br/>
 
 # Getting started
