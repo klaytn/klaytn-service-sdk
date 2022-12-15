@@ -86,7 +86,7 @@ const destinationnWallet = new Wallet(
     }
   );
   console.log("Wrapped Transaction on Destination chain: "+wrappedTxn.hash);
-  await new Promise((r) => setTimeout(r, 5000)); //Time out to let block propogate
+  await new Promise((r) => setTimeout(r, 5000)); //Time out to let block propagate
   const wrappedTokenAddress = await targetTokenBridge.wrappedAsset(
     source.wormholeChainId,
     Buffer.from(tryNativeToHexString(source.token, CHAINSBYID[destination.wormholeChainId].name), "hex"),
