@@ -79,7 +79,7 @@ const targetReceipient = Buffer.from(
     const tokenInterface = new utils.Interface(Erc20ABI);
 
     // check allowance and approve
-    // Here we are approving and transfering specified tokens.
+    // Approving and transfering specified tokens.
     const tokenContract = new Contract(source.token, tokenInterface, sourceWallet)
     const allowance = await tokenContract?.allowance(sourceWallet.address, source.tokenBridge);
     
