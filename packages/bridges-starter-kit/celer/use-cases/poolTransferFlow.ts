@@ -6,7 +6,7 @@ global.XMLHttpRequest = window.XMLHttpRequest
 import { config } from "dotenv"
 config()
 
-import { estimateAmt, getTransferConfigs, getTransferStatus, poolBasedTransfer } from "../APIs"
+import { estimateAmt, getTransferConfigs, getTransferStatus, poolBasedTransfer } from "../core"
 import {
     getAllowance,
     getTransferId,
@@ -16,10 +16,10 @@ import {
     getBridgeContractAddress,
     getContract,
     getConfirmations
-} from "../helper"
-import BridgeABI from "../contract/abi/Bridge.sol/Bridge.json"
-import { statusTracker } from "../APIs/StatusTracker"
-import { GetTransferStatusResponse } from "../ts-proto/gateway/gateway_pb"
+} from "../core"
+import BridgeABI from "../core/contract/abi/Bridge.sol/Bridge.json"
+import { statusTracker } from "../core"
+import { GetTransferStatusResponse } from "../core/ts-proto/gateway/gateway_pb"
 
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress: string = process.env.WALLET_ADDRESS!
