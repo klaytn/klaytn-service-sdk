@@ -12,12 +12,12 @@ import {
     checkApprove,
     approve,
     getContract, getConfirmations
-} from "../helper"
-import { getTransferConfigs } from "../APIs"
+} from "../core"
+import { getTransferConfigs } from "../core"
 import { ethers, providers, Wallet } from "ethers"
-import PeggedTokenBridgeABI from '../contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
-import PeggedTokenBridgeV2ABI from '../contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
-import { statusTracker } from "../APIs/StatusTracker"
+import PeggedTokenBridgeABI from '../core/contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
+import PeggedTokenBridgeV2ABI from '../core/contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
+import { statusTracker } from "../core"
 
 const rpc = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress = process.env.WALLET_ADDRESS || ""

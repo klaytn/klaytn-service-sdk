@@ -23,5 +23,7 @@
     "esm": true
   },
   "exclude": ["node_modules/**/*"],
-  "include": ["examples/**/*"]
+  "include": [
+    "use-cases/**/*"
+  ]
 }

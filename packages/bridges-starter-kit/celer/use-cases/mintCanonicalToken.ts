@@ -4,7 +4,7 @@ global.XMLHttpRequest = window.XMLHttpRequest
 import { config } from "dotenv"
 config()
 
-import { getTransferConfigs } from "../APIs"
+import { getTransferConfigs } from "../core"
 import {
     approve,
     checkApprove,
@@ -13,11 +13,11 @@ import {
     getPegConfig,
     getTransferObject,
     transactor
-} from "../helper"
-import OriginalTokenVaultABI from '../contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json'
-import OriginalTokenVaultV2ABI from '../contract/abi/pegged/OriginalTokenVaultV2.sol/OriginalTokenVaultV2.json';
+} from "../core"
+import OriginalTokenVaultABI from '../core/contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json'
+import OriginalTokenVaultV2ABI from '../core/contract/abi/pegged/OriginalTokenVaultV2.sol/OriginalTokenVaultV2.json';
 import { ethers } from "ethers"
-import { statusTracker } from "../APIs/StatusTracker"
+import { statusTracker } from "../core"
 
 const rpc = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress = process.env.WALLET_ADDRESS || ""

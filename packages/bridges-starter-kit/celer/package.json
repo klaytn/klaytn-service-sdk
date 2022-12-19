@@ -1,24 +1,25 @@
 {
-  "name": "cbridge-starter-kit",
+  "name": "@klaytn-developer-sdk/bridge-celer",
   "version": "0.0.1",
-  "description": "TypeScript and JavaScript client and examples for cBridge",
+  "description": "TypeScript client and user-cases for cBridge",
+  "main": "core/index.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/celer-network/cBridge-typescript-client.git"
+    "url": "git+https://github.com/klaytn/klaytn-developer-sdk.git"
   },
   "scripts": {
-    "test-transfer": "ts-node examples/poolTransferFlow.ts",
-    "test-transfer-refund": "ts-node examples/poolTransferFlowRefund.ts",
-    "test-mint": "ts-node examples/mintCanonicalToken.ts",
-    "test-mint-refund": "ts-node examples/mintCanonicalTokenRefund.ts",
-    "test-burn": "ts-node examples/burnCanonicalToken.ts",
-    "test-burn-refund": "ts-node examples/burnCanonicalTokenRefund.ts"
+    "test-transfer": "ts-node use-cases/poolTransferFlow.ts",
+    "test-transfer-refund": "ts-node use-cases/poolTransferFlowRefund.ts",
+    "test-mint": "ts-node use-cases/mintCanonicalToken.ts",
+    "test-mint-refund": "ts-node use-cases/mintCanonicalTokenRefund.ts",
+    "test-burn": "ts-node use-cases/burnCanonicalToken.ts",
+    "test-burn-refund": "ts-node use-cases/burnCanonicalTokenRefund.ts"
   },
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/celer-network/cBridge-typescript-client/issues"
+    "url": "https://github.com/klaytn/klaytn-developer-sdk/issues"
   },
-  "homepage": "https://github.com/celer-network/cBridge-typescript-client#readme",
+  "homepage": "https://github.com/klaytn/klaytn-developer-sdk/blob/main/packages/bridges-starter-kit/celer/README.md",
   "dependencies": {
     "axios": "^0.26.1",
     "celer-web-utils": "^1.0.9",

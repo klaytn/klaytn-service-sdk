@@ -5,10 +5,10 @@ import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
-import { getEstimation, requestRefund, getTransferStatus, getTransferConfigs } from "../APIs"
-import { getBridgeContractAddress, getContract, transactor } from "../helper"
-import BridgeABI from "../contract/abi/Bridge.sol/Bridge.json"
-import { statusTracker } from "../APIs/StatusTracker"
+import { getEstimation, requestRefund, getTransferStatus, getTransferConfigs } from "../core"
+import { getBridgeContractAddress, getContract, transactor } from "../core"
+import BridgeABI from "../core/contract/abi/Bridge.sol/Bridge.json"
+import { statusTracker } from "../core"
 
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress: string = process.env.WALLET_ADDRESS!

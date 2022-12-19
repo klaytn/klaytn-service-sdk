@@ -1,18 +1,17 @@
 import { JSDOM } from "jsdom"
 const { window } = new JSDOM()
 global.XMLHttpRequest = window.XMLHttpRequest
-import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
-import { getTransferStatus, getTransferConfigs, requestRefund, getEstimation } from "../APIs"
+import { getTransferStatus, getTransferConfigs, requestRefund, getEstimation } from "../core"
 import {
     getContract,
     getPegConfig,
     transactor,
-} from "../helper";
-import PeggedTokenBridgeABI from '../contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
-import PeggedTokenBridgeV2ABI from '../contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
+} from "../core";
+import PeggedTokenBridgeABI from '../core/contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
+import PeggedTokenBridgeV2ABI from '../core/contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
 
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress: string = process.env.WALLET_ADDRESS!

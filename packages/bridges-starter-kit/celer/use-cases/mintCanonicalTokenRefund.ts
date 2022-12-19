@@ -5,14 +5,14 @@ import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
-import { getTransferStatus, getTransferConfigs, requestRefund, getEstimation } from "../APIs"
+import { getTransferStatus, getTransferConfigs, requestRefund, getEstimation } from "../core"
 import {
     getContract,
     getPegConfig,
     transactor,
-} from "../helper"
-import OriginalTokenVaultABI from '../contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json'
-import OriginalTokenVaultV2ABI from '../contract/abi/pegged/OriginalTokenVaultV2.sol/OriginalTokenVaultV2.json';
+} from "../core"
+import OriginalTokenVaultABI from '../core/contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json'
+import OriginalTokenVaultV2ABI from '../core/contract/abi/pegged/OriginalTokenVaultV2.sol/OriginalTokenVaultV2.json';
 
 const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
 const walletAddress: string = process.env.WALLET_ADDRESS!
