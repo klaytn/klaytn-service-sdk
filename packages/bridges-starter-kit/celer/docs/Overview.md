@@ -1,4 +1,4 @@
-# Introduction
+# Overview
 This @klaytn-sdk module contains scripts to help you interact / integrate cBridge into your applications robustly
 without explicitly digging into cBridge technical documentation or scratching your head ;)
 
@@ -8,7 +8,8 @@ Want to learn more about cBridge ? [This](https://cbridge-docs.celer.network) sh
 
 # What can I do with this module?
 If you're a fan of thanos and looking for an _infinity stone_ to roll out cBridge support in your application
-with just one snap! you're at right place :) ![img.jpg](./img.jpg)
+with just one snap! you're at right place :) 
+![img.jpg](./img.jpg)
 
 Let me tell you what will happen after thanos snap
 
