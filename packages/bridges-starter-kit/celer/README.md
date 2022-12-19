@@ -4,7 +4,7 @@
   - [Folder Structure](#folder-structure)
   - [Setup](#setup)
   - [Overview & use-cases](docs/Overview.md)
-  - [ENV Variables explanation](docs/.env_explanation.md)
+  - [ENV Variables explanation](docs/ParamsExplanation.md)
   - [Prerequisits](docs/Prerequisites.md)
   - [Reference Docs:](#reference-docs)
 

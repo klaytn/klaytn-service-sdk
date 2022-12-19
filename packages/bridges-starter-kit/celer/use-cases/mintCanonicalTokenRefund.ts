@@ -14,30 +14,30 @@ import {
 import OriginalTokenVaultABI from '../core/contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json'
 import OriginalTokenVaultV2ABI from '../core/contract/abi/pegged/OriginalTokenVaultV2.sol/OriginalTokenVaultV2.json';
 
-const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
-const walletAddress: string = process.env.WALLET_ADDRESS!
+export async function mintCanonicalTokenRefund(
+    CBRIDGE_GATEWAY_URL: string,
+    WALLET_ADDRESS: string,
+    SRC_CHAIN_ID: number,
+    DST_CHAIN_ID: number,
+    SLIPPAGE_TOLERANCE: number,
+    TOKEN_SYMBOL: string,
+    DEPOSIT_ID: string,
+    AMOUNT: string
+) {
+    const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
 
-;( async () => {
-    const srcChainId = parseInt(process.env.CHAIN1_ID!);
-    const dstChainId = parseInt(process.env.CHAIN2_ID!);
-    const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
-    const tokenSymbol = process.env.TOKEN_SYMBOL!;
-    const depositId = "C07B200B9976E3CEC41C7CEE32F183F68A6DD37F43CBCD4C2C360382B76DFCC6"; //Replace your transfer Id here
-    const amount = process.env.AMOUNT ? process.env.AMOUNT: "0"; // Replace mint amount here (if not set in .env file)
-    const transferConfigs = await getTransferConfigs(rpc);
+    const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version < 2)?.pegged_deposit_contract_addr
+    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_ID)
+    const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version === 2)?.pegged_deposit_contract_addr
+    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_ID)
 
-    const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === srcChainId && config.vault_version < 2)?.pegged_deposit_contract_addr
-    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, srcChainId)
-    const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === srcChainId && config.vault_version === 2)?.pegged_deposit_contract_addr
-    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, srcChainId)
-
-    const pegConfig = getPegConfig(transferConfigs, srcChainId, dstChainId, tokenSymbol);
+    const pegConfig = getPegConfig(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL);
     const vaultVersion = pegConfig?.vault_version;
     const originalTokenContract = vaultVersion === 2 ? originalTokenVaultV2 : originalTokenVault;
 
     console.log("1. Initiating refund request...");
     // Transfer status should not be 0, 5 OR 10
-    const transferStatus = await getTransferStatus(rpc, depositId);
+    const transferStatus = await getTransferStatus(CBRIDGE_GATEWAY_URL, DEPOSIT_ID);
     if (transferStatus.status === 0) {
         console.error("cBRIDGE => TRANSFER_ID UNKNOWN / INVALID");
         return;
@@ -49,14 +49,14 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
         return;
     } else {
         console.log("1. Estimating refund request...");
-        const estimated = await getEstimation(rpc, walletAddress, srcChainId, tokenSymbol, amount, slippageTolerance)
+        const estimated = await getEstimation(CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, SRC_CHAIN_ID, TOKEN_SYMBOL, AMOUNT, SLIPPAGE_TOLERANCE)
 
         requestRefund(
             "MINT",
             originalTokenContract,
-            rpc,
-            depositId,
+            CBRIDGE_GATEWAY_URL,
+            DEPOSIT_ID,
             estimated
         )
     }
-})()
+}

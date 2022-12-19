@@ -9,9 +9,9 @@ You should have well-funded account
 **for mainnet** - use any DEX / CEX of your choice to get it
 
 ## 2. Valid Token SYMBOL
-You should have valid / supported token symbol (required to specify at `.env` file as **TOKEN_SYMBOL** e.g: `TOKEN_SYMBOL=USDC`)
+You should have valid / supported token symbol (required to specify at `use-cases` as **TOKEN_SYMBOL** e.g: `TOKEN_SYMBOL=USDC`)
 ## 3. Gateway URL
-You should have valid cBridge gateway URL to specify at `.env` file e.g: `CBRIDGE_GATEWAY_URL=https://cbridge-v2-test.celer.network`
+You should have valid cBridge gateway URL to specify at `use-cases` e.g: `CBRIDGE_GATEWAY_URL=https://cbridge-v2-test.celer.network`
 ## 4. PRC URLs & Chain IDs
 You should have valid RPC URLs and chainIDs of source and destination chains
 

@@ -1,0 +1,97 @@
+import { JSDOM } from "jsdom"
+import {providers} from "ethers";
+const { window } = new JSDOM()
+global.XMLHttpRequest = window.XMLHttpRequest
+
+import { config } from "dotenv"
+config()
+
+import { estimateAmt, getTransferConfigs, getTransferStatus, poolBasedTransfer } from "../core"
+import {
+    getAllowance,
+    getTransferId,
+    getTransferObject,
+    checkApprove,
+    approve,
+    getBridgeContractAddress,
+    getContract,
+    getConfirmations
+} from "../core"
+import BridgeABI from "../core/contract/abi/Bridge.sol/Bridge.json"
+import { statusTracker } from "../core"
+
+export async function poolTransfer(
+    CBRIDGE_GATEWAY_URL: string,
+    WALLET_ADDRESS: string,
+    SRC_CHAIN_ID: number,
+    DST_CHAIN_ID: number,
+    TOKEN_SYMBOL: string,
+    AMOUNT: string,
+    SLIPPAGE_TOLERANCE: number,
+    CONFIRMATIONS: number
+) {
+    console.log("0. get transfer config for transaction");
+    const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
+
+    const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
+    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_ID)
+
+    // check if TOKEN_SYMBOL is present in both chain tokens list
+    let isPresentInSrc = !!(transferConfigs.chain_token[SRC_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
+    let isPresentInDst = !!(transferConfigs.chain_token[DST_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
+
+    if(!(isPresentInSrc && isPresentInDst)) {
+        throw new Error("Please choose valid pairs");
+    }
+
+    const { transferToken, value, toChain, nonce, fromChain } = getTransferObject(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL, AMOUNT)
+
+    /**Check user's on-chain token allowance for cBridge contract.
+     * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
+    console.log("1. Checking Allowance of tokens to cBridge contract");
+    const allowance = await getAllowance(WALLET_ADDRESS, bridgeAddress || '' , transferToken?.token?.address || '', fromChain?.id, transferToken?.token?.symbol, transferConfigs.pegged_pair_configs)
+    let needToApprove = false;
+    let isNative = transferConfigs.chains.filter(chain =>
+        (chain.id == SRC_CHAIN_ID && chain.gas_token_symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase())).length > 0;
+    needToApprove = checkApprove(allowance, AMOUNT, transferToken?.token, isNative)
+
+    if (needToApprove) {
+        console.log("Approving the tokens");
+        const approveTx = await approve(bridgeAddress || '', transferToken?.token, AMOUNT, SRC_CHAIN_ID)
+        if (!approveTx) {
+            console.log(`Cannot approve the token`)
+            return
+        } else {
+            needToApprove = false
+        }
+        console.log("approveTx hash: " + approveTx.hash);
+        console.log("Waiting for the confirmations of approveTx");
+        const confirmationReceipt = await getConfirmations(approveTx.hash, CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+        console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
+    }
+
+    const transferId = getTransferId(
+        WALLET_ADDRESS,
+        transferToken?.token?.address,
+        value,
+        toChain?.id,
+        nonce,
+        fromChain?.id
+    )
+    console.log("TransferId:", transferId)
+
+    console.log("2. make an estimation for this transfer");
+    const estimateRequest = estimateAmt(SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL, WALLET_ADDRESS, SLIPPAGE_TOLERANCE, AMOUNT)
+
+    console.log("3. submit an on-chain send transaction");
+    let poolTransferTx = await poolBasedTransfer(bridgeContract, CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, estimateRequest, { transferToken, fromChain, toChain, value, nonce }, SRC_CHAIN_ID, isNative)
+
+    if ( !poolTransferTx) return;
+    console.log("poolTransferTx hash: " + poolTransferTx.hash);
+    console.log("Waiting for the confirmations of poolTransferTx");
+    const confirmationReceipt = await getConfirmations(poolTransferTx.hash, CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+    console.log(`poolTransferTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
+
+    console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
+    statusTracker(CBRIDGE_GATEWAY_URL, transferId)
+}

@@ -1,6 +1,6 @@
 import { Contract, providers, utils, Wallet } from "ethers"
 
-export const getSigner = (chainId?: number) => {
+export const getSigner = (chainId?: number) => { // TODO: restructure it to params
     let rpcUrl = "";
     if(parseInt(process.env.CHAIN1_ID!) == chainId) {
         rpcUrl = process.env.CHAIN1_RPC!;

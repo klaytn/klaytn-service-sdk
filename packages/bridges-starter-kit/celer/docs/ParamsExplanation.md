@@ -1,16 +1,16 @@
-# ENVIRONMENT Variables
-This file contains the detailed explanation of `.env` variables
+# PARAMETER Variables
+This file contains the detailed explanation of `use-cases` required **`parameter variables`**
 
 ## CBRIDGE_GATEWAY_URL
 This variable as its name shows, contains the Celer Bridge's Gateway URL (through which our SDK communicates with & performs all core features of cBridge).
 From [here](https://cbridge-docs.celer.network/developer/cbridge-sdk#cbridge-testnet-endpoint) you can get Testnet & Mainnet cBridge's Gateway URLs.
-## CHAIN1_RPC
+## SRC_CHAIN_RPC
 At this variable you should set the RPC endpoint of your source-chain (the chain from where you want to send your tokens to other chain)
-## CHAIN1_ID
+## SRC_CHAIN_ID
 At this variable you should set the chain ID of source-chain. From [here](https://chainlist.org) you can get the chain ID of your source-chain
-## CHAIN2_RPC
+## DST_CHAIN_RPC
 At this variable you should set the RPC endpoint of your destination-chain (the chain to where you want to receive your tokens)
-## CHAIN2_ID
+## DST_CHAIN_ID
 At this variable you should set the chain ID of destination-chain. From [here](https://chainlist.org) you can get the chain ID of your destination-chain
 ## TOKEN_SYMBOL
 At this variable you should set the SYMBOL of your token, which you want to move from source chain to destination.

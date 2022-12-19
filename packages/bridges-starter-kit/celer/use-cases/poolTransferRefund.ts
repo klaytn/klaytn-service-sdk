@@ -10,22 +10,22 @@ import { getBridgeContractAddress, getContract, transactor } from "../core"
 import BridgeABI from "../core/contract/abi/Bridge.sol/Bridge.json"
 import { statusTracker } from "../core"
 
-const rpc: string = process.env.CBRIDGE_GATEWAY_URL!
-const walletAddress: string = process.env.WALLET_ADDRESS!
-
-;(async () => {
-    const srcChainId = parseInt(process.env.CHAIN1_ID!);
-    const tokenSymbol = process.env.TOKEN_SYMBOL!;
-    const amount = process.env.AMOUNT!;
-    const slippageTolerance = parseInt(process.env.SLIPPAGE_TOLERANCE!);
-    const transferId = "0x422be184b0272d0bf8701e1d77f53e5cb74ed2d7d8c47caddd559620d9addc22"; //Replace your transfer Id here
-    console.log("0. Initiating refund transfer...");
-    const transferConfigs = await getTransferConfigs(rpc);
-    const bridgeAddress = getBridgeContractAddress(transferConfigs, srcChainId)
-    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, srcChainId)
+export async function poolTransferRefund(
+    CBRIDGE_GATEWAY_URL: string,
+    WALLET_ADDRESS: string,
+    SRC_CHAIN_ID: number,
+    TOKEN_SYMBOL: string,
+    AMOUNT: string,
+    SLIPPAGE_TOLERANCE: number,
+    TRANSFER_ID: string
+) {
+   console.log("0. Initiating refund transfer...");
+    const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
+    const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
+    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_ID)
 
     // Transfer status should not be 0, 5 OR 10
-    const transferStatus = await getTransferStatus(rpc, transferId);
+    const transferStatus = await getTransferStatus(CBRIDGE_GATEWAY_URL, TRANSFER_ID);
     if (transferStatus.status === 0) {
         console.error("cBRIDGE => TRANSFER_ID UNKNOWN / INVALID");
         return;
@@ -37,14 +37,14 @@ const walletAddress: string = process.env.WALLET_ADDRESS!
         return;
     } else {
         console.log("1. Estimating refund request...");
-        const estimated = await getEstimation(rpc, walletAddress, srcChainId, tokenSymbol, amount, slippageTolerance)
+        const estimated = await getEstimation(CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, SRC_CHAIN_ID, TOKEN_SYMBOL, AMOUNT, SLIPPAGE_TOLERANCE)
 
         requestRefund(
             "TRANSFER",
             bridgeContract,
-            rpc,
-            transferId,
+            CBRIDGE_GATEWAY_URL,
+            TRANSFER_ID,
             estimated
         )
     }
-})()
+}
