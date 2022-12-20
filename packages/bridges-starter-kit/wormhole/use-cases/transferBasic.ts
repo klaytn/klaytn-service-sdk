@@ -8,11 +8,11 @@ import {
 } from '@certusone/wormhole-sdk';
 import { Contract, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
-let Bridge =  require('./abi/bridge.json');
+let Bridge =  require('../core/abi/bridge.json');
 require("dotenv").config();
 
 let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
-  acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };  
+  acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };
   return acc;
 }, {});
 
@@ -75,14 +75,14 @@ const targetReceipient = Buffer.from(
     );
   } else {
     console.log("Check the tokens have enough approval to the tokenBridge");
-    let Erc20ABI =  require('./abi/erc20.json');
+    let Erc20ABI =  require('../core/abi/erc20.json');
     const tokenInterface = new utils.Interface(Erc20ABI);
 
     // check allowance and approve
     // Approving and transfering specified tokens.
     const tokenContract = new Contract(source.token, tokenInterface, sourceWallet)
     const allowance = await tokenContract?.allowance(sourceWallet.address, source.tokenBridge);
-    
+
     console.log("Allowance: "+allowance.toString());
     console.log("Amount   : "+utils.parseUnits(AMOUNT || "0", tokenContract?.decimal ?? 18).toString());
     let isGreaterThanAllowance = false;

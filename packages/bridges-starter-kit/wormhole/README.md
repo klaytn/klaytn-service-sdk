@@ -13,7 +13,7 @@ Wormhole is a communication bridge between Klaytn and other top decentralized fi
 
 ## Folder Structure
 
-- [examples](./examples): Ready-to-run code examples to call the Wormhole Rest APIs.
+- [examples](./use-cases): Ready-to-run code examples to call the Wormhole Rest APIs.
 
 ## Setup
 1. Copy `cp .env.example .env` and Modify environment variables in `.env` as per the quick start commands.

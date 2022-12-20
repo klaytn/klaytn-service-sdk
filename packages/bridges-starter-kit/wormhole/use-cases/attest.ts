@@ -7,11 +7,11 @@ import {
 } from '@certusone/wormhole-sdk';
 import { Contract, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
-let Bridge =  require('./abi/bridge.json');
+let Bridge =  require('../core/abi/bridge.json');
 require("dotenv").config();
 
 let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
-  acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };  
+  acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };
   return acc;
 }, {});
 
@@ -56,7 +56,7 @@ const destinationnWallet = new Wallet(
     sourceWallet, //Private Key to sign and pay for TX + RPC Endpoint
     source.token //Token Address
   );
-  
+
   await new Promise((r) => setTimeout(r, 2000));
   console.log("2. Retrive VAA and sequence");
   const emitterAddr = getEmitterAddressEth(source.tokenBridge);

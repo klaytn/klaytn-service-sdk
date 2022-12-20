@@ -1,11 +1,11 @@
 {
-  "name": "wormhole-starter-kit",
+  "name": "@klaytn-developer-sdk/bridge-wormhole",
   "version": "1.0.0",
-  "description": "Typescript and Javascript client and examples for wormhole",
-  "main": "index.js",
+  "description": "Typescript and Javascript client and use-cases for wormhole",
+  "main": "core/index.ts",
   "scripts": {
-    "test-attest": "ts-node examples/attest.ts",
-    "test-transfer-basic": "ts-node examples/transferBasic.ts"
+    "test-attest": "ts-node use-cases/attest.ts",
+    "test-transfer-basic": "ts-node use-cases/transferBasic.ts"
   },
   "author": "",
   "license": "GPL-3.0",
