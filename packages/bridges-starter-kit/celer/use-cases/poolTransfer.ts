@@ -30,12 +30,12 @@ export async function poolTransfer(
     AMOUNT: string,
     SLIPPAGE_TOLERANCE: number,
     CONFIRMATIONS: number
-) {
+): Promise<string> {
     console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
 
     const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
-    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_ID.toString())
+    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     // check if TOKEN_SYMBOL is present in both chain tokens list
     let isPresentInSrc = !!(transferConfigs.chain_token[SRC_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
@@ -60,8 +60,7 @@ export async function poolTransfer(
         console.log("Approving the tokens");
         const approveTx = await approve(bridgeAddress || '', SRC_CHAIN_RPC, PRIVATE_KEY, transferToken?.token, AMOUNT)
         if (!approveTx) {
-            console.log(`Cannot approve the token`)
-            return
+            throw new Error(`Cannot approve the token`)
         } else {
             needToApprove = false
         }
@@ -87,7 +86,7 @@ export async function poolTransfer(
     console.log("3. submit an on-chain send transaction");
     let poolTransferTx = await poolBasedTransfer(bridgeContract, CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, estimateRequest, { transferToken, fromChain, toChain, value, nonce }, SRC_CHAIN_RPC, PRIVATE_KEY, isNative)
 
-    if ( !poolTransferTx) return;
+    if ( !poolTransferTx) throw new Error("Cannot submit transaction");
     console.log("poolTransferTx hash: " + poolTransferTx.hash);
     console.log("Waiting for the confirmations of poolTransferTx");
     const confirmationReceipt = await poolTransferTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
@@ -95,4 +94,5 @@ export async function poolTransfer(
 
     console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
     statusTracker(CBRIDGE_GATEWAY_URL, transferId)
+    return transferId;
 }

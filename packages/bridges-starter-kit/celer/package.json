@@ -8,12 +8,13 @@
     "url": "git+https://github.com/klaytn/klaytn-developer-sdk.git"
   },
   "scripts": {
-    "test-transfer": "ts-node use-cases/poolTransfer.ts",
-    "test-transfer-refund": "ts-node use-cases/poolTransferRefund.ts",
-    "test-mint": "ts-node use-cases/mintCanonicalToken.ts",
-    "test-mint-refund": "ts-node use-cases/mintCanonicalTokenRefund.ts",
-    "test-burn": "ts-node use-cases/burnCanonicalToken.ts",
-    "test-burn-refund": "ts-node use-cases/burnCanonicalTokenRefund.ts"
+    "test-transfer": "mocha -r ts-node/register test/poolTransfer-test.ts -t 1200000",
+    "test-transfer-refund": "mocha -r ts-node/register test/poolTransferRefund-test.ts -t 1200000",
+    "test-mint": "mocha -r ts-node/register test/mintCanonicalToken-test.ts -t 1200000",
+    "test-mint-refund": "mocha -r ts-node/register test/mintCanonicalTokenRefund-test.ts -t 1200000",
+    "test-burn": "mocha -r ts-node/register test/burnCanonicalToken-test.ts -t 1200000",
+    "test-burn-refund": "ts-node use-cases/burnCanonicalTokenRefund.ts",
+    "test": "mocha -r ts-node/register test/*.ts"
   },
   "license": "GPL-3.0",
   "bugs": {
@@ -32,6 +33,6 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
-    "ts-node": "^10.7.0"
+    "ts-node": "^10.9.1"
   }
 }
