@@ -1,10 +1,15 @@
 import { Contract, providers, utils, Wallet } from "ethers"
 
 export const getSigner = (chainRPC: string, privateKey?: string) => {
-    return new Wallet(
-        privateKey || "",
-        new providers.JsonRpcProvider(chainRPC)
-    );
+    if (!privateKey){
+        return new providers.JsonRpcProvider(chainRPC)
+    }
+    else {
+        return new Wallet(
+            privateKey,
+            new providers.JsonRpcProvider(chainRPC)
+        );
+    }
 }
 
 export const getContract = (address: string, abi: any, chainRPC: string, privateKey?: string) => {

@@ -1,4 +1,4 @@
-export { poolTransfer } from './poolTransferFlow'
+export { poolTransfer } from './poolTransfer'
 export { poolTransferRefund } from './poolTransferRefund'
 export { mintCanonicalToken } from './mintCanonicalToken'
 export { mintCanonicalTokenRefund } from './mintCanonicalTokenRefund'
