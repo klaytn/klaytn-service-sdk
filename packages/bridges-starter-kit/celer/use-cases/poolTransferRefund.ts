@@ -8,6 +8,7 @@ config()
 import { getEstimation, requestRefund, getTransferStatus, getTransferConfigs } from "../core"
 import { getBridgeContractAddress, getContract, transactor } from "../core"
 import BridgeABI from "../core/contract/abi/Bridge.sol/Bridge.json"
+import { ContractReceipt } from "ethers"
 
 export async function poolTransferRefund(
     CBRIDGE_GATEWAY_URL: string,
@@ -20,7 +21,7 @@ export async function poolTransferRefund(
     SLIPPAGE_TOLERANCE: number,
     TRANSFER_ID: string,
     CONFIRMATIONS: number
-) {
+): Promise<ContractReceipt> {
    console.log("0. Initiating refund transfer...");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
     const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
@@ -30,18 +31,20 @@ export async function poolTransferRefund(
     const transferStatus = await getTransferStatus(CBRIDGE_GATEWAY_URL, TRANSFER_ID);
     if (transferStatus.status === 0) {
         console.error("cBRIDGE => TRANSFER_ID UNKNOWN / INVALID");
-        return;
+        throw new Error("cBRIDGE => TRANSFER_ID UNKNOWN / INVALID")
     } else if (transferStatus.status === 5){
         console.error("cBRIDGE => TRANSFER_ALREADY_COMPLETED / NON_REFUNDABLE");
-        return;
+        throw new Error("cBRIDGE => TRANSFER_ALREADY_COMPLETED / NON_REFUNDABLE");
+
     }else if (transferStatus.status === 10){
         console.error("cBRIDGE => TRANSFER_ALREADY_REFUNDED");
-        return;
+        throw new Error("cBRIDGE => TRANSFER_ALREADY_REFUNDED");
+
     } else {
         console.log("1. Estimating refund request...");
         const estimated = await getEstimation(CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, SRC_CHAIN_ID, TOKEN_SYMBOL, AMOUNT, SLIPPAGE_TOLERANCE)
 
-        requestRefund(
+        return await requestRefund(
             "TRANSFER",
             bridgeContract,
             CBRIDGE_GATEWAY_URL,
@@ -50,6 +53,6 @@ export async function poolTransferRefund(
             SRC_CHAIN_RPC,
             PRIVATE_KEY,
             CONFIRMATIONS
-        )
+        ) as ContractReceipt
     }
 }

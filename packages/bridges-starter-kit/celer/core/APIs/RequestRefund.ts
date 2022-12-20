@@ -3,7 +3,7 @@ import { GetTransferStatusResponse, WithdrawLiquidityRequest, WithdrawMethodType
 import { WithdrawReq, WithdrawType } from "../ts-proto/sgn/cbridge/v1/tx_pb"
 import { getTransferStatus } from "./GetData"
 import { parseRefundTxResponse } from "./withdraw"
-import { Contract, ContractTransaction } from "ethers"
+import { Contract, ContractReceipt, ContractTransaction } from "ethers"
 import { transactor } from "../helper"
 import { statusTracker } from "./StatusTracker"
 
@@ -15,7 +15,7 @@ export const requestRefund = async (
     estimated: string,
     SRC_CHAIN_RPC: string,
     PRIVATE_KEY: string,
-    CONFIRMATIONS: number ) => {
+    CONFIRMATIONS: number ): Promise<ContractReceipt> => {
     const client = new WebClient(CBRIDGE_GATEWAY_URL, null, null)
 
     const timestamp = Math.floor(Date.now() / 1000)
@@ -33,6 +33,9 @@ export const requestRefund = async (
     console.log("2. Submitting withdrawal request to cBRIDGE network...");
     const wres = await client.withdrawLiquidity(req, null)
     let refundTx: ContractTransaction;
+    let statusTx = (status:number) => { return status}
+    let resolver;
+    let refund = new Promise( (r) => { resolver = r;} )
     if (!wres.getErr() || wres.getErr()?.getCode() == 500) {
         statusTracker(CBRIDGE_GATEWAY_URL, TRANSFER_ID, async (res: GetTransferStatusResponse.AsObject) => {
             if (res.status !== 8) return console.error("invalid transfer status: " + res.status);
@@ -53,7 +56,7 @@ export const requestRefund = async (
                 SRC_CHAIN_RPC,
                 PRIVATE_KEY
             )
-            if ( !refundTx) return console.log("Error while refunding on-chain");
+            if ( !refundTx) throw new Error("Error while refunding on-chain");
 
             console.log("refundTx hash: " + refundTx.hash);
             console.log("Waiting for the confirmations of refundTx");
@@ -62,7 +65,9 @@ export const requestRefund = async (
             console.log(`refundTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
 
             statusTracker(CBRIDGE_GATEWAY_URL, TRANSFER_ID, null,8);
+            resolver(confirmationReceipt);
         }, 7)
+        return await refund as ContractReceipt;
 
     } else {
         console.log(`Refund error`, wres.getErr()?.toObject())
