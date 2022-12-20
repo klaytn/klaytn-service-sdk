@@ -16,7 +16,9 @@
     "celer:test-mint": "yarn workspace cbridge-starter-kit test-mint",
     "celer:test-mint-refund": "yarn workspace cbridge-starter-kit test-mint-refund",
     "celer:test-burn": "yarn workspace cbridge-starter-kit test-burn",
-    "celer:test-burn-refund": "yarn workspace cbridge-starter-kit test-burn-refund"
+    "celer:test-burn-refund": "yarn workspace cbridge-starter-kit test-burn-refund",
+    "wormhole:test-attest": "yarn workspace wormhole-starter-kit test-attest",
+    "wormhole:test-transfer-basic": "yarn workspace wormhole-starter-kit test-transfer-basic"
   },
   "workspaces": {
     "packages": [
