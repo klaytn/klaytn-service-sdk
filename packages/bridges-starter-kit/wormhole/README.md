@@ -13,17 +13,17 @@ Wormhole is a communication bridge between Klaytn and other top decentralized fi
 
 ## Folder Structure
 
-- [examples](./use-cases): Ready-to-run code examples to call the Wormhole Rest APIs.
+- [core](./core): it includes @wormhole-sdk and the contracts ABIs
+- [use-cases](./use-cases): Ready-to-run code of some use-cases to call the Wormhole Rest APIs.
 
 ## Setup
-1. Copy `cp .env.example .env` and Modify environment variables in `.env` as per the quick start commands.
 2. `yarn install`
 
 ## Quick Start
-You can run the below commands to test
+You can run following ready-made use-cases to test
 ## 1.Token Attestation
 To attest a token of one chain (source chain) to another chain (destination chain) for EVM compatible chains, please perform the following steps:
-1. Make sure .env is updated. Below table explains the environment variables required for attestation process. 
+1. Make sure are required params are provided. Below table explains the variables required for attestation process. 
 
 | Variable        | Description           | Example  | References |
 | ------------- | ------------- | ------------- | ------------- |
@@ -37,13 +37,13 @@ To attest a token of one chain (source chain) to another chain (destination chai
 | DESTINATION_RPC_URL | destination chain rpc url      | https://ethereum-goerli-rpc.allthatnode.com | |
 | DESTINATION_TOKEN_BRIDGE | destination chain token bridge      | 0xF890982f9310df57d00f659cf4fd87e65adEd8d7 | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
 2. Make sure the Token to be attested is present in source chain. Native fee coins in source and destination chain is sufficient
-3. Run following command to attest
-```sh
-npm run test-attest
+3. import this use-case with
+```typescript
+import { attest } from '@klaytn-developer-sdk/bridge-wormhole/use-cases';
 ```
 ## 2.Transfer Tokens
 To transfer tokens from source chain to destination chain for EVM compatible chains, please perform the following steps:
-1. Make sure .env is updated. Below table explains the environment variables required for attestation process. 
+1. Make sure the required params updated. Below table explains the variables required for attestation process. 
 
 | Variable        | Description           | Example  | References |
 | ------------- | ------------- | ------------- | ------------- |
@@ -60,9 +60,9 @@ To transfer tokens from source chain to destination chain for EVM compatible cha
 | IS_NATIVE_TRANSFER | is native transfer (Y/N)      | Y | |
 | AMOUNT_TO_BE_TRANSFERRED | amount to be transferred (Ex: 1 coin) | 1 | |
 2. Make sure the tokens/coins in source chain and native fee coins in destination chain is sufficient
-3. Run following command to transfer
-```sh
-npm run test-transfer-basic
+3. import this use-case with
+```typescript
+import { transferBasics } from '@klaytn-developer-sdk/bridge-wormhole/use-cases';
 ```
 
 ## Reference Docs:
