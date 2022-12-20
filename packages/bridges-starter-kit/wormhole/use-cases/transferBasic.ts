@@ -5,64 +5,56 @@ import {
   transferFromEthNative,
   tryNativeToHexString,
   CHAINS
-} from '@certusone/wormhole-sdk';
-import { Contract, providers, utils, Wallet } from "ethers"
+} from '../core';
+import { Contract, ContractTransaction, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
 let Bridge =  require('../core/abi/bridge.json');
-require("dotenv").config();
 
-let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
-  acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };
-  return acc;
-}, {});
+
 
 // Transfer native coins/tokens from Source chain to Destination chain (Below code works only for EVM compatible chains)
 // Attest the token before performing a transfer
 
-let config = {
-  wormhole: {
-    restAddress: process.env.WORMHOLE_REST_URL?? ''
-  }
-};
-const AMOUNT = process.env.AMOUNT_TO_BE_TRANSFERRED?? ''; // Amount to be transfered
-const IS_NATIVE = process.env.IS_NATIVE_TRANSFER || "Y"; // Enable if Native coin is transfered
+export async function transferBasic(
+    config: { wormhole: { restAddress: string } },
+    source: {
+      token: string, // source token
+      privatekey: string,
+      rpcUrl: string,
+      coreBridge: string,
+      tokenBridge: string,
+      wormholeChainId: string },
+    destination: {
+      privatekey: string,
+      rpcUrl: string,
+      tokenBridge: string,
+      wormholeChainId: string },
+    AMOUNT: string, // Amount to be transferred
+    IS_NATIVE: boolean // Enable if Native coin is transferred
+): Promise<ContractTransaction> {
 
-const source = {
-  token: process.env.SOURCE_TOKEN?? '', // source token
-  privatekey: process.env.SOURCE_PRIVATE_KEY?? '',
-  rpcUrl: process.env.SOURCE_RPC_URL?? '',
-  coreBridge: process.env.SOURCE_CORE_BRIDGE?? '',
-  tokenBridge: process.env.SOURCE_TOKEN_BRIDGE?? '',
-  wormholeChainId: process.env.SOURCE_WORMHOLE_CHAIN_ID?? '13'
-};
+  let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
+    acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };
+    return acc;
+  }, {});
+  const sourceWallet = new Wallet(
+      source.privatekey,
+      new providers.JsonRpcProvider(source.rpcUrl)
+  );
+  const destinationnWallet = new Wallet(
+      destination.privatekey,
+      new providers.JsonRpcProvider(destination.rpcUrl)
+  );
 
-const destination = {
-  privatekey: process.env.DESTINATION_PRIVATE_KEY?? '',
-  rpcUrl: process.env.DESTINATION_RPC_URL?? '',
-  tokenBridge: process.env.DESTINATION_TOKEN_BRIDGE?? '',
-  wormholeChainId: process.env.DESTINATION_WORMHOLE_CHAIN_ID?? '2'
-};
+  const targetReceipient = Buffer.from(
+      tryNativeToHexString(destinationnWallet.address, CHAINSBYID[destination.wormholeChainId].name),
+      "hex"
+  );
 
-const sourceWallet = new Wallet(
-  source.privatekey,
-  new providers.JsonRpcProvider(source.rpcUrl)
-);
-const destinationnWallet = new Wallet(
-  destination.privatekey,
-  new providers.JsonRpcProvider(destination.rpcUrl)
-);
-
-const targetReceipient = Buffer.from(
-  tryNativeToHexString(destinationnWallet.address, CHAINSBYID[destination.wormholeChainId].name),
-  "hex"
-);
-
-
-(async () => {
   console.log("1. Submit transaction - results in a Wormhole message being published");
 
   let receipt:any;
-  if(IS_NATIVE === "Y") {
+  if(IS_NATIVE) {
     receipt = await transferFromEthNative(
       source.tokenBridge,
       sourceWallet,
@@ -138,10 +130,11 @@ const targetReceipient = Buffer.from(
   console.log("3. Submit the VAA to the target chain by calling completeTransfer()");
   const contractInterface = new utils.Interface(Bridge['abi']);
   const targetTokenBridge = new Contract(destination.tokenBridge, contractInterface, destinationnWallet)
-  const completeTransferTx = await targetTokenBridge.completeTransfer(
+  const completeTransferTx: ContractTransaction = await targetTokenBridge.completeTransfer(
     Buffer.from(vaaBytes.vaaBytes, "base64"),
     {gasLimit: 2000000 }
   );
   console.log(completeTransferTx);
   console.log("Transaction status on Destination chain: "+completeTransferTx.hash);
-})();
+  return completeTransferTx;
+}

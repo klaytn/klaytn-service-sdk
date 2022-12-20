@@ -11,7 +11,7 @@ let Bridge =  require('../core/abi/bridge.json');
 
 // Attest a token from Source chain to Destination chain (Works only for EVM compatible chains)
 
-export async function attestor(
+export async function attest(
     config:{ wormhole: { restAddress: string }},
     source: {
       token: string, // Token to be attested
