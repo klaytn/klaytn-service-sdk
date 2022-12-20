@@ -13,8 +13,8 @@
     "test-mint": "mocha -r ts-node/register test/mintCanonicalToken-test.ts -t 1200000",
     "test-mint-refund": "mocha -r ts-node/register test/mintCanonicalTokenRefund-test.ts -t 1200000",
     "test-burn": "mocha -r ts-node/register test/burnCanonicalToken-test.ts -t 1200000",
-    "test-burn-refund": "ts-node use-cases/burnCanonicalTokenRefund.ts",
-    "test": "mocha -r ts-node/register test/*.ts"
+    "test-burn-refund": "mocha -r ts-node/register test/burnCanonicalTokenRefund-test.ts -t 1200000",
+    "test": "mocha -r ts-node/register test/*.ts"d
   },
   "license": "GPL-3.0",
   "bugs": {

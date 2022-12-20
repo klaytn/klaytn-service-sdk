@@ -15,8 +15,8 @@ describe("burnCanonicalToken", async () => {
 
     it("should init the params", async () => {
         CBRIDGE_GATEWAY_URL = 'https://cbridge-v2-test.celer.network'
-        WALLET_ADDRESS="0x1Efd3eFd7c78d98B155F724EB6A161C50d8CFbf0"
-        PRIVATE_KEY='ea04b975612cb9d108cc75bf13510d5a529006f6aed9056808681f8e74e03779'
+        WALLET_ADDRESS="0xPUBLIC_KEY_HERE"
+        PRIVATE_KEY='PRIVATE_KEY_HERE'
         SRC_CHAIN_ID=71401
         DST_CHAIN_ID=5
         SRC_CHAIN_RPC='https://godwoken-testnet-v1.ckbapp.dev'
