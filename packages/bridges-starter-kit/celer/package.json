@@ -1,0 +1,36 @@
+{
+  "name": "cbridge-starter-kit",
+  "version": "0.0.1",
+  "description": "TypeScript and JavaScript client and examples for cBridge",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/celer-network/cBridge-typescript-client.git"
+  },
+  "scripts": {
+    "test-transfer": "ts-node examples/poolTransferFlow.ts",
+    "test-transfer-refund": "ts-node examples/poolTransferFlowRefund.ts",
+    "test-mint": "ts-node examples/mintCanonicalToken.ts",
+    "test-mint-refund": "ts-node examples/mintCanonicalTokenRefund.ts",
+    "test-burn": "ts-node examples/burnCanonicalToken.ts",
+    "test-burn-refund": "ts-node examples/burnCanonicalTokenRefund.ts"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/celer-network/cBridge-typescript-client/issues"
+  },
+  "homepage": "https://github.com/celer-network/cBridge-typescript-client#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "celer-web-utils": "^1.0.9",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.1",
+    "google-protobuf": "^3.20.0-rc.2",
+    "grpc-web": "^1.4.1",
+    "jsdom": "^20.0.1",
+    "web3": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "ts-node": "^10.7.0"
+  }
+}

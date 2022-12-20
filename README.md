@@ -5,6 +5,8 @@
     - [Chainlink](#chainlink)
     - [Witnet](#witnet)
   - [Bridges Module](#bridges-module)
+    - [Celer Bridge](#celer-bridge)
+    - [Wormhole Bridge](#wormhole-bridge)
 - [Getting started](#getting-started)
     - [Requirement](#requirement)
     - [Quickstart](#quickstart)
@@ -19,18 +21,31 @@
 ## Oracles Module
 ### Chainlink
 Implementation of the following 4 Chainlink features using the [Hardhat](https://hardhat.org/) development environment:
-- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-price-feeds)
+- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-vrf-get-a-random-number)
+- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-keepers)
+- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-request--receive-data)
 
 ### Witnet
-- [Witnet Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md)
-- [Witnet Randomness on Klaytn](/packages/oracles-starter-kit/README.md)
+- [Witnet Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#witnet-price-feeds)
+- [Witnet Randomness on Klaytn](/packages/oracles-starter-kit/README.md#witnet-randomness)
+
 
 ## Bridges Module
-`In progress`
+### Celer Bridge
+Implementations:
+- [PoolBased Transfer](/packages/bridges-starter-kit/celer/README.md#1poolbased-transfer)
+- [PoolBased Transfer Refund](/packages/bridges-starter-kit/celer/README.md#12poolbased-transfer-refund)
+- [MintCanoncialToken](/packages/bridges-starter-kit/celer/README.md#2mint-canonical-token)
+- [MintCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#21mint-canoncial-token-refund)
+- [BurnCanoncialToken](/packages/bridges-starter-kit/celer/README.md#3burn-canonical-token)
+- [BurnCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#31burn-canoncial-token-refund)
+<br/>
 
+### Wormhole Bridge
+Implementations:
+- [Token Attestation](/packages/bridges-starter-kit/wormhole/README.md#1token-attestation)
+- [Transfer Tokens](/packages/bridges-starter-kit/wormhole/README.md#2transfer-tokens)
 <br/>
 
 # Getting started
