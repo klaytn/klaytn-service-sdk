@@ -29,11 +29,9 @@ export async function mintCanonicalToken(
     TOKEN_SYMBOL: string,
     AMOUNT: string,
     CONFIRMATIONS: number
-) {
+): Promise<string> {
     console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL)
-
-
 
     // check if its a valid pair transfer
     let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
@@ -47,9 +45,9 @@ export async function mintCanonicalToken(
     }
 
     const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version < 2)?.pegged_deposit_contract_addr
-    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_ID.toString())
+    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
     const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version === 2)?.pegged_deposit_contract_addr
-    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_ID.toString())
+    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
@@ -90,8 +88,7 @@ export async function mintCanonicalToken(
             AMOUNT
         )
         if (!approveTx) {
-            console.log(`Cannot approve the token`)
-            return
+            throw new Error(`Cannot approve the token`)
         } else {
             needToApprove = false
         }
@@ -102,8 +99,9 @@ export async function mintCanonicalToken(
     }
 
     try {
+        let depositId;
         if (vaultVersion === 2) {
-            const depositId = ethers.utils.solidityKeccak256(
+             depositId = ethers.utils.solidityKeccak256(
                 [
                     "address",
                     "address",
@@ -146,8 +144,9 @@ export async function mintCanonicalToken(
             console.log(`depositTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, depositId);
+            return depositId;
         } else {
-            const depositId = ethers.utils.solidityKeccak256(
+             depositId = ethers.utils.solidityKeccak256(
                 ["address", "address", "uint256", "uint64", "address", "uint64", "uint64"],
                 [
                     WALLET_ADDRESS,
@@ -179,8 +178,10 @@ export async function mintCanonicalToken(
             console.log(`depositTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, depositId);
+            return depositId;
         }
     } catch (error: any) {
         console.log(`-Error:`, error)
+        throw new Error(`-Error: ${error}`)
     }
 }
