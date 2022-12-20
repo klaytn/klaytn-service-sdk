@@ -1,26 +1,14 @@
 import { Contract, providers, utils, Wallet } from "ethers"
 
-export const getSigner = (chainId?: number) => { // TODO: restructure it to params
-    let rpcUrl = "";
-    if(parseInt(process.env.CHAIN1_ID!) == chainId) {
-        rpcUrl = process.env.CHAIN1_RPC!;
-    } else if(parseInt(process.env.CHAIN2_ID!) == chainId) {
-        rpcUrl = process.env.CHAIN2_RPC!;
-    }
+export const getSigner = (chainRPC: string, privateKey?: string) => {
     return new Wallet(
-        process.env.PRIVATE_KEY || "",
-        new providers.JsonRpcProvider(rpcUrl)
+        privateKey || "",
+        new providers.JsonRpcProvider(chainRPC)
     );
 }
 
-export const getContract = (address: string, abi: any, chainId?: number) => {
-    const contractSigner = getSigner(chainId)
+export const getContract = (address: string, abi: any, chainRPC: string, privateKey?: string) => {
+    const contractSigner = getSigner(chainRPC, privateKey);
     const contractInterface = new utils.Interface(abi);
     return new Contract(address, contractInterface, contractSigner)
-}
-export const getConfirmations = async (txHash: string, confirmations: number, rpc?: string) => {
-    const rpcUrl = process.env.CHAIN1_RPC!;
-    const provider = new providers.JsonRpcProvider(rpc ? rpc : rpcUrl);
-    return provider.waitForTransaction(txHash, confirmations);
-
 }

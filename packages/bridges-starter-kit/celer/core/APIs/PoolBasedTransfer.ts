@@ -11,7 +11,8 @@ export const poolBasedTransfer = async (
     addr: string,
     estimateRequest: EstimateAmtRequest,
     transferObject: ITransferObject,
-    srcChainId: number,
+    srcChainRPC: string,
+    privateKey: string,
     isNative?: boolean
 ): Promise<ContractTransaction | undefined> => {
     const client = new WebClient(rpc, null, null)
@@ -39,7 +40,8 @@ export const poolBasedTransfer = async (
                       BigNumber.from(estimateRequest.getSlippageTolerance() || estimateAmount.getMaxSlippage() || 0),
                       {gasLimit: 200000 }
                   ),
-                  srcChainId
+                  srcChainRPC,
+                  privateKey
         )
         return result;
     } catch (err: any) {

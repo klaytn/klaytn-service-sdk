@@ -11,7 +11,7 @@ import {
     getAllowance,
     checkApprove,
     approve,
-    getContract, getConfirmations
+    getContract
 } from "../core"
 import { getTransferConfigs } from "../core"
 import { ethers, providers, Wallet } from "ethers"
@@ -23,6 +23,7 @@ export async function burnCanonicalToken(
     CBRIDGE_GATEWAY_URL: string,
     SRC_CHAIN_RPC: string,
     WALLET_ADDRESS: string,
+    PRIVATE_KEY: string,
     SRC_CHAIN_ID: number,
     DST_CHAIN_ID: number,
     TOKEN_SYMBOL: string,
@@ -43,9 +44,9 @@ export async function burnCanonicalToken(
     }
 
     const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === SRC_CHAIN_ID && config.bridge_version < 2)?.pegged_burn_contract_addr
-    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, SRC_CHAIN_ID)
+    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
     const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === SRC_CHAIN_ID && config.bridge_version === 2)?.pegged_burn_contract_addr
-    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, SRC_CHAIN_ID)
+    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
@@ -68,6 +69,7 @@ export async function burnCanonicalToken(
         transferToken?.token?.address || "",
         SRC_CHAIN_ID,
         transferToken?.token?.symbol,
+        SRC_CHAIN_RPC,
         transferConfigs.pegged_pair_configs
     )
     let needToApprove = false;
@@ -79,9 +81,10 @@ export async function burnCanonicalToken(
         console.log("Approving the tokens");
         const approveTx = await approve(
             spenderAddress || "",
+            SRC_CHAIN_RPC,
+            PRIVATE_KEY,
             transferToken?.token,
-            AMOUNT,
-            SRC_CHAIN_ID
+            AMOUNT
         )
         if (!approveTx) {
             console.log(`Cannot approve the token`)
@@ -91,7 +94,7 @@ export async function burnCanonicalToken(
         }
         console.log("approveTx hash: " + approveTx.hash);
         console.log("Waiting for the confirmations of approveTx");
-        const confirmationReceipt = await getConfirmations(approveTx.hash, CONFIRMATIONS, SRC_CHAIN_RPC); // instead of waiting for fixed time, wait for some confirmations
+        const confirmationReceipt = await approveTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
         console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
     }
 
@@ -130,12 +133,13 @@ export async function burnCanonicalToken(
                         nonce,
                         {gasLimit: 200000 }
                     ),
-                    SRC_CHAIN_ID
+                    SRC_CHAIN_RPC,
+                    PRIVATE_KEY
                 )
             // TODO: should if tx was passed or failed (logically)
             console.log("burnTx hash: " + burnTx.hash);
             console.log("Waiting for the confirmations of burnTx");
-            const confirmationReceipt = await getConfirmations(burnTx.hash, CONFIRMATIONS, SRC_CHAIN_RPC); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await burnTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, burnId)
@@ -159,11 +163,12 @@ export async function burnCanonicalToken(
                                 WALLET_ADDRESS,
                                 nonce,
                                 {gasLimit: 200000 }),
-                            SRC_CHAIN_ID
+                            SRC_CHAIN_RPC,
+                            PRIVATE_KEY
                         );
             console.log("burnTx hash: " + burnTx.hash);
             console.log("Waiting for the confirmations of burnTx");
-            const confirmationReceipt = await getConfirmations(burnTx.hash, CONFIRMATIONS, SRC_CHAIN_RPC); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await burnTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, burnId)

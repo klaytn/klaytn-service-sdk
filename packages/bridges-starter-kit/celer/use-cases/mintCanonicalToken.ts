@@ -8,7 +8,7 @@ import { getTransferConfigs } from "../core"
 import {
     approve,
     checkApprove,
-    getAllowance, getConfirmations,
+    getAllowance,
     getContract,
     getPegConfig,
     getTransferObject,
@@ -22,8 +22,10 @@ import { statusTracker } from "../core"
 export async function mintCanonicalToken(
     CBRIDGE_GATEWAY_URL: string,
     WALLET_ADDRESS: string,
+    PRIVATE_KEY: string,
     SRC_CHAIN_ID: number,
     DST_CHAIN_ID: number,
+    SRC_CHAIN_RPC: string,
     TOKEN_SYMBOL: string,
     AMOUNT: string,
     CONFIRMATIONS: number
@@ -45,9 +47,9 @@ export async function mintCanonicalToken(
     }
 
     const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version < 2)?.pegged_deposit_contract_addr
-    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_ID)
+    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_ID.toString())
     const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version === 2)?.pegged_deposit_contract_addr
-    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_ID)
+    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_ID.toString())
 
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
@@ -70,6 +72,7 @@ export async function mintCanonicalToken(
         transferToken?.token?.address || "",
         SRC_CHAIN_ID,
         transferToken?.token?.symbol,
+        SRC_CHAIN_RPC,
         transferConfigs.pegged_pair_configs
     )
     let needToApprove = false;
@@ -81,9 +84,10 @@ export async function mintCanonicalToken(
         console.log("Approving the tokens");
         const approveTx = await approve(
             spenderAddress || "",
+            SRC_CHAIN_RPC,
+            PRIVATE_KEY,
             transferToken?.token,
-            AMOUNT,
-            SRC_CHAIN_ID
+            AMOUNT
         )
         if (!approveTx) {
             console.log(`Cannot approve the token`)
@@ -93,7 +97,7 @@ export async function mintCanonicalToken(
         }
         console.log("approveTx hash: " + approveTx.hash);
         console.log("Waiting for the confirmations of approveTx");
-        const confirmationReceipt = await getConfirmations(approveTx.hash, CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+        const confirmationReceipt = await approveTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
         console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
     }
 
@@ -132,12 +136,13 @@ export async function mintCanonicalToken(
                     nonce,
                     {gasLimit: 200000 }
                 ),
-                SRC_CHAIN_ID
+                SRC_CHAIN_RPC,
+                PRIVATE_KEY
             )
 
             console.log("depositTx hash: " + depositTx.hash);
             console.log("Waiting for the confirmations of depositTx");
-            const confirmationReceipt = await getConfirmations(depositTx.hash, CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await depositTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
             console.log(`depositTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, depositId);
@@ -165,11 +170,12 @@ export async function mintCanonicalToken(
                     nonce,
                     {gasLimit: 200000 }
                 ),
-                SRC_CHAIN_ID
+                SRC_CHAIN_RPC,
+                PRIVATE_KEY
             )
             console.log("depositTx hash: " + depositTx.hash);
             console.log("Waiting for the confirmations of depositTx");
-            const confirmationReceipt = await getConfirmations(depositTx.hash, CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await depositTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
             console.log(`depositTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, depositId);

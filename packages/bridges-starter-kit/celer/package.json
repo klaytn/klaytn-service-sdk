@@ -8,7 +8,7 @@
     "url": "git+https://github.com/klaytn/klaytn-developer-sdk.git"
   },
   "scripts": {
-    "test-transfer": "ts-node use-cases/poolTransferFlow.ts",
+    "test-transfer": "ts-node use-cases/poolTransfer.ts",
     "test-transfer-refund": "ts-node use-cases/poolTransferRefund.ts",
     "test-mint": "ts-node use-cases/mintCanonicalToken.ts",
     "test-mint-refund": "ts-node use-cases/mintCanonicalTokenRefund.ts",

@@ -16,12 +16,15 @@ import PeggedTokenBridgeV2ABI from '../core/contract/abi/pegged/PeggedTokenBridg
 export async function burnCanonicalTokenRefund(
     CBRIDGE_GATEWAY_URL: string,
     WALLET_ADDRESS: string,
-    DST_CHAIN_ID: number,
     SRC_CHAIN_ID: number,
+    DST_CHAIN_ID: number,
+    SRC_CHAIN_RPC: string,
+    PRIVATE_KEY: string,
     SLIPPAGE_TOLERANCE: number,
     TOKEN_SYMBOL: string,
     BURN_ID: string,
-    AMOUNT: string
+    AMOUNT: string,
+    CONFIRMATIONS: number
 ) {
 
     // const BURN_ID = "0x8b7b9a37a88342c5e0c53b518544a073b46d1677c490d2c4a9eb663404b36421"; //Replace your transfer Id here
@@ -29,12 +32,12 @@ export async function burnCanonicalTokenRefund(
 
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
 
-    const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === DST_CHAIN_ID && config.bridge_version < 2)?.pegged_burn_contract_addr
-    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, DST_CHAIN_ID)
-    const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === DST_CHAIN_ID && config.bridge_version === 2)?.pegged_burn_contract_addr
-    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, DST_CHAIN_ID)
+    const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === SRC_CHAIN_ID && config.bridge_version < 2)?.pegged_burn_contract_addr
+    const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, SRC_CHAIN_ID.toString())
+    const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === SRC_CHAIN_ID && config.bridge_version === 2)?.pegged_burn_contract_addr
+    const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, SRC_CHAIN_ID.toString())
 
-    const pegConfig = getPegConfig(transferConfigs, DST_CHAIN_ID, SRC_CHAIN_ID, TOKEN_SYMBOL)
+    const pegConfig = getPegConfig(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL)
     const bridgeVersion = pegConfig?.bridge_version;
     const peggedTokenContact = bridgeVersion === 2 ? peggedTokenBridgeV2: peggedTokenBridge;
 
@@ -52,14 +55,17 @@ export async function burnCanonicalTokenRefund(
         return;
     } else {
         console.log("1. Estimating refund request...");
-        const estimated = await getEstimation(CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, DST_CHAIN_ID, TOKEN_SYMBOL, AMOUNT, SLIPPAGE_TOLERANCE)
+        const estimated = await getEstimation(CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, SRC_CHAIN_ID, TOKEN_SYMBOL, AMOUNT, SLIPPAGE_TOLERANCE)
 
         requestRefund(
             "BURN",
             peggedTokenContact,
             CBRIDGE_GATEWAY_URL,
             BURN_ID,
-            estimated
+            estimated,
+            SRC_CHAIN_RPC,
+            PRIVATE_KEY,
+            CONFIRMATIONS
         )
     }
 

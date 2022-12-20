@@ -17,19 +17,22 @@ import OriginalTokenVaultV2ABI from '../core/contract/abi/pegged/OriginalTokenVa
 export async function mintCanonicalTokenRefund(
     CBRIDGE_GATEWAY_URL: string,
     WALLET_ADDRESS: string,
+    PRIVATE_KEY: string,
     SRC_CHAIN_ID: number,
     DST_CHAIN_ID: number,
+    SRC_CHAIN_RPC: string,
     SLIPPAGE_TOLERANCE: number,
     TOKEN_SYMBOL: string,
     DEPOSIT_ID: string,
-    AMOUNT: string
+    AMOUNT: string,
+    CONFIRMATIONS: number
 ) {
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
 
     const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version < 2)?.pegged_deposit_contract_addr
-    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_ID)
+    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_ID.toString())
     const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version === 2)?.pegged_deposit_contract_addr
-    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_ID)
+    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_ID.toString())
 
     const pegConfig = getPegConfig(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL);
     const vaultVersion = pegConfig?.vault_version;
@@ -56,7 +59,10 @@ export async function mintCanonicalTokenRefund(
             originalTokenContract,
             CBRIDGE_GATEWAY_URL,
             DEPOSIT_ID,
-            estimated
+            estimated,
+            SRC_CHAIN_RPC,
+            PRIVATE_KEY,
+            CONFIRMATIONS
         )
     }
 }

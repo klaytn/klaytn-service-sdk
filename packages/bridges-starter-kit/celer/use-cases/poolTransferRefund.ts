@@ -8,21 +8,23 @@ config()
 import { getEstimation, requestRefund, getTransferStatus, getTransferConfigs } from "../core"
 import { getBridgeContractAddress, getContract, transactor } from "../core"
 import BridgeABI from "../core/contract/abi/Bridge.sol/Bridge.json"
-import { statusTracker } from "../core"
 
 export async function poolTransferRefund(
     CBRIDGE_GATEWAY_URL: string,
     WALLET_ADDRESS: string,
+    PRIVATE_KEY: string,
     SRC_CHAIN_ID: number,
+    SRC_CHAIN_RPC: string,
     TOKEN_SYMBOL: string,
     AMOUNT: string,
     SLIPPAGE_TOLERANCE: number,
-    TRANSFER_ID: string
+    TRANSFER_ID: string,
+    CONFIRMATIONS: number
 ) {
    console.log("0. Initiating refund transfer...");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
     const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
-    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_ID)
+    const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     // Transfer status should not be 0, 5 OR 10
     const transferStatus = await getTransferStatus(CBRIDGE_GATEWAY_URL, TRANSFER_ID);
@@ -44,7 +46,10 @@ export async function poolTransferRefund(
             bridgeContract,
             CBRIDGE_GATEWAY_URL,
             TRANSFER_ID,
-            estimated
+            estimated,
+            SRC_CHAIN_RPC,
+            PRIVATE_KEY,
+            CONFIRMATIONS
         )
     }
 }

@@ -4,7 +4,7 @@ import { WithdrawReq, WithdrawType } from "../ts-proto/sgn/cbridge/v1/tx_pb"
 import { getTransferStatus } from "./GetData"
 import { parseRefundTxResponse } from "./withdraw"
 import { Contract, ContractTransaction } from "ethers"
-import { getConfirmations, transactor } from "../helper"
+import { transactor } from "../helper"
 import { statusTracker } from "./StatusTracker"
 
 export const requestRefund = async (
@@ -13,7 +13,8 @@ export const requestRefund = async (
     CBRIDGE_GATEWAY_URL: string,
     TRANSFER_ID: string,
     estimated: string,
-    SRC_CHAIN_ID: number,
+    SRC_CHAIN_RPC: string,
+    PRIVATE_KEY: string,
     CONFIRMATIONS: number ) => {
     const client = new WebClient(CBRIDGE_GATEWAY_URL, null, null)
 
@@ -49,7 +50,8 @@ export const requestRefund = async (
                         sigs,
                         signers,
                         powers, {gasLimit: 200000 }),
-                SRC_CHAIN_ID
+                SRC_CHAIN_RPC,
+                PRIVATE_KEY
             )
             if ( !refundTx) return console.log("Error while refunding on-chain");
 
