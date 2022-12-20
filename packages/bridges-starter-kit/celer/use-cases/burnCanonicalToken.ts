@@ -28,7 +28,7 @@ export async function burnCanonicalToken(
     DST_CHAIN_ID: number,
     TOKEN_SYMBOL: string,
     AMOUNT: string,
-    CONFIRMATIONS: number ) {
+    CONFIRMATIONS: number ): Promise<string> {
     console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL)
 
@@ -87,14 +87,17 @@ export async function burnCanonicalToken(
             AMOUNT
         )
         if (!approveTx) {
-            console.log(`Cannot approve the token`)
-            return
+            throw new Error(`Cannot approve the token`)
+
         } else {
             needToApprove = false
         }
         console.log("approveTx hash: " + approveTx.hash);
         console.log("Waiting for the confirmations of approveTx");
         const confirmationReceipt = await approveTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+        if (confirmationReceipt.status != 1) {
+            throw new Error(`approveTx reverted`)
+        }
         console.log(`approveTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
     }
 
@@ -136,13 +139,17 @@ export async function burnCanonicalToken(
                     SRC_CHAIN_RPC,
                     PRIVATE_KEY
                 )
-            // TODO: should if tx was passed or failed (logically)
+
             console.log("burnTx hash: " + burnTx.hash);
             console.log("Waiting for the confirmations of burnTx");
             const confirmationReceipt = await burnTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+            if (confirmationReceipt.status != 1) {
+                throw new Error(`burnTx reverted`)
+            }
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, burnId)
+            return burnId;
         } else {
             const burnId = ethers.utils.solidityKeccak256(
                 ["address", "address", "uint256", "address", "uint64", "uint64"],
@@ -169,11 +176,15 @@ export async function burnCanonicalToken(
             console.log("burnTx hash: " + burnTx.hash);
             console.log("Waiting for the confirmations of burnTx");
             const confirmationReceipt = await burnTx.wait(CONFIRMATIONS); // instead of waiting for fixed time, wait for some confirmations
+            if (confirmationReceipt.status != 1) {
+                throw new Error(`approveTx reverted`)
+            }
             console.log(`burnTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
             console.log("4. getTransferStatus for this transaction until the transfer is complete or needs a refund");
             statusTracker(CBRIDGE_GATEWAY_URL, burnId)
+            return burnId;
         }
     } catch (error: any) {
-        console.log(`-Error:`, error)
+        throw new Error(`-Error: ${error}`)
     }
 }
