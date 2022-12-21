@@ -1,7 +1,7 @@
 {
-  "name": "dexs-starter-kit",
+  "name": "@klaytn-developer-sdk/dex",
   "version": "1.0.0",
-  "description": "it includes dex-contracts integration & examples",
+  "description": "it includes dex-contracts integration & use-cases",
   "main": "core/index.ts",
   "scripts": {
     "example:liquidity:add": "ts-node use-cases/Liquidity/addLiquidity.ts",

@@ -131,6 +131,7 @@ export class Swap {
      * @return {DexRouter} - DexRouter contract's instance.
      */
     public getRouter(): DexRouter { return this.router}
+
     /**
      * A getter function to fetch instance of DexPair contract.
      * @param {string} tokenA - Address of token0 contract.
