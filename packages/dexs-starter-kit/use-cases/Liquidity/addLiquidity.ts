@@ -1,21 +1,38 @@
 import { Liquidity } from '../../core';
 import { KIP7__factory } from '../../contracts';
-import { Wallet, providers, BigNumber } from 'ethers'
-import { config } from 'dotenv'
-config()
-;(async () => {
+import { Wallet, providers, BigNumber, ContractReceipt } from 'ethers'
+
+/**
+ * A function to add liquidity to a given pair of tokens (token0 & token1).
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} routerAddress - DEX SWAP Router contract's address.
+ * @param {string} factoryAddress - DEX SWAP Factory contract's address.
+ * @param {string} token0Address - token0 a KIP7 contract's address of a given pair of tokens (whose liquidity to be added).
+ * @param {string} token1Address - token1 a KIP7 contract's address of a given pair of tokens (whose liquidity to be added).
+ * @param {string} token0DesiredAmount - desired / max amount of the tokens of token0 want to add as liquidity.
+ * @param {string} token1DesiredAmount - desired / max amount of the tokens of token1 want to add as liquidity.
+ * @param {string} token0MinAmount - minimum amount of the tokens of token0 want to add as liquidity.
+ * @param {string} token1MinAmount - minimum amount of the tokens of token1 want to add as liquidity.
+ * @param {number} confirmations - number of blocks confirmations a transaction should achieve to proceed.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function addLiquidity(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    routerAddress: string,
+    factoryAddress: string,
+    token0Address: string,
+    token1Address: string,
+    token0DesiredAmount: string,
+    token1DesiredAmount: string,
+    token0MinAmount: string,
+    token1MinAmount: string,
+    confirmations: number
+): Promise<ContractReceipt> {
     console.log('addLiquidity# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const routerAddress = process.env.ROUTER!
-    const factoryAddress = process.env.FACTORY!
-    const token0Address = process.env.TOKEN_0!
-    const token1Address = process.env.TOKEN_1!
-    const token0DesiredAmount = process.env.TOKEN_0_AMOUNT_DESIRED!
-    const token1DesiredAmount = process.env.TOKEN_1_AMOUNT_DESIRED!
-    const token0MinAmount = process.env.TOKEN_0_AMOUNT_MIN!
-    const token1MinAmount = process.env.TOKEN_1_AMOUNT_MIN!
 
     console.log('addLiquidity# balance')
     console.log('addLiquidity# balance => token0 => checking balance')
@@ -43,7 +60,7 @@ config()
         console.log("addLiquidity# allowance => token0 => approving");
         let approveTx = await  token0.approve(routerAddress, token0DesiredAmount)
         console.log("addLiquidity# allowance => token0 => waiting for confirmations of txHash: "+approveTx.hash);
-        await approveTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+        await approveTx.wait(confirmations || 6)
         console.log("addLiquidity# allowance => token0 => DONE");
     }
 
@@ -57,7 +74,7 @@ config()
         console.log("addLiquidity# allowance => token1 => approving");
         let approveTx = await  token1.approve(routerAddress, token1DesiredAmount)
         console.log("addLiquidity# allowance => token1 => waiting for confirmations of txHash: "+approveTx.hash);
-        await approveTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+        await approveTx.wait(confirmations || 6)
         console.log("addLiquidity# allowance => token1 => DONE");
     }
     console.log('addLiquidity# allowance => Good')
@@ -69,8 +86,8 @@ config()
     let addTx = await router.add(token0Address, token1Address, token0DesiredAmount, token1DesiredAmount, token0MinAmount, token1MinAmount, deadline.toString());
     console.log('addLiquidity# router => transaction => txHash: '+addTx.hash)
     console.log('addLiquidity# router => waiting for confirmations')
-    await addTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await addTx.wait(confirmations || 6)
     console.log('addLiquidity# router => DONE')
     console.log('addLiquidity# Liquidity has been added')
-
-})()
+    return receipt;
+}

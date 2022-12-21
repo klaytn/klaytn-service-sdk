@@ -1,20 +1,36 @@
 import { Liquidity } from '../../core';
 import { KIP7__factory } from '../../contracts';
-import { Wallet, providers, BigNumber } from 'ethers'
-import { config } from 'dotenv'
-config()
-;(async () => {
+import { Wallet, providers, BigNumber, ContractReceipt } from 'ethers'
+
+/**
+ * A function to add liquidity with Klay to a given pair of tokens (token & Klay).
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} routerAddress - DEX SWAP Router contract's address.
+ * @param {string} factoryAddress - DEX SWAP Factory contract's address.
+ * @param {string} tokenAddress - token a KIP7 contract's address of a given pair of tokens (whose liquidity to be added).
+ * @param {string} tokenDesiredAmount - desired / max amount of the tokens of Token want to add as liquidity.
+ * @param {string} klayDesiredAmount - desired / max amount of the tokens of Klay want to add as liquidity.
+ * @param {string} tokenMinAmount - minimum amount of the tokens of Token want to add as liquidity.
+ * @param {string} klayMinAmount - minimum amount of the tokens of Klay want to add as liquidity.
+ * @param {number} confirmations - number of blocks confirmations a transaction should achieve to proceed.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function addLiquidityWithKlay(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    routerAddress: string,
+    factoryAddress: string,
+    tokenAddress: string,
+    tokenDesiredAmount: string,
+    klayDesiredAmount: string,
+    tokenMinAmount: string,
+    klayMinAmount: string,
+    confirmations: number
+): Promise<ContractReceipt> {
     console.log('addLiquidityKlay# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const routerAddress = process.env.ROUTER!
-    const factoryAddress = process.env.FACTORY!
-    const tokenAddress = process.env.TOKEN_0!
-    const tokenDesiredAmount = process.env.TOKEN_0_AMOUNT_DESIRED!
-    const klayDesiredAmount = process.env.TOKEN_1_AMOUNT_DESIRED!
-    const tokenMinAmount = process.env.TOKEN_0_AMOUNT_MIN!
-    const klayMinAmount = process.env.TOKEN_1_AMOUNT_MIN!
 
     console.log('addLiquidityKLAY# balance')
     console.log('addLiquidityKLAY# balance => token => checking balance')
@@ -42,7 +58,7 @@ config()
         console.log("addLiquidityKLAY# allowance => token => approving");
         let approveTx = await  token.approve(routerAddress, tokenDesiredAmount)
         console.log("addLiquidityKLAY# allowance => token => waiting for confirmations of txHash: "+approveTx.hash);
-        await approveTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+        await approveTx.wait(confirmations || 6)
         console.log("addLiquidityKLAY# allowance => token => DONE");
     }
 
@@ -55,8 +71,8 @@ config()
     let addTx = await router.addWithKlay(tokenAddress, tokenDesiredAmount, klayDesiredAmount, tokenMinAmount, klayMinAmount, deadline.toString());
     console.log('addLiquidityKLAY# router => transaction => txHash: '+addTx.hash)
     console.log('addLiquidityKLAY# router => waiting for confirmations')
-    await addTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await addTx.wait(confirmations || 6)
     console.log('addLiquidityKLAY# router => DONE')
     console.log('addLiquidityKLAY# Liquidity has been added')
-
-})()
+    return receipt;
+}

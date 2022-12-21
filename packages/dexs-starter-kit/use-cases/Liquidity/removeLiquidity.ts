@@ -1,20 +1,37 @@
 import { Liquidity } from '../../core';
 import { DexPair } from '../../contracts';
-import { BigNumber } from 'ethers'
-import { config } from 'dotenv'
-config()
-;(async () => {
+import { BigNumber, ContractReceipt } from 'ethers'
+
+/**
+ * A function to remove liquidity from a given pair of tokens (token0 & token1).
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} routerAddress - DEX SWAP Router contract's address.
+ * @param {string} factoryAddress - DEX SWAP Factory contract's address.
+ * @param {string} token0Address - token0 a KIP7 contract's address of a given pair of tokens (whose liquidity to be removed).
+ * @param {string} token1Address - token1 a KIP7 contract's address of a given pair of tokens (whose liquidity to be removed).
+ * @param {string} token0MinAmount - minimum amount of the tokens of token0 want to receive.
+ * @param {string} token1MinAmount - minimum amount of the tokens of token1 want to receive.
+ * @param {string} liquidityAmount - amount of LP token known as liquidity which is required to be removed.
+ * @param {number} confirmations - number of blocks confirmations a transaction should achieve to proceed.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function removeLiquidity(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    routerAddress: string,
+    factoryAddress: string,
+    token0Address: string,
+    token1Address: string,
+    token0MinAmount: string,
+    token1MinAmount: string,
+    liquidityAmount: string,
+    confirmations: number
+): Promise<ContractReceipt> {
     console.log('removeLiquidity# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const routerAddress = process.env.ROUTER!
-    const factoryAddress = process.env.FACTORY!
-    const token0Address = process.env.TOKEN_0!
-    const token1Address = process.env.TOKEN_1!
-    const token0MinAmount = process.env.TOKEN_0_AMOUNT_MIN!
-    const token1MinAmount = process.env.TOKEN_1_AMOUNT_MIN!
-    const liquidityAmount = process.env.LIQUIDITY!
+
 
     console.log('removeLiquidity# router')
     console.log('removeLiquidity# router => setting up')
@@ -37,7 +54,7 @@ config()
         let approveTx = await  pair.approve(routerAddress, liquidityAmount)
         console.log('removeLiquidity# router => pair => allowance => txHash: '+approveTx.hash)
         console.log('removeLiquidity# router => pair => allowance => waiting for confirmations')
-        await approveTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+        await approveTx.wait(confirmations || 6)
         console.log('removeLiquidity# router => pair => allowance => Good')
     }
     else console.log('removeLiquidity# router => pair => allowance => Good')
@@ -48,8 +65,8 @@ config()
     let addTx = await router.remove(pair, liquidityAmount, token0MinAmount, token1MinAmount, deadline.toString());
     console.log('removeLiquidity# router => transaction => txHash: '+addTx.hash)
     console.log('removeLiquidity# router => waiting for confirmations')
-    await addTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await addTx.wait(confirmations || 6)
     console.log('removeLiquidity# router => DONE')
     console.log('removeLiquidity# Liquidity has been removed')
-
-})()
+    return receipt;
+}
