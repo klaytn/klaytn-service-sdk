@@ -6,5 +6,5 @@ This module of Klaytn-SDK includes the integration of [@klaytn/dex-contracts](ht
 For details information & documentation of each module of this package please refer to the docs linked below.
 - #### [Folder Structure of the package](./docs/FolderStructure.md)
 - #### [Prerequisites](./docs/Prerequisites.md)
-- #### [How to use](./docs/How to use.md)
+- #### [How Tos](./docs/HowToUse.md)
 
