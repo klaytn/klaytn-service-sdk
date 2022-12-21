@@ -1,18 +1,32 @@
 import { Swap } from "../../core"
 import { KIP7__factory, DexPair } from '../../contracts';
-import { Wallet, providers, BigNumber, constants } from 'ethers'
-import { config } from 'dotenv'
-config()
-;(async () => {
+import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers'
+
+/**
+ * A function to swap given amount of Tokens for exact amount of KLAYs.
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} routerAddress - DEX SWAP Router contract's address.
+ * @param {string} factoryAddress - DEX SWAP Factory contract's address.
+ * @param {string[]} path - a pair of tokens addresses, path[0] should be the address of Token & path[1] should be the address of WKLAY.
+ * @param {string} amountIn- max amount of Tokens to be swapped.
+ * @param {string} amountOut- exact amount of KLAYs expecting to receive.
+ * @param {string} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function swapTokensForExactKlay(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    routerAddress: string,
+    factoryAddress: string,
+    path: string[],
+    amountIn: string,
+    amountOut: string,
+    confirmations: number
+): Promise<ContractReceipt> {
     console.log('swapTokensForExactKlay# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const routerAddress = process.env.ROUTER!
-    const factoryAddress = process.env.FACTORY!
-    const path: string[] = JSON.parse(process.env.SWAP_ROUTE as string)
-    const amountIn = process.env.TOKEN_AMOUNT_IN!
-    const amountOut = process.env.TOKEN_AMOUNT_OUT!
 
     if(path.length != 2) throw new Error('swapTokensForExactKlay# invalid path');
 
@@ -33,7 +47,7 @@ config()
         let approveTx = await  tokenIn.approve(routerAddress, amountIn)
         console.log("swapTokensForExactKlay# tokenIn => allowance => txHash: "+approveTx.hash);
         console.log("swapTokensForExactKlay# tokenIn => allowance => waiting for confirmations");
-        await approveTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+        await approveTx.wait(confirmations || 6)
         console.log("swapTokensForExactKlay# tokenIn => allowance => DONE");
     }
 
@@ -56,8 +70,8 @@ config()
     let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     const swapTx = await router.tokensForExactKlay(amountOut, amountIn, path, deadline.toString())
     console.log('swapTokensForExactKlay# router => transaction => txHash: ' + swapTx.hash)
-    await swapTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await swapTx.wait(confirmations || 6)
     console.log('swapTokensForExactKlay# router => transaction => confirmed')
     console.log('swapTokensForExactKlay# DONE')
-
-})()
+    return receipt;
+}
