@@ -10,44 +10,44 @@ This module of Klaytn-SDK includes the integration of [@klaytn/dex-contracts](ht
   - **[/Staking.ts](/packages/dexs-starter-kit/core/Staking.ts)** - includes all the integration scripts of DEX's Staking contract
   - **[/index.ts](/packages/dexs-starter-kit/core/index.ts)** - is main file of all _`core/`_ scripts mentioned above.
   - **[/Config.ts](/packages/dexs-starter-kit/core/Config.ts)** - provides direct instance of each DEX's contract for the sake of customized functionalities to get integrated more easily.
-- **[/examples](/packages/dexs-starter-kit/examples)** - includes examples of each core service (mentioned above)
-  - **[/Swap](/packages/dexs-starter-kit/examples/Swap)** - includes examples of Swap contract
-    - **[/swapTokensForExactTokens.ts](/packages/dexs-starter-kit/examples/Swap/swapTokensForExactKlay.ts)** - includes an example script of swapping Tokens for exact Tokens.
-    - **[/swapExactTokensForTokens.ts](/packages/dexs-starter-kit/examples/Swap/swapExactTokensForTokens.ts)** - includes an example script of swapping exact Tokens for Tokens.
-    - **[/swapExactKlayForTokens.ts](/packages/dexs-starter-kit/examples/Swap/swapExactKlayForTokens.ts)** - includes an example script of swapping exact KLAY for Tokens.
-    - **[/swapExactTokensForKlay.ts](/packages/dexs-starter-kit/examples/Swap/swapExactTokensForKlay.ts)** - includes an example script of swapping exact KLAY for Tokens.
-    - **[/swapTokensForExactKlay.ts](/packages/dexs-starter-kit/examples/Swap/swapTokensForExactKlay.ts)** - includes an example script of swapping Tokens for exact KLAY.
-    - **[/swapKlayForExactTokens.ts](/packages/dexs-starter-kit/examples/Swap/swapKlayForExactTokens.ts)** - includes an example script of swapping KLAY for exact Tokens.  
-  - **[/Liquidity](/packages/dexs-starter-kit/examples/Liquidity)** - includes examples of Liquidity contract
-    - **[/addLiquidity.ts](/packages/dexs-starter-kit/examples/Liquidity/addLiquidity.ts)** - includes an example script of adding liquidity in given pair.
-    - **[/addLiquidityWithKlay.ts](/packages/dexs-starter-kit/examples/Liquidity/addLiquidityWithKlay.ts)** - includes an example script of adding KLAY liquidity in given pair.
-    - **[/removeLiquidity.ts](/packages/dexs-starter-kit/examples/Liquidity/removeLiquidity.ts)** - includes an example script of removing liquidity (LP token of given pair).
-    - **[/removeLiquidityWithKlay.ts](/packages/dexs-starter-kit/examples/Liquidity/removeLiquidityWithKlay.ts)** - includes an example script of removing liquidity (LP token of given KLAY pair).
-  - **[/Multisig](/packages/dexs-starter-kit/examples/Multisig)** - includes examples of Multisig contract
-    - **[/submitTransaction.ts](/packages/dexs-starter-kit/examples/Multisig/submitTransaction.ts)** - includes an example script of submitting given raw transaction data on Mutlisig contract.
-    - **[/confirmAndExecuteTransaction.ts](/packages/dexs-starter-kit/examples/Multisig/confirmAndExecuteTransaction.ts)** - includes an example script of confirming/voting the given transactionID.
-    - **[/executeTransaction.ts](/packages/dexs-starter-kit/examples/Multisig/executeTransaction.ts)** - includes an example script of executing transactionID who got enough votes/confirmations.
-    - **[/revokeConfirmation.ts](/packages/dexs-starter-kit/examples/Multisig/revokeConfirmation.ts)** - includes an example script of revoking confirmation/vote from given transactionID.
-  - **[/Farming](/packages/dexs-starter-kit/examples/Farming)** - includes examples of Farming contract
-    - **[/addPool.ts](/packages/dexs-starter-kit/examples/Farming/addPool.ts)** - includes an example script of adding new pool to Farming contract
-    - **[/deposit.ts](/packages/dexs-starter-kit/examples/Farming/deposit.ts)** - includes an example script of depositing given LP tokens in given pool
-    - **[/withdraw.ts](/packages/dexs-starter-kit/examples/Farming/withdraw.ts)** - includes an example script of withdrawing given LP tokens from given pool
-    - **[/emergencyWithdraw.ts](/packages/dexs-starter-kit/examples/Farming/emergencyWithdraw.ts)** - includes an example script for emergencyWithraw the lP token from given pool (using Multisig contract)
-    - **[/minterRole.ts](/packages/dexs-starter-kit/examples/Farming/minterRole.ts)** - includes an example script to grant minter role on Platform Token to Farming contract (using Multisig contract)
-    - **[/setPool.ts](/packages/dexs-starter-kit/examples/Farming/setPool.ts)** - includes an example script to update allocation points of given pool (using Multisig contract)
-    - **[/updateMultiplier.ts](/packages/dexs-starter-kit/examples/Farming/updateMultiplier.ts)** - includes an example script to update bonus multiplier of given pool (using Multisig contract)
-    - **[/updateRewardPerBlock.ts](/packages/dexs-starter-kit/examples/Farming/updateRewardPerBlock.ts)** - includes an example script to update reward per block of given pool (using Multisig contract)
-  - **[/Staking](/packages/dexs-starter-kit/examples/Staking)** - includes examples of Staking contract
-    - **[/deployPool.ts](/packages/dexs-starter-kit/examples/Staking/deployPool.ts)** - includes an example script to deploy new staking pool using StakingFactory contract
-    - **[/deposit.ts](/packages/dexs-starter-kit/examples/Staking/deposit.ts)** - includes an example script to stake tokens of given staking pool contract
-    - **[/withdraw.ts](/packages/dexs-starter-kit/examples/Staking/withdraw.ts)** - includes an example script to withdraw staked tokens from given staking pool contract
-    - **[/emergencyWithdraw.ts](/packages/dexs-starter-kit/examples/Staking/emergencyWithdraw.ts)** - includes an example script to emergency withdraw staked tokens from given staking pool contract (using Multisig contract)
-    - **[/emergencyRewardWithdraw.ts](/packages/dexs-starter-kit/examples/Staking/emergencyRewardWithdraw.ts)** - includes an example script to emergency withdraw reward tokens from given staking pool contract (using Multisig contract)
-    - **[/recoverToken.ts](/packages/dexs-starter-kit/examples/Staking/recoverToken.ts)** - includes an example script to recover token accidentally sent to Staking contract (using Multisig contract)
-    - **[/stopReward.ts](/packages/dexs-starter-kit/examples/Staking/stopReward.ts)** - includes an example script to stop reward on given staking pool contract (using Multisig contract)
-    - **[/updatePoolLimit.ts](/packages/dexs-starter-kit/examples/Staking/updatePoolLimit.ts)** - includes an example script to update pool limit of given staking pool contract (using Multisig contract)
-    - **[/updateReward.ts](/packages/dexs-starter-kit/examples/Staking/updateReward.ts)** - includes an example script to update reward per block of given staking pool contract (using Multisig contract)
-    - **[/updateStartAndEndBlock.ts](/packages/dexs-starter-kit/examples/Staking/updateStartAndEndBlocks.ts)** - includes an example script to update reward start & end block numbers of given staking pool contract (using Multisig contract)
+- **[/examples](/packages/dexs-starter-kit/use-cases)** - includes examples of each core service (mentioned above)
+  - **[/Swap](/packages/dexs-starter-kit/use-cases/Swap)** - includes examples of Swap contract
+    - **[/swapTokensForExactTokens.ts](/packages/dexs-starter-kit/use-cases/Swap/swapTokensForExactKlay.ts)** - includes an example script of swapping Tokens for exact Tokens.
+    - **[/swapExactTokensForTokens.ts](/packages/dexs-starter-kit/use-cases/Swap/swapExactTokensForTokens.ts)** - includes an example script of swapping exact Tokens for Tokens.
+    - **[/swapExactKlayForTokens.ts](/packages/dexs-starter-kit/use-cases/Swap/swapExactKlayForTokens.ts)** - includes an example script of swapping exact KLAY for Tokens.
+    - **[/swapExactTokensForKlay.ts](/packages/dexs-starter-kit/use-cases/Swap/swapExactTokensForKlay.ts)** - includes an example script of swapping exact KLAY for Tokens.
+    - **[/swapTokensForExactKlay.ts](/packages/dexs-starter-kit/use-cases/Swap/swapTokensForExactKlay.ts)** - includes an example script of swapping Tokens for exact KLAY.
+    - **[/swapKlayForExactTokens.ts](/packages/dexs-starter-kit/use-cases/Swap/swapKlayForExactTokens.ts)** - includes an example script of swapping KLAY for exact Tokens.  
+  - **[/Liquidity](/packages/dexs-starter-kit/use-cases/Liquidity)** - includes examples of Liquidity contract
+    - **[/addLiquidity.ts](/packages/dexs-starter-kit/use-cases/Liquidity/addLiquidity.ts)** - includes an example script of adding liquidity in given pair.
+    - **[/addLiquidityWithKlay.ts](/packages/dexs-starter-kit/use-cases/Liquidity/addLiquidityWithKlay.ts)** - includes an example script of adding KLAY liquidity in given pair.
+    - **[/removeLiquidity.ts](/packages/dexs-starter-kit/use-cases/Liquidity/removeLiquidity.ts)** - includes an example script of removing liquidity (LP token of given pair).
+    - **[/removeLiquidityWithKlay.ts](/packages/dexs-starter-kit/use-cases/Liquidity/removeLiquidityWithKlay.ts)** - includes an example script of removing liquidity (LP token of given KLAY pair).
+  - **[/Multisig](/packages/dexs-starter-kit/use-cases/Multisig)** - includes examples of Multisig contract
+    - **[/submitTransaction.ts](/packages/dexs-starter-kit/use-cases/Multisig/submitTransaction.ts)** - includes an example script of submitting given raw transaction data on Mutlisig contract.
+    - **[/confirmAndExecuteTransaction.ts](/packages/dexs-starter-kit/use-cases/Multisig/confirmAndExecuteTransaction.ts)** - includes an example script of confirming/voting the given transactionID.
+    - **[/executeTransaction.ts](/packages/dexs-starter-kit/use-cases/Multisig/executeTransaction.ts)** - includes an example script of executing transactionID who got enough votes/confirmations.
+    - **[/revokeConfirmation.ts](/packages/dexs-starter-kit/use-cases/Multisig/revokeConfirmation.ts)** - includes an example script of revoking confirmation/vote from given transactionID.
+  - **[/Farming](/packages/dexs-starter-kit/use-cases/Farming)** - includes examples of Farming contract
+    - **[/addPool.ts](/packages/dexs-starter-kit/use-cases/Farming/addPool.ts)** - includes an example script of adding new pool to Farming contract
+    - **[/deposit.ts](/packages/dexs-starter-kit/use-cases/Farming/deposit.ts)** - includes an example script of depositing given LP tokens in given pool
+    - **[/withdraw.ts](/packages/dexs-starter-kit/use-cases/Farming/withdraw.ts)** - includes an example script of withdrawing given LP tokens from given pool
+    - **[/emergencyWithdraw.ts](/packages/dexs-starter-kit/use-cases/Farming/emergencyWithdraw.ts)** - includes an example script for emergencyWithraw the lP token from given pool (using Multisig contract)
+    - **[/minterRole.ts](/packages/dexs-starter-kit/use-cases/Farming/minterRole.ts)** - includes an example script to grant minter role on Platform Token to Farming contract (using Multisig contract)
+    - **[/setPool.ts](/packages/dexs-starter-kit/use-cases/Farming/setPool.ts)** - includes an example script to update allocation points of given pool (using Multisig contract)
+    - **[/updateMultiplier.ts](/packages/dexs-starter-kit/use-cases/Farming/updateMultiplier.ts)** - includes an example script to update bonus multiplier of given pool (using Multisig contract)
+    - **[/updateRewardPerBlock.ts](/packages/dexs-starter-kit/use-cases/Farming/updateRewardPerBlock.ts)** - includes an example script to update reward per block of given pool (using Multisig contract)
+  - **[/Staking](/packages/dexs-starter-kit/use-cases/Staking)** - includes examples of Staking contract
+    - **[/deployPool.ts](/packages/dexs-starter-kit/use-cases/Staking/deployPool.ts)** - includes an example script to deploy new staking pool using StakingFactory contract
+    - **[/deposit.ts](/packages/dexs-starter-kit/use-cases/Staking/deposit.ts)** - includes an example script to stake tokens of given staking pool contract
+    - **[/withdraw.ts](/packages/dexs-starter-kit/use-cases/Staking/withdraw.ts)** - includes an example script to withdraw staked tokens from given staking pool contract
+    - **[/emergencyWithdraw.ts](/packages/dexs-starter-kit/use-cases/Staking/emergencyWithdraw.ts)** - includes an example script to emergency withdraw staked tokens from given staking pool contract (using Multisig contract)
+    - **[/emergencyRewardWithdraw.ts](/packages/dexs-starter-kit/use-cases/Staking/emergencyRewardWithdraw.ts)** - includes an example script to emergency withdraw reward tokens from given staking pool contract (using Multisig contract)
+    - **[/recoverToken.ts](/packages/dexs-starter-kit/use-cases/Staking/recoverToken.ts)** - includes an example script to recover token accidentally sent to Staking contract (using Multisig contract)
+    - **[/stopReward.ts](/packages/dexs-starter-kit/use-cases/Staking/stopReward.ts)** - includes an example script to stop reward on given staking pool contract (using Multisig contract)
+    - **[/updatePoolLimit.ts](/packages/dexs-starter-kit/use-cases/Staking/updatePoolLimit.ts)** - includes an example script to update pool limit of given staking pool contract (using Multisig contract)
+    - **[/updateReward.ts](/packages/dexs-starter-kit/use-cases/Staking/updateReward.ts)** - includes an example script to update reward per block of given staking pool contract (using Multisig contract)
+    - **[/updateStartAndEndBlock.ts](/packages/dexs-starter-kit/use-cases/Staking/updateStartAndEndBlocks.ts)** - includes an example script to update reward start & end block numbers of given staking pool contract (using Multisig contract)
 # How to setup
 1. `npm install`
 2. Copy `.env-examples` file to `.env` and set environment variables as per the example script you're going to run (mentioned below)

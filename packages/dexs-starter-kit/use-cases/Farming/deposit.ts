@@ -1,16 +1,26 @@
 import { Farming} from "../../core"
 import { KIP7__factory } from '../../contracts';
-import { Wallet, providers, BigNumber, constants } from 'ethers'
-import { config } from 'dotenv'
-config()
-;( async ()=> {
+import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers'
+
+/**
+ * A function to deposit given amount of LP token in given LP Farming pool.
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} farmingAddress - Farming contract's address.
+ * @param {string} depositAmount - amount of the LP KIP7 token going to be deposited.
+ * @param {string} poolId - pool id in which amount is going to be deposited.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function deposit(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    farmingAddress: string,
+    depositAmount: string,
+    poolId: string,
+): Promise<ContractReceipt> {
     console.log('deposit# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const farmingAddress = process.env.FARMING!
-    const depositAmount = process.env.AMOUNT!
-    const poolId = process.env.POOL_ID!
 
     console.log('deposit# Farming => setting up')
     const farming = new Farming(farmingAddress, privKey, rpcURL);
@@ -41,8 +51,10 @@ config()
     const depositTx = await farming.deposit(poolId, depositAmount)
     console.log('deposit# Farming => transaction => txHash: '+depositTx.hash)
     console.log('deposit# Farming => transaction => waiting for confirmations')
-    await depositTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await depositTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
     console.log('deposit# Farming => transaction => confirmed')
     console.log('deposit# Farming => DONE')
 
-})()
+    return receipt;
+
+}

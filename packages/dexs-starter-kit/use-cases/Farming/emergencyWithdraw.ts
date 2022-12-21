@@ -1,14 +1,23 @@
 import { Farming} from "../../core"
-import { BigNumber, constants } from 'ethers'
-import { config } from 'dotenv'
-config()
-;( async ()=> {
+import { BigNumber, constants, ContractReceipt } from 'ethers'
+
+/**
+ * A function to emergency withdraw funds from given LP farming pool.
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} farmingAddress - Farming contract's address.
+ * @param {string} poolId - pool id of LP farming pool from where funds are to be withdrawn.
+ * @return {Promise<ContractReceipt>} - ContractReceipt object.
+ */
+export async function emergencyWithdraw(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    farmingAddress: string,
+    poolId: string
+):Promise<ContractReceipt> {
     console.log('emergencyWithdraw# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const farmingAddress = process.env.FARMING!
-    const poolId = process.env.POOL_ID!
 
     console.log('emergencyWithdraw# Farming => setting up')
     const farming = new Farming(farmingAddress, privKey, rpcURL);
@@ -27,8 +36,8 @@ config()
     const withdrawTx = await farming.emergencyWithdraw(poolId)
     console.log('emergencyWithdraw# Farming => transaction => txHash: '+withdrawTx.hash)
     console.log('emergencyWithdraw# Farming => transaction => waiting for confirmations')
-    await withdrawTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await withdrawTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
     console.log('emergencyWithdraw# Farming => transaction => confirmed')
     console.log('emergencyWithdraw# Farming => DONE')
-
-})()
+    return receipt;
+}

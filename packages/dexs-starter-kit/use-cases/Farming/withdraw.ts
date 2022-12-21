@@ -1,15 +1,25 @@
 import { Farming} from "../../core"
-import { BigNumber, constants } from 'ethers'
-import { config } from 'dotenv'
-config()
-;( async ()=> {
+import { BigNumber, constants, ContractReceipt } from 'ethers'
+
+/**
+ * A function to withdraw LP tokens from given LP farming pool
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} farmingAddress - Farming contract's address.
+ * @param {string} withdrawAmount - amount of the LP KIP7 token going to be withdrawn.
+ * @param {string} poolId - pool id of LP farming pool from which amount is going to be withdrawn.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function withdraw(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    farmingAddress: string,
+    withdrawAmount: string,
+    poolId: string
+): Promise<ContractReceipt> {
     console.log('withdraw# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const farmingAddress = process.env.FARMING!
-    const withdrawAmount = process.env.AMOUNT!
-    const poolId = process.env.POOL_ID!
 
     console.log('withdraw# Farming => setting up')
     const farming = new Farming(farmingAddress, privKey, rpcURL);
@@ -29,8 +39,8 @@ config()
     const withdrawTx = await farming.withdraw(poolId, withdrawAmount)
     console.log('withdraw# Farming => transaction => txHash: '+withdrawTx.hash)
     console.log('withdraw# Farming => transaction => waiting for confirmations')
-    await withdrawTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await withdrawTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
     console.log('withdraw# Farming => transaction => confirmed')
     console.log('withdraw# Farming => DONE')
-
-})()
+    return receipt;
+}

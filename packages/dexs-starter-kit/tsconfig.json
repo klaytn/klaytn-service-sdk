@@ -23,5 +23,7 @@
     "esm": true
   },
   "exclude": ["node_modules/**/*"],
-  "include": ["core/*.ts", "examples/*.ts"],
+  "include": ["core/*.ts",
+    "use-cases/*.ts"
+  ],
 }
