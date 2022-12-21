@@ -1,13 +1,26 @@
 import { MultiSig} from "../../core"
-import { config } from 'dotenv'
-config()
-;( async ()=> {
+import { ContractReceipt } from 'ethers'
+/**
+ * A function execute the given transaction id (if it has already received enough votes).
+ * @notic only registered owner on MULTISIG contract can execute this function
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} multisigAddress - MULTISIG contract's address.
+ * @param {string} transactionId - the id of the transaction needs to be executed.
+ * @param {number} confirmations - number of blocks confirmations a transaction should achieve to proceed.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function ExecuteTransaction(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    multisigAddress: string,
+    transactionId: string,
+    confirmations: number
+): Promise<ContractReceipt> {
     console.log('ExecuteTransaction# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const multisigAddress = process.env.MULTISIG!
-    const transactionId = process.env.TRANSACTION_ID!
+
 
     console.log('ExecuteTransaction# Multisig => setting up')
     const multiSig = new MultiSig(multisigAddress, privKey, rpcURL);
@@ -32,10 +45,10 @@ config()
     const confirmTx = await multiSig.executeTransaction(transactionId);
     console.log('ExecuteTransaction# Multisig => Transaction => txHash: ' + confirmTx.hash)
     console.log('ExecuteTransaction# Multisig => Transaction => waiting for block confirmations')
-    await confirmTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await confirmTx.wait(confirmations || 6)
     console.log(`ExecuteTransaction# Multisig => Transaction => ${confirmTx.confirmations} blocks confirmed`)
     if((await multiSig.multiSig.getTransactionInfo(transactionId)).executed_)
         console.log('ExecuteTransaction# Multisig => transactionId => executed')
     else console.log('ExecuteTransaction# Multisig => OOPS => something went wrong!') // hint: increase gasLimit
-
-})()
+    return receipt;
+}
