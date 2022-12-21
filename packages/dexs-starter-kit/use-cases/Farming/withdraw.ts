@@ -9,6 +9,7 @@ import { BigNumber, constants, ContractReceipt } from 'ethers'
  * @param {string} farmingAddress - Farming contract's address.
  * @param {string} withdrawAmount - amount of the LP KIP7 token going to be withdrawn.
  * @param {string} poolId - pool id of LP farming pool from which amount is going to be withdrawn.
+ * @param {number} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
  * @return {Promise<ContractReceipt>} - ContractTransaction object.
  */
 export async function withdraw(
@@ -17,7 +18,8 @@ export async function withdraw(
     pubKey: string,
     farmingAddress: string,
     withdrawAmount: string,
-    poolId: string
+    poolId: string,
+    confirmations: number
 ): Promise<ContractReceipt> {
     console.log('withdraw# initiating...')
 
@@ -39,7 +41,7 @@ export async function withdraw(
     const withdrawTx = await farming.withdraw(poolId, withdrawAmount)
     console.log('withdraw# Farming => transaction => txHash: '+withdrawTx.hash)
     console.log('withdraw# Farming => transaction => waiting for confirmations')
-    const receipt = await withdrawTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await withdrawTx.wait(confirmations || 6)
     console.log('withdraw# Farming => transaction => confirmed')
     console.log('withdraw# Farming => DONE')
     return receipt;

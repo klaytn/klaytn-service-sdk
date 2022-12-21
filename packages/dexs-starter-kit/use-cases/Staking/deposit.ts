@@ -1,15 +1,26 @@
 import { Staking} from "../../core"
 import { KIP7__factory } from '../../contracts';
-import { Wallet, providers, BigNumber, constants } from 'ethers'
-import { config } from 'dotenv'
-config()
-;( async ()=> {
+import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers'
+
+/**
+ * A function to deposit given amount of Staked Token in given Staking Pool contract.
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} stakingAddress - Staking Pool contract's address.
+ * @param {string} depositAmount - amount of the KIP7 token (stakedToken) going to be staked.
+ * @param {string} confirmations - total block confirmations required to achieve per transaction to proceed.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function deposit(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    stakingAddress: string,
+    depositAmount: string,
+    confirmations: number
+): Promise<ContractReceipt> {
     console.log('deposit# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const stakingAddress = process.env.STAKING!
-    const depositAmount = process.env.AMOUNT!
 
     console.log('deposit# Staking => setting up')
     const staking = new Staking(stakingAddress, privKey, rpcURL);
@@ -33,7 +44,7 @@ config()
         const approvTx = await stakedToken.approve(stakingAddress, depositAmount)
         console.log('deposit# Staking => allowance => txHash: '+approvTx.hash)
         console.log('deposit# Staking => allowance => waiting for confirmations')
-        await approvTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+        await approvTx.wait(confirmations || 6)
         console.log('deposit# Staking => allowance => confirmed')
         console.log('deposit# Staking => allowance => Good')
     }
@@ -41,8 +52,9 @@ config()
     const depositTx = await staking.deposit(depositAmount)
     console.log('deposit# Staking => transaction => txHash: '+depositTx.hash)
     console.log('deposit# Staking => transaction => waiting for confirmations')
-    await depositTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await depositTx.wait(confirmations || 6)
     console.log('deposit# Staking => transaction => confirmed')
     console.log('deposit# Staking => DONE')
+    return receipt;
 
-})()
+}

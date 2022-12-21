@@ -10,6 +10,7 @@ import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers
  * @param {string} farmingAddress - Farming contract's address.
  * @param {string} depositAmount - amount of the LP KIP7 token going to be deposited.
  * @param {string} poolId - pool id in which amount is going to be deposited.
+ * @param {number} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
  * @return {Promise<ContractReceipt>} - ContractTransaction object.
  */
 export async function deposit(
@@ -19,6 +20,7 @@ export async function deposit(
     farmingAddress: string,
     depositAmount: string,
     poolId: string,
+    confirmations: number
 ): Promise<ContractReceipt> {
     console.log('deposit# initiating...')
 
@@ -43,7 +45,7 @@ export async function deposit(
         const approvTx = await lpToken.approve(farmingAddress, depositAmount)
         console.log('deposit# Farming => allowance => txHash: '+approvTx.hash)
         console.log('deposit# Farming => allowance => waiting for confirmations')
-        await approvTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+        await approvTx.wait(confirmations || 6)
         console.log('deposit# Farming => allowance => confirmed')
         console.log('deposit# Farming => allowance => Good')
     }
@@ -51,7 +53,7 @@ export async function deposit(
     const depositTx = await farming.deposit(poolId, depositAmount)
     console.log('deposit# Farming => transaction => txHash: '+depositTx.hash)
     console.log('deposit# Farming => transaction => waiting for confirmations')
-    const receipt = await depositTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await depositTx.wait(confirmations || 6)
     console.log('deposit# Farming => transaction => confirmed')
     console.log('deposit# Farming => DONE')
 

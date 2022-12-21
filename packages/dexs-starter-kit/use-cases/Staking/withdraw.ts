@@ -1,14 +1,25 @@
 import { Staking} from "../../core"
-import { BigNumber, constants } from 'ethers'
-import { config } from 'dotenv'
-config()
-;( async ()=> {
+import { BigNumber, constants, ContractReceipt } from 'ethers'
+
+/**
+ * A function to withdraw Staked tokens from given Staking pool contract
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} stakingAddress - Staking Pool contract's address.
+ * @param {string} withdrawAmount - amount of the Staked Token (KIP7 token) going to be withdrawn.
+ * @param {number} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
+ * @return {Promise<ContractReceipt>} - ContractTransaction object.
+ */
+export async function withdraw(
+    rpcURL: string,
+    privKey: string,
+    pubKey: string,
+    stakingAddress: string,
+    withdrawAmount: string,
+    confirmations: number
+): Promise<ContractReceipt> {
     console.log('withdraw# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const stakingAddress = process.env.STAKING!
-    const withdrawAmount = process.env.AMOUNT!
 
     console.log('withdraw# Staking => setting up')
     const staking = new Staking(stakingAddress, privKey, rpcURL);
@@ -28,8 +39,8 @@ config()
     const withdrawTx = await staking.withdraw( withdrawAmount)
     console.log('withdraw# Staking => transaction => txHash: '+withdrawTx.hash)
     console.log('withdraw# Staking => transaction => waiting for confirmations')
-    await withdrawTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await withdrawTx.wait(confirmations || 6)
     console.log('withdraw# Staking => transaction => confirmed')
     console.log('withdraw# Staking => DONE')
-
-})()
+    return receipt;
+}

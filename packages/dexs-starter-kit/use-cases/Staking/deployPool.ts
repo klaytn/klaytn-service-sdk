@@ -1,20 +1,36 @@
 import { Staking } from "../../core"
-import { config } from 'dotenv'
-config()
-;( async ()=> {
+
+/**
+ * A function that encodes all the details required to deploy a new Staking Pool.
+ * @param {string} rpcURL - RPC URL of blockchain provider.
+ * @param {string} privKey - secret key of account with which you want to sign the transaction.
+ * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} factoryAddress - Staking Factory contract's address.
+ * @param {string} stakedTokenAddress - Address of the KIP7 token which will be staked in this Staking Pool.
+ * @param {string} rewardTokenAddress - Address of the KIP7 token in which stakers will get their reward.
+ * @param {string} rewardPerBlock - Number of tokens to be rewarded per block (in rewardToken)
+ * @param {string} startBlock - Block number from where staking will get started.
+ * @param {string} rewardEndBlock - Block number at which reward distribution will get ended.
+ * @param {string} poolLimitPerUser - pool limit per user in stakedToken (if any, else 0).
+ * @param {string} blocksForUserLimit - block numbers available for user limit (after start block).
+ * @param {string} multiSigAddress - MULTISIG contract address.
+ * @return {string} - encoded raw transaction data to be submitted & executed by Multisig contract.
+ */
+export async function deployPool(
+    rpcURL: string,
+    privKey: string,
+    pubKey:string ,
+    factoryAddress:string,
+    stakedTokenAddress:string,
+    rewardTokenAddress:string,
+    rewardPerBlock:string,
+    startBlock:string,
+    rewardEndBlock:string,
+    poolLimitPerUser:string,
+    blocksForUserLimit:string,
+    multiSigAddress:string
+): Promise<string> {
     console.log('deployPool# initiating...')
-    const rpcURL = process.env.RPC_URL!
-    const privKey = process.env.PRIVATE_KEY!
-    const pubKey = process.env.PUBLIC_KEY!
-    const factoryAddress = process.env.STAKING_FACTORY!
-    const stakedTokenAddress = process.env.STAKED_TOKEN!
-    const rewardTokenAddress = process.env.REWARD_TOKEN!
-    const REWARD_PER_BLOCK = process.env.REWARD_PER_BLOCK!
-    const START_BLOCK = process.env.START_BLOCK!
-    const REWARD_END_BLOCK = process.env.REWARD_END_BLOCK!
-    const POOL_LIMIT_PER_USER = process.env.POOL_LIMIT_PER_USER!
-    const BLOCKS_FOR_USER_LIMIT = process.env.BLOCKS_FOR_USER_LIMIT!
-    const multiSigAddress = process.env.MULTISIG!
 
     console.log('deployPool# StakingFactory => setting up')
     const StakingFactory = Staking.FACTORY(factoryAddress, privKey, rpcURL);
@@ -24,15 +40,16 @@ config()
                     StakingFactory,
                     stakedTokenAddress,
                     rewardTokenAddress,
-                    REWARD_PER_BLOCK,
-                    START_BLOCK,
-                    REWARD_END_BLOCK,
-                    POOL_LIMIT_PER_USER,
-                    BLOCKS_FOR_USER_LIMIT,
+                    rewardPerBlock,
+                    startBlock,
+                    rewardEndBlock,
+                    poolLimitPerUser,
+                    blocksForUserLimit,
                     multiSigAddress
                 );
 
     console.log('deployPool# StakingFactory => Transaction => ready to submit on MultiSig')
     console.log('deployPool# StakingFactory => Transaction => encoded data => ', rawTx)
+    return rawTx;
 
-})()
+}
