@@ -11,7 +11,7 @@ import { ContractReceipt } from 'ethers'
  * @param {number} confirmations - number of blocks confirmations a transaction should achieve to proceed.
  * @return {Promise<ContractReceipt>} - ContractTransaction object.
  */
-export async function ExecuteTransaction(
+export async function executeTransaction(
     rpcURL: string,
     privKey: string,
     pubKey: string,

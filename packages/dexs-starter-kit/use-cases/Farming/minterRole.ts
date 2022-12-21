@@ -8,7 +8,7 @@ import { Farming} from "../../core"
 * @param {string} platformTokenAddress - Address of the platform token i.e: ptnToken of whom minter role to be granted to Farming contract.
 * @return {string} - encoded raw transaction data to be submitted & executed by Multisig contract.
 */
-async function minterRole(
+export async function minterRole(
     rpcURL: string,
     privKey: string,
     farmingAddress: string,
