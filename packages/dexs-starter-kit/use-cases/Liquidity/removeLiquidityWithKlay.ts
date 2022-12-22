@@ -32,24 +32,24 @@ export async function removeLiquidityKlay(
 
     console.log('removeLiquidityKlay# router')
     console.log('removeLiquidityKlay# router => setting up')
-    let router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
-    let klayAddress = await router.getAddressOfWKLAY();
+    const router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
+    const klayAddress = await router.getAddressOfWKLAY();
     console.log('removeLiquidityKlay# router => pair')
     console.log('removeLiquidityKlay# router => pair => fetching')
-    let pair: DexPair = await router.getPair(tokenAddress, klayAddress, privKey, rpcURL);
+    const pair: DexPair = await router.getPair(tokenAddress, klayAddress, privKey, rpcURL);
     console.log('removeLiquidityKlay# router => pair => found')
     console.log('removeLiquidityKlay# router => pair => balance')
     console.log('removeLiquidityKlay# router => pair => balance => checking')
-    let balance = await pair.balanceOf(pubKey)
+    const balance = await pair.balanceOf(pubKey)
     if (balance.lt(BigNumber.from((liquidityAmount)))) throw new Error('removeLiquidityKlay# router => pair => balance => insufficient')
     else console.log('removeLiquidityKlay# router => pair => balance => Good')
 
     console.log('removeLiquidityKlay# router => pair => allowance')
     console.log('removeLiquidityKlay# router => pair => allowance => checking')
-    let allowance = await pair.allowance(pubKey, routerAddress)
+    const allowance = await pair.allowance(pubKey, routerAddress)
     if (allowance.lt(BigNumber.from((liquidityAmount)))) {
         console.log('removeLiquidityKlay# router => pair => allowance => approving')
-        let approveTx = await  pair.approve(routerAddress, liquidityAmount)
+        const approveTx = await  pair.approve(routerAddress, liquidityAmount)
         console.log('removeLiquidityKlay# router => pair => allowance => txHash: '+approveTx.hash)
         console.log('removeLiquidityKlay# router => pair => allowance => waiting for confirmations')
         await approveTx.wait(confirmations || 6)
@@ -58,9 +58,9 @@ export async function removeLiquidityKlay(
     else console.log('removeLiquidityKlay# router => pair => allowance => Good')
 
     console.log('removeLiquidityKlay# router => pair => Good')
-    let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
+    const deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     console.log('removeLiquidityKlay# router => transaction')
-    let removeTx = await router.removeWithKlay(pair, liquidityAmount, tokenMinAmount, klayMinAmount, deadline.toString());
+    const removeTx = await router.removeWithKlay(pair, liquidityAmount, tokenMinAmount, klayMinAmount, deadline.toString());
     console.log('removeLiquidityKlay# router => transaction => txHash: '+removeTx.hash)
     console.log('removeLiquidityKlay# router => waiting for confirmations')
    const receipt = await removeTx.wait(confirmations || 6)

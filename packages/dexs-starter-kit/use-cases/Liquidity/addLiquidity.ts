@@ -36,13 +36,13 @@ export async function addLiquidity(
 
     console.log('addLiquidity# balance')
     console.log('addLiquidity# balance => token0 => checking balance')
-    let token0 = KIP7__factory.connect(token0Address, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
+    const token0 = KIP7__factory.connect(token0Address, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     if((await token0.balanceOf(pubKey)).lt(BigNumber.from((token0DesiredAmount)))){
         throw new Error("addLiquidity# balance => token0 => insufficient balance")
     }
     console.log('addLiquidity# balance => token0 => Good')
     console.log('addLiquidity# balance => token1 => checking balance')
-    let token1 = KIP7__factory.connect(token1Address, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
+    const token1 = KIP7__factory.connect(token1Address, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     if((await token1.balanceOf(pubKey)).lt(BigNumber.from((token1DesiredAmount)))){
         throw new Error("addLiquidity# balance => token1 => insufficient balance")
     }
@@ -58,7 +58,7 @@ export async function addLiquidity(
     }
     else {
         console.log("addLiquidity# allowance => token0 => approving");
-        let approveTx = await  token0.approve(routerAddress, token0DesiredAmount)
+        const approveTx = await  token0.approve(routerAddress, token0DesiredAmount)
         console.log("addLiquidity# allowance => token0 => waiting for confirmations of txHash: "+approveTx.hash);
         await approveTx.wait(confirmations || 6)
         console.log("addLiquidity# allowance => token0 => DONE");
@@ -72,7 +72,7 @@ export async function addLiquidity(
     }
     else {
         console.log("addLiquidity# allowance => token1 => approving");
-        let approveTx = await  token1.approve(routerAddress, token1DesiredAmount)
+        const approveTx = await  token1.approve(routerAddress, token1DesiredAmount)
         console.log("addLiquidity# allowance => token1 => waiting for confirmations of txHash: "+approveTx.hash);
         await approveTx.wait(confirmations || 6)
         console.log("addLiquidity# allowance => token1 => DONE");
@@ -80,10 +80,10 @@ export async function addLiquidity(
     console.log('addLiquidity# allowance => Good')
     console.log('addLiquidity# router')
     console.log('addLiquidity# router => setting up')
-    let router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
-    let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
+    const router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
+    const deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     console.log('addLiquidity# router => transaction')
-    let addTx = await router.add(token0Address, token1Address, token0DesiredAmount, token1DesiredAmount, token0MinAmount, token1MinAmount, deadline.toString());
+    const addTx = await router.add(token0Address, token1Address, token0DesiredAmount, token1DesiredAmount, token0MinAmount, token1MinAmount, deadline.toString());
     console.log('addLiquidity# router => transaction => txHash: '+addTx.hash)
     console.log('addLiquidity# router => waiting for confirmations')
     const receipt = await addTx.wait(confirmations || 6)

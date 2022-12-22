@@ -1,5 +1,5 @@
 import { Farming as Farm, Farming__factory, DexPair, DexPair__factory, PlatformToken, PlatformToken__factory } from '../contracts';
-import { Wallet, providers, ContractTransaction, BigNumber, utils } from 'ethers'
+import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers'
 
 export class Farming {
     public farming: Farm;
@@ -17,7 +17,7 @@ export class Farming {
     public async deposit(poolId: string, amount: string): Promise<ContractTransaction> {
         const pool = await this.farming.poolInfo(poolId);
         const signerAddress: string = await this.farming.signer.getAddress();
-        let lp:DexPair = DexPair__factory.connect(pool.lpToken, this.farming.provider);
+        const lp:DexPair = DexPair__factory.connect(pool.lpToken, this.farming.provider);
         if((await lp.balanceOf(signerAddress)).lt(BigNumber.from(amount))) throw new Error('deposit => LP balance insufficient');
         if((await lp.allowance(signerAddress, this.farming.address)).lt(BigNumber.from(amount))) throw new Error('deposit => LP allowance insufficient');
         return this.farming.deposit(poolId, amount);
@@ -108,7 +108,7 @@ export class Farming {
      * @return {string} - encoded raw transaction data to be submitted & executed by Multisig contract.
      */
     public async ptnGrantRole( ptnAddress: string): Promise<string | boolean> {
-        let ptnToken: PlatformToken = PlatformToken__factory.connect(ptnAddress, this.farming.provider);
+        const ptnToken: PlatformToken = PlatformToken__factory.connect(ptnAddress, this.farming.provider);
         if(await ptnToken.hasRole(await ptnToken.MINTER_ROLE(), this.farming.address))
             return false;
         else return  ptnToken.interface.encodeFunctionData('grantRole', [await ptnToken.MINTER_ROLE(), this.farming.address]);

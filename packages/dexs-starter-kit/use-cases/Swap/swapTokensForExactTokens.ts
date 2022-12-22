@@ -32,7 +32,7 @@ export async function swapTokensForExactTokens(
 
     console.log('swapTokensForExactTokens# tokenIn')
     console.log('swapTokensForExactTokens# tokenIn => balance => checking')
-    let tokenIn = KIP7__factory.connect(path[0], new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
+    const tokenIn = KIP7__factory.connect(path[0], new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     if((await tokenIn.balanceOf(pubKey)).lt(BigNumber.from((amountIn)))){
         throw new Error("swapTokensForExactTokens# balance => tokenIn => insufficient balance")
     }
@@ -44,7 +44,7 @@ export async function swapTokensForExactTokens(
     }
     else {
         console.log("swapTokensForExactTokens# tokenIn => allowance => approving");
-        let approveTx = await  tokenIn.approve(routerAddress, amountIn)
+        const approveTx = await  tokenIn.approve(routerAddress, amountIn)
         console.log("swapTokensForExactTokens# tokenIn => allowance => txHash: "+approveTx.hash);
         console.log("swapTokensForExactTokens# tokenIn => allowance => waiting for confirmations");
         await approveTx.wait(confirmations || 6)
@@ -66,7 +66,7 @@ export async function swapTokensForExactTokens(
     if(!inputAmount.lte(BigNumber.from((amountIn)))) throw new Error('swapTokensForExactTokens# pair => insufficient amountIn for expected amountOut')
     console.log('swapTokensForExactTokens# router => pair => Good')
     console.log('swapTokensForExactTokens# router => transaction')
-    let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
+    const deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     const swapTx = await router.tokensForExactTokens(amountOut, amountIn, path, deadline.toString())
     console.log('swapTokensForExactTokens# router => transaction => txHash: ' + swapTx.hash)
     const receipt = await swapTx.wait(confirmations || 6)

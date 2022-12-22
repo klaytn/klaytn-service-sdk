@@ -19,7 +19,7 @@ export async function minterRole(
     console.log('minterRole# Farming => setting up')
     const farming = new Farming(farmingAddress, privKey, rpcURL);
     console.log('minterRole# Farming => role => checking')
-    let roleTx: string | boolean = await farming.ptnGrantRole(platformTokenAddress);
+    const roleTx: string | boolean = await farming.ptnGrantRole(platformTokenAddress);
     if(!roleTx) throw new Error('minterRole# Farming => role => already MINTER_ROLE granted')
     console.log('minterRole# Farming => role => need to be granted')
     console.log('minterRole# Farming => Transaction => encoding')

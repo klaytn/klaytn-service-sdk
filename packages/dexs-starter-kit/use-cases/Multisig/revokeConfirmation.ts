@@ -40,7 +40,7 @@ export async function revokeConfirmation(
     const confirmTx = await multiSig.revokeConfirmation(transactionId);
     console.log('revokeConfirmation# Multisig => Transaction => txHash: ' + confirmTx.hash)
     console.log('revokeConfirmation# Multisig => Transaction => waiting for block confirmations')
-    const receipt = await confirmTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await confirmTx.wait(confirmations || 6)
     console.log(`revokeConfirmation# Multisig => Transaction => ${confirmTx.confirmations} blocks confirmed`)
     const txInfo = await multiSig.multiSig.getTransactionInfo(transactionId);
 

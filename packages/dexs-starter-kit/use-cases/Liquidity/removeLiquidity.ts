@@ -35,23 +35,23 @@ export async function removeLiquidity(
 
     console.log('removeLiquidity# router')
     console.log('removeLiquidity# router => setting up')
-    let router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
+    const router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
     console.log('removeLiquidity# router => pair')
     console.log('removeLiquidity# router => pair => fetching')
-    let pair: DexPair = await router.getPair(token0Address, token1Address, privKey, rpcURL);
+    const pair: DexPair = await router.getPair(token0Address, token1Address, privKey, rpcURL);
     console.log('removeLiquidity# router => pair => found')
     console.log('removeLiquidity# router => pair => balance')
     console.log('removeLiquidity# router => pair => balance => checking')
-    let balance = await pair.balanceOf(pubKey)
+    const balance = await pair.balanceOf(pubKey)
     if (balance.lt(BigNumber.from((liquidityAmount)))) throw new Error('removeLiquidity# router => pair => balance => insufficient')
     else console.log('removeLiquidity# router => pair => balance => Good')
     // TODO: check pair allowance
     console.log('removeLiquidity# router => pair => allowance')
     console.log('removeLiquidity# router => pair => allowance => checking')
-    let allowance = await pair.allowance(pubKey, routerAddress)
+    const allowance = await pair.allowance(pubKey, routerAddress)
     if (allowance.lt(BigNumber.from((liquidityAmount)))) {
         console.log('removeLiquidity# router => pair => allowance => approving')
-        let approveTx = await  pair.approve(routerAddress, liquidityAmount)
+        const approveTx = await  pair.approve(routerAddress, liquidityAmount)
         console.log('removeLiquidity# router => pair => allowance => txHash: '+approveTx.hash)
         console.log('removeLiquidity# router => pair => allowance => waiting for confirmations')
         await approveTx.wait(confirmations || 6)
@@ -60,9 +60,9 @@ export async function removeLiquidity(
     else console.log('removeLiquidity# router => pair => allowance => Good')
 
     console.log('removeLiquidity# router => pair => Good')
-    let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
+    const deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     console.log('removeLiquidity# router => transaction')
-    let addTx = await router.remove(pair, liquidityAmount, token0MinAmount, token1MinAmount, deadline.toString());
+    const addTx = await router.remove(pair, liquidityAmount, token0MinAmount, token1MinAmount, deadline.toString());
     console.log('removeLiquidity# router => transaction => txHash: '+addTx.hash)
     console.log('removeLiquidity# router => waiting for confirmations')
     const receipt = await addTx.wait(confirmations || 6)

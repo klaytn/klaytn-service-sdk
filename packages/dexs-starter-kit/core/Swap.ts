@@ -1,5 +1,5 @@
 import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '../contracts';
-import { Signer, Wallet, providers, BigNumber, ContractTransaction, Contract } from 'ethers'
+import { Wallet, providers, BigNumber, ContractTransaction } from 'ethers'
 
 export class Swap {
     public router: DexRouter;

@@ -34,13 +34,13 @@ export async function addLiquidityWithKlay(
 
     console.log('addLiquidityKLAY# balance')
     console.log('addLiquidityKLAY# balance => token => checking balance')
-    let token = KIP7__factory.connect(tokenAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
+    const token = KIP7__factory.connect(tokenAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)));
     if((await token.balanceOf(pubKey)).lt(BigNumber.from((tokenDesiredAmount)))){
         throw new Error("addLiquidityKLAY# balance => token => insufficient balance")
     }
     console.log('addLiquidityKLAY# balance => token => Good')
     console.log('addLiquidityKLAY# balance => KLAY => checking balance')
-    let balance: BigNumber = await (new Wallet(privKey, new providers.JsonRpcProvider(rpcURL))).getBalance();
+    const balance: BigNumber = await (new Wallet(privKey, new providers.JsonRpcProvider(rpcURL))).getBalance();
     if(balance.lt(BigNumber.from((klayDesiredAmount)))){
         throw new Error("addLiquidityKLAY# balance => KLAY => insufficient balance")
     }
@@ -56,7 +56,7 @@ export async function addLiquidityWithKlay(
     }
     else {
         console.log("addLiquidityKLAY# allowance => token => approving");
-        let approveTx = await  token.approve(routerAddress, tokenDesiredAmount)
+        const approveTx = await  token.approve(routerAddress, tokenDesiredAmount)
         console.log("addLiquidityKLAY# allowance => token => waiting for confirmations of txHash: "+approveTx.hash);
         await approveTx.wait(confirmations || 6)
         console.log("addLiquidityKLAY# allowance => token => DONE");
@@ -65,10 +65,10 @@ export async function addLiquidityWithKlay(
     console.log('addLiquidityKLAY# allowance => Good')
     console.log('addLiquidityKLAY# router')
     console.log('addLiquidityKLAY# router => setting up')
-    let router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
-    let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
+    const router = new Liquidity(routerAddress, factoryAddress, privKey, rpcURL);
+    const deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     console.log('addLiquidityKLAY# router => transaction')
-    let addTx = await router.addWithKlay(tokenAddress, tokenDesiredAmount, klayDesiredAmount, tokenMinAmount, klayMinAmount, deadline.toString());
+    const addTx = await router.addWithKlay(tokenAddress, tokenDesiredAmount, klayDesiredAmount, tokenMinAmount, klayMinAmount, deadline.toString());
     console.log('addLiquidityKLAY# router => transaction => txHash: '+addTx.hash)
     console.log('addLiquidityKLAY# router => waiting for confirmations')
     const receipt = await addTx.wait(confirmations || 6)

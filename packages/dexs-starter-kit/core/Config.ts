@@ -29,15 +29,15 @@ export class Config {
 
     /**
      * A getter function to fetch instance of DexPair contract.
+     * @param {DexFactory} factory - instance of DexFactory contract.
      * @param {string} tokenA - Address of token0 contract.
      * @param {string} tokenB - Address of token1 contract.
      * @param {string} privKey - private key of signer account.
      * @param {string} rpcURL - RPC URL of blockchain provider.
      * @return {Promise<DexPair>} - DexPair contract's instance.
      */
-    public async getPair(tokenA: string, tokenB: string, privKey: string, rpcURL: string):Promise<DexPair> {
-        // @ts-ignore
-        const pairAddress: string = await this.factory.getPair(tokenA, tokenB)
+    public async getPair(factory: DexFactory, tokenA: string, tokenB: string, privKey: string, rpcURL: string):Promise<DexPair> {
+        const pairAddress: string = await factory.getPair(tokenA, tokenB)
         return DexPair__factory.connect(pairAddress, new Wallet(privKey, new providers.JsonRpcProvider(rpcURL)))
     }
 
@@ -48,16 +48,16 @@ export class Config {
      * @return {Promise<DexPair>} - DexPair contract's instance.
      */
     public getLP(pairAddress: string, rpcURL: string):DexPair {
-        return new DexPair__factory().attach(pairAddress)
+        return DexPair__factory.connect(pairAddress, new providers.JsonRpcProvider(rpcURL))
     }
 
     /**
      * A getter function to get WKLAY contract's address
+     * @param {DexRouter} router - instance of DexRouter contract.
      * @return {string} - WKLAY address.
      */
-    public async getAddressOfWKLAY():Promise<string> {
-        // @ts-ignore
-        return this.router.WKLAY()
+    public async getAddressOfWKLAY(router: DexRouter):Promise<string> {
+        return router.WKLAY()
     }
 
     /**

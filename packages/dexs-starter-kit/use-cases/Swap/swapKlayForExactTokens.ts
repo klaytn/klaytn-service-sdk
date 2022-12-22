@@ -32,7 +32,7 @@ export async function swapKlayForExactTokens(
 
     console.log('swapKlayForExactTokens# KLAY')
     console.log('swapKlayForExactTokens# KLAY => balance => checking')
-    let balance: BigNumber = await (new Wallet(privKey, new providers.JsonRpcProvider(rpcURL))).getBalance();
+    const balance: BigNumber = await (new Wallet(privKey, new providers.JsonRpcProvider(rpcURL))).getBalance();
     if(balance.lt(BigNumber.from((amountIn)))){
         throw new Error("swapKlayForExactTokens# KLAY => balance => insufficient")
     }
@@ -54,7 +54,7 @@ export async function swapKlayForExactTokens(
     if(!inputAmount.lte(BigNumber.from((amountIn)))) throw new Error('swapKlayForExactTokens# pair => insufficient amountIn for expected amountOut')
     console.log('swapKlayForExactTokens# router => pair => Good')
     console.log('swapKlayForExactTokens# router => transaction')
-    let deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
+    const deadline: number = Math.floor(new Date().getTime() / 1000) + 600; // 10 minutes window
     const swapTx = await router.klayForExactTokens(amountIn, amountOut, path, deadline.toString())
     console.log('swapKlayForExactTokens# router => transaction => txHash: ' + swapTx.hash)
     const receipt = await swapTx.wait( confirmations || 6)

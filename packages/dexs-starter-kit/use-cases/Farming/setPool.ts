@@ -1,11 +1,5 @@
 import { Farming} from "../../core"
 import { constants } from 'ethers'
-const rpcURL = process.env.RPC_URL!
-const privKey = process.env.PRIVATE_KEY!
-const pubKey = process.env.PUBLIC_KEY!
-const farmingAddress = process.env.FARMING!
-const allocPoints = process.env.ALLOC_POINTS!
-const poolId = process.env.POOL_ID!
 
 /**
  * A function that encodes all the details required to update / set LP farming pool.

@@ -8,6 +8,7 @@ import { BigNumber, constants, ContractReceipt } from 'ethers'
  * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
  * @param {string} farmingAddress - Farming contract's address.
  * @param {string} poolId - pool id of LP farming pool from where funds are to be withdrawn.
+ * @param {number} confirmations - number of blocks confirmations requires to proceed per transaction.
  * @return {Promise<ContractReceipt>} - ContractReceipt object.
  */
 export async function emergencyWithdraw(
@@ -15,7 +16,8 @@ export async function emergencyWithdraw(
     privKey: string,
     pubKey: string,
     farmingAddress: string,
-    poolId: string
+    poolId: string,
+    confirmations: number
 ):Promise<ContractReceipt> {
     console.log('emergencyWithdraw# initiating...')
 
@@ -36,7 +38,7 @@ export async function emergencyWithdraw(
     const withdrawTx = await farming.emergencyWithdraw(poolId)
     console.log('emergencyWithdraw# Farming => transaction => txHash: '+withdrawTx.hash)
     console.log('emergencyWithdraw# Farming => transaction => waiting for confirmations')
-    const receipt = await withdrawTx.wait(parseInt(process.env.CONFIRMATIONS!) || 6)
+    const receipt = await withdrawTx.wait(confirmations || 6)
     console.log('emergencyWithdraw# Farming => transaction => confirmed')
     console.log('emergencyWithdraw# Farming => DONE')
     return receipt;
