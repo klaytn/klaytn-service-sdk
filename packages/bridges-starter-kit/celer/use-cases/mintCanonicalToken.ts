@@ -34,7 +34,7 @@ export async function mintCanonicalToken(
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL)
 
     // check if its a valid pair transfer
-    let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
+    const isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
         (chainToken.org_chain_id == SRC_CHAIN_ID
             && chainToken.pegged_chain_id == DST_CHAIN_ID
             && chainToken.pegged_token?.token?.symbol.toUpperCase() == TOKEN_SYMBOL
@@ -74,7 +74,7 @@ export async function mintCanonicalToken(
         transferConfigs.pegged_pair_configs
     )
     let needToApprove = false;
-    let isNative = transferConfigs.chains.filter(chain =>
+    const isNative = transferConfigs.chains.filter(chain =>
         (chain.id == SRC_CHAIN_ID && chain.gas_token_symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase())).length > 0;
     needToApprove = checkApprove(allowance, AMOUNT, transferToken?.token, isNative)
 
@@ -160,7 +160,7 @@ export async function mintCanonicalToken(
             )
             console.log("depositId:", depositId)
             console.log("3. submit an on-chain send transaction");
-            let depositTx = await transactor(
+            const depositTx = await transactor(
                 originalTokenVault!.deposit(
                     transferToken?.token?.address, //token address on original chain
                     value,

@@ -14,7 +14,7 @@ import {
     getContract
 } from "../core"
 import { getTransferConfigs } from "../core"
-import { ethers, providers, Wallet } from "ethers"
+import { ethers } from "ethers"
 import PeggedTokenBridgeABI from '../core/contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
 import PeggedTokenBridgeV2ABI from '../core/contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
 import { statusTracker } from "../core"
@@ -33,7 +33,7 @@ export async function burnCanonicalToken(
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL)
 
     // check if its a valid pair transfer
-    let isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
+    const isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
                         (chainToken.org_chain_id == DST_CHAIN_ID
                             && chainToken.pegged_chain_id == SRC_CHAIN_ID
                             && chainToken.pegged_token?.token?.symbol.toUpperCase() == TOKEN_SYMBOL
@@ -73,7 +73,7 @@ export async function burnCanonicalToken(
         transferConfigs.pegged_pair_configs
     )
     let needToApprove = false;
-    let isNative = transferConfigs.chains.filter(chain =>
+    const isNative = transferConfigs.chains.filter(chain =>
         (chain.id == SRC_CHAIN_ID && chain.gas_token_symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase())).length > 0;
     needToApprove = checkApprove(allowance, AMOUNT, transferToken?.token, isNative)
 
@@ -127,7 +127,7 @@ export async function burnCanonicalToken(
             )
             console.log("burnId:", burnId)
             console.log("3. submit an on-chain send transaction");
-            let burnTx =  await transactor(
+            const burnTx =  await transactor(
                     peggedTokenBridgeV2!.burn(
                         transferToken?.token?.address,
                         value,
@@ -164,7 +164,7 @@ export async function burnCanonicalToken(
             )
             console.log("burnId:", burnId)
             console.log("3. submit an on-chain send transaction");
-            let burnTx = await transactor(
+            const burnTx = await transactor(
                             peggedTokenBridge!.burn(transferToken?.token?.address,
                                 value,
                                 WALLET_ADDRESS,

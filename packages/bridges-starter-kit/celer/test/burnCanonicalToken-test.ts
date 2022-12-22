@@ -11,8 +11,6 @@ describe("burnCanonicalToken", async () => {
     let AMOUNT: string
     let CONFIRMATIONS: number
 
-    let transferId;
-
     it("should init the params", async () => {
         CBRIDGE_GATEWAY_URL = 'https://cbridge-v2-test.celer.network'
         WALLET_ADDRESS="0xPUBLIC_KEY_HERE"

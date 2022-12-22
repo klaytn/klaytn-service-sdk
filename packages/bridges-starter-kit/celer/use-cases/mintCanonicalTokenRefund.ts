@@ -1,7 +1,6 @@
 import { JSDOM } from "jsdom"
 const { window } = new JSDOM()
 global.XMLHttpRequest = window.XMLHttpRequest
-import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
@@ -9,7 +8,6 @@ import { getTransferStatus, getTransferConfigs, requestRefund, getEstimation } f
 import {
     getContract,
     getPegConfig,
-    transactor,
 } from "../core"
 import OriginalTokenVaultABI from '../core/contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json'
 import OriginalTokenVaultV2ABI from '../core/contract/abi/pegged/OriginalTokenVaultV2.sol/OriginalTokenVaultV2.json';

@@ -1,5 +1,4 @@
 import { JSDOM } from "jsdom"
-import {providers} from "ethers";
 const { window } = new JSDOM()
 global.XMLHttpRequest = window.XMLHttpRequest
 
@@ -38,8 +37,8 @@ export async function poolTransfer(
     const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     // check if TOKEN_SYMBOL is present in both chain tokens list
-    let isPresentInSrc = !!(transferConfigs.chain_token[SRC_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
-    let isPresentInDst = !!(transferConfigs.chain_token[DST_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
+    const isPresentInSrc = !!(transferConfigs.chain_token[SRC_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
+    const isPresentInDst = !!(transferConfigs.chain_token[DST_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
 
     if(!(isPresentInSrc && isPresentInDst)) {
         throw new Error("Please choose valid pairs");
@@ -52,7 +51,7 @@ export async function poolTransfer(
     console.log("1. Checking Allowance of tokens to cBridge contract");
     const allowance = await getAllowance(WALLET_ADDRESS, bridgeAddress || '' , transferToken?.token?.address || '', fromChain?.id, transferToken?.token?.symbol, SRC_CHAIN_RPC, transferConfigs.pegged_pair_configs)
     let needToApprove = false;
-    let isNative = transferConfigs.chains.filter(chain =>
+    const isNative = transferConfigs.chains.filter(chain =>
         (chain.id == SRC_CHAIN_ID && chain.gas_token_symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase())).length > 0;
     needToApprove = checkApprove(allowance, AMOUNT, transferToken?.token, isNative)
 
@@ -84,7 +83,7 @@ export async function poolTransfer(
     const estimateRequest = estimateAmt(SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL, WALLET_ADDRESS, SLIPPAGE_TOLERANCE, AMOUNT)
 
     console.log("3. submit an on-chain send transaction");
-    let poolTransferTx = await poolBasedTransfer(bridgeContract, CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, estimateRequest, { transferToken, fromChain, toChain, value, nonce }, SRC_CHAIN_RPC, PRIVATE_KEY, isNative)
+    const poolTransferTx = await poolBasedTransfer(bridgeContract, CBRIDGE_GATEWAY_URL, WALLET_ADDRESS, estimateRequest, { transferToken, fromChain, toChain, value, nonce }, SRC_CHAIN_RPC, PRIVATE_KEY, isNative)
 
     if ( !poolTransferTx) throw new Error("Cannot submit transaction");
     console.log("poolTransferTx hash: " + poolTransferTx.hash);

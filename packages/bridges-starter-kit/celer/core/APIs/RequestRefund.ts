@@ -33,9 +33,9 @@ export const requestRefund = async (
     console.log("2. Submitting withdrawal request to cBRIDGE network...");
     const wres = await client.withdrawLiquidity(req, null)
     let refundTx: ContractTransaction;
-    let statusTx = (status:number) => { return status}
+    const statusTx = (status:number) => { return status}
     let resolver;
-    let refund = new Promise( (r) => { resolver = r;} )
+    const refund = new Promise( (r) => { resolver = r;} )
     if (!wres.getErr() || wres.getErr()?.getCode() == 500) {
         statusTracker(CBRIDGE_GATEWAY_URL, TRANSFER_ID, async (res: GetTransferStatusResponse.AsObject) => {
             if (res.status !== 8) return console.error("invalid transfer status: " + res.status);

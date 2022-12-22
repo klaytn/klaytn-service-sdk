@@ -1,6 +1,5 @@
 import { expect } from "chai"
 import { poolTransferRefund } from "../use-cases"
-import { ContractTransaction } from "ethers"
 describe("poolTransferRefund", async () => {
     let CBRIDGE_GATEWAY_URL: string
     let WALLET_ADDRESS: string

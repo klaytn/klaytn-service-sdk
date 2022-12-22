@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { burnCanonicalToken, burnCanonicalTokenRefund } from "../use-cases"
+import { burnCanonicalTokenRefund } from "../use-cases"
 describe("burnCanonicalTokenRefund", async () => {
     let CBRIDGE_GATEWAY_URL: string
     let WALLET_ADDRESS: string
@@ -12,8 +12,6 @@ describe("burnCanonicalTokenRefund", async () => {
     let BURN_ID: string
     let AMOUNT: string
     let CONFIRMATIONS: number
-
-    let transferId;
 
     it("should init the params", async () => {
         CBRIDGE_GATEWAY_URL = 'https://cbridge-v2-test.celer.network'

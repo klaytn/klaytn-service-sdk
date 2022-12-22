@@ -21,7 +21,7 @@ export const poolBasedTransfer = async (
     const { transferToken, toChain, value, nonce } = transferObject
 
     try {
-        let result = await transactor(
+        const result = await transactor(
             isNative
                 ? bridge.sendNative(
                       addr,

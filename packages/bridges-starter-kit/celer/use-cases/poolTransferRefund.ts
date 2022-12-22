@@ -1,12 +1,11 @@
 import { JSDOM } from "jsdom"
 const { window } = new JSDOM()
 global.XMLHttpRequest = window.XMLHttpRequest
-import { base64, getAddress, hexlify } from "ethers/lib/utils";
 import { config } from "dotenv"
 config()
 
 import { getEstimation, requestRefund, getTransferStatus, getTransferConfigs } from "../core"
-import { getBridgeContractAddress, getContract, transactor } from "../core"
+import { getBridgeContractAddress, getContract } from "../core"
 import BridgeABI from "../core/contract/abi/Bridge.sol/Bridge.json"
 import { ContractReceipt } from "ethers"
 

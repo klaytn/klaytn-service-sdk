@@ -8,7 +8,6 @@ import { getTransferStatus, getTransferConfigs, requestRefund, getEstimation } f
 import {
     getContract,
     getPegConfig,
-    transactor,
 } from "../core";
 import PeggedTokenBridgeABI from '../core/contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
 import PeggedTokenBridgeV2ABI from '../core/contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
