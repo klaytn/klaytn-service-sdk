@@ -5,6 +5,7 @@ const {
   VERIFICATION_BLOCK_CONFIRMATIONS,
 } = require("../helper-hardhat-config")
 const { verify } = require("../helper-functions")
+const fs = require("fs");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, get, log } = deployments
@@ -44,11 +45,28 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   //   await verify(randomNumberConsumerV2.address, args)
   // }
 
+  let sourcePath = "./deployedContracts.json";
+  let jsonData = {
+    chainLinkPriceFeed: '',
+    chainLinkApiData: '',
+    chainLinkRandomNumber: '',
+    keepersCounter: '',
+    witnetPriceFeed: '',
+    witnetRandomNumber: '',
+    network: ''
+  };
+  if (fs.existsSync(sourcePath)) {
+    jsonData = JSON.parse(fs.readFileSync(sourcePath));
+  }
   log("Then run RandomNumberConsumer contract with the following command")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
-  log(
-    `yarn hardhat request-random-number --contract ${randomNumberConsumerV2.address} --network ${networkName}`
-  )
+  // log(
+  //   `yarn hardhat request-random-number --contract ${randomNumberConsumerV2.address} --network ${networkName}`
+  // )
+  log(`Execute requestChainLinkRandomNumber, readChainLinkRandomNumber methods`);
+  jsonData["chainLinkRandomNumber"] = randomNumberConsumerV2.address;
+  jsonData["network"] = networkName;
+  fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
   log("----------------------------------------------------")
 }
 

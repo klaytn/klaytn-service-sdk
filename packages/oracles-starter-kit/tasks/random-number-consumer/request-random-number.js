@@ -21,13 +21,13 @@ task("request-random-number", "Requests a random number for a Chainlink VRF enab
       RandomNumberConsumerV2.interface,
       signer
     )
-    const transaction = await vrfConsumerContractV2.requestRandomWords()
+    const transaction = await vrfConsumerContractV2.requestRandomWords({gasLimit: 200000})
     console.log(
       "Contract ",
       contractAddr,
-      " random number request successfully called. Transaction Hash: ",
-      transaction.hash
+      " random number request successfully called."
     )
+    console.log("Transaction Hash: "+transaction.hash);
     console.log("Run the following to read the returned random number:")
     console.log(
       "yarn hardhat read-random-number --contract " + contractAddr + " --network " + network.name
