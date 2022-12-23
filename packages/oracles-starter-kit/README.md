@@ -15,7 +15,36 @@
 <br/>
 
 ## Usage
-let {getVariables} = require("oracles-starter-kit-test");
+```
+const {
+    setVariables, 
+    getVariables,
+    setBaobabHardhatConfigurations,
+    getBaobabHardhatConfigurations,
+    compile,
+    deployAll,
+    deployChainLinkPriceFeed,
+    readChainLinkPriceFeed,
+    deployChainLinkApiData,
+    fundChainLinkApiData,
+    requestChainLinkApiData,
+    deployChainLinkRandomNumber,
+    requestChainLinkRandomNumber,
+    readChainLinkRandomNumber,
+    deployChainLinkKeepersCounter,
+    readChainLinkKeepersCounter,
+    deployWitnetPriceFeed,
+    readWitnetPriceFeed,
+    deployWitnetRandomNumber,
+    requestWitnetRandomNumber,
+    readWitnetLatestRandomizingBlock,
+    fetchWitnetRandomNumber,
+    readWitnetRandomNumber,
+    compileWitnetQueriesToSolidityContracts,
+    getCompiledWitnetQueriesSolFiles,
+    tryWitnetQueries
+} = require("@klaytn-developer-sdk/oracles-starter-kit");
+```
 
 ## Setup Hardhat configurations Baobab Klaytn network
 Use `console.log(getBaobabHardhatConfigurations())` to get the configurations
