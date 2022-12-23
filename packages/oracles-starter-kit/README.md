@@ -1,7 +1,7 @@
 # Oracle Starter Kit
 - [Oracle Starter Kit](#oracle-starter-kit)
   - [Usage](#usage)
-  - [Setup Hardhat configurations Baobab Klaytn network](#setup-hardhat-configurations-baobab-klaytn-network)
+  - [Setup Hardhat configurations Baobab Klaytn network and variables](#setup-hardhat-configurations-baobab-klaytn-network-and-variables)
   - [Interacting with Deployed Contracts](#interacting-with-deployed-contracts)
     - [Chainlink Price Feeds](#chainlink-price-feeds)
     - [Chainlink Request \& Receive Data](#chainlink-request--receive-data)
@@ -46,7 +46,7 @@ const {
 } = require("@klaytn-developer-sdk/oracles-starter-kit");
 ```
 
-## Setup Hardhat configurations Baobab Klaytn network
+## Setup Hardhat configurations Baobab Klaytn network and variables
 Use `console.log(getBaobabHardhatConfigurations())` to get the configurations
 
 Modify and execute below method to change the Hardhat configurations
