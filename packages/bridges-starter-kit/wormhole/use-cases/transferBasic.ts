@@ -8,8 +8,8 @@ import {
 } from '../core';
 import { Contract, ContractTransaction, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
-let Bridge =  require('../core/abi/bridge.json');
-
+import Bridge from '../core/abi/bridge.json';
+import Erc20ABI from '../core/abi/erc20.json';
 
 
 // Transfer native coins/tokens from Source chain to Destination chain (Below code works only for EVM compatible chains)
@@ -33,7 +33,7 @@ export async function transferBasic(
     IS_NATIVE: boolean // Enable if Native coin is transferred
 ): Promise<ContractTransaction> {
 
-  let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
+  const CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
     acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };
     return acc;
   }, {});
@@ -67,7 +67,6 @@ export async function transferBasic(
     );
   } else {
     console.log("Check the tokens have enough approval to the tokenBridge");
-    let Erc20ABI =  require('../core/abi/erc20.json');
     const tokenInterface = new utils.Interface(Erc20ABI);
 
     // check allowance and approve
@@ -78,11 +77,10 @@ export async function transferBasic(
     console.log("Allowance: "+allowance.toString());
     console.log("Amount   : "+utils.parseUnits(AMOUNT || "0", tokenContract?.decimal ?? 18).toString());
     let isGreaterThanAllowance = false;
-    try {
+
       isGreaterThanAllowance = utils.parseUnits(AMOUNT, tokenContract?.decimal ?? 18).gt(
         allowance
       )
-    } catch(err) {}
 
     // Approve if amount is greater than allowance
     if(isGreaterThanAllowance) {

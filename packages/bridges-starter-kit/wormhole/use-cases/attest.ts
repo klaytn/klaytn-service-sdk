@@ -7,7 +7,7 @@ import {
 } from '../core';
 import { Contract, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
-let Bridge =  require('../core/abi/bridge.json');
+import Bridge from '../core/abi/bridge.json';
 
 // Attest a token from Source chain to Destination chain (Works only for EVM compatible chains)
 
@@ -37,7 +37,7 @@ export async function attest(
       destination.privatekey,
       new providers.JsonRpcProvider(destination.rpcUrl)
   );
-  let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
+  const CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
     acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };
     return acc;
   }, {});
@@ -71,7 +71,7 @@ export async function attest(
   const contractInterface = new utils.Interface(Bridge['abi']);
   const targetTokenBridge = new Contract(destination.tokenBridge, contractInterface, destinationnWallet)
 
-  let wrappedTxn = await targetTokenBridge.createWrapped(
+  const wrappedTxn = await targetTokenBridge.createWrapped(
     Buffer.from(vaaBytes.vaaBytes, "base64"),
     {
       gasLimit: 2000000,

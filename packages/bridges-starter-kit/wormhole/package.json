@@ -5,7 +5,11 @@
   "main": "core/index.ts",
   "scripts": {
     "test-attest": "ts-node use-cases/attest.ts",
-    "test-transfer-basic": "ts-node use-cases/transferBasic.ts"
+    "test-transfer-basic": "ts-node use-cases/transferBasic.ts",
+    "test": "mocha -r ts-node/register test/*.ts",
+    "build": "npx tsc",
+    "lint": "npx eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts --fix ."
   },
   "author": "",
   "license": "GPL-3.0",
@@ -17,6 +21,10 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
-    "ts-node": "^10.7.0"
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "eslint": "^8.30.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.9.4"
   }
 }
