@@ -50,7 +50,7 @@ Amount for burn should always be between min and max burn values of pegged burn 
 - you can get min & max burn amount of given pegged token cBridge contract
   - for example at Godwoken testnet for the token of `USDC: 0x4Ea08DCA142F103ac2D5FF95F1d376712C5EF5a9`
   - you can get maxBurn & minBurn amount from [this](https://gw-explorer.nervosdao.community/address/0x70D4814e111Ad66B90B90D54a44797BC696BcdAF/read-contract#address-tabs) cBridge contract
-  - youyou need to provide `USD` address as a parameter in above-mentioned functions (same for other chains & pegged tokens)
+  - you need to provide `USD` address as a parameter in above-mentioned functions (same for other chains & pegged tokens)
 ## SLIPPAGE_TOLERANCE
 At this variable you can set the slippage amount you can tolerate while transferring your tokens from source to destination chain using `poolBasedTransfer` method.
 ```js
