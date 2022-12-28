@@ -66,7 +66,7 @@ setBaobabHardhatConfigurations({
     fundAmount: '100000000000000'
   })
 ```
-This command with modify the `helper-hardhat-config.json` in the package node_modules.
+This command will modify the `helper-hardhat-config.json` in the package node_modules.
 
 First, we will need to set environment variables. We can do so by using below commands.
 
