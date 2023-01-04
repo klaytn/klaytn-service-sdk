@@ -4,13 +4,18 @@ on:
     branches:
       - 'main'
 jobs:
-  build&test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 12.x
-      - run: yarn
-      - run: yarn wsrun -m build
-      - run: yarn wsrun -m test
+          node-version: 16.17.0
+      - run: apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3 make g++
+      - run: python3 --version
+#      - name: 'installing dependencies'
+      - run: npm install
+#      - name: 'building'
+      - run: npm run build
+#      - name: 'testing'
+      - run: npm run test
