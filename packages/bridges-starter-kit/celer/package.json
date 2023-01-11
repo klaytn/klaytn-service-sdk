@@ -1,28 +1,32 @@
 {
-  "name": "cbridge-starter-kit",
+  "name": "@klaytn-developer-sdk/bridge-celer",
   "version": "0.0.1",
-  "description": "TypeScript and JavaScript client and examples for cBridge",
+  "description": "TypeScript client and user-cases for cBridge",
+  "main": "core/index.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/celer-network/cBridge-typescript-client.git"
+    "url": "git+https://github.com/klaytn/klaytn-developer-sdk.git"
   },
   "scripts": {
-    "test-transfer": "ts-node examples/poolTransferFlow.ts",
-    "test-transfer-refund": "ts-node examples/poolTransferFlowRefund.ts",
-    "test-mint": "ts-node examples/mintCanonicalToken.ts",
-    "test-mint-refund": "ts-node examples/mintCanonicalTokenRefund.ts",
-    "test-burn": "ts-node examples/burnCanonicalToken.ts",
-    "test-burn-refund": "ts-node examples/burnCanonicalTokenRefund.ts"
+    "test-transfer": "mocha -r ts-node/register test/poolTransfer-test.ts -t 1200000",
+    "test-transfer-refund": "mocha -r ts-node/register test/poolTransferRefund-test.ts -t 1200000",
+    "test-mint": "mocha -r ts-node/register test/mintCanonicalToken-test.ts -t 1200000",
+    "test-mint-refund": "mocha -r ts-node/register test/mintCanonicalTokenRefund-test.ts -t 1200000",
+    "test-burn": "mocha -r ts-node/register test/burnCanonicalToken-test.ts -t 1200000",
+    "test-burn-refund": "mocha -r ts-node/register test/burnCanonicalTokenRefund-test.ts -t 1200000",
+    "test": "mocha -r ts-node/register test/*.ts",
+    "build": "npx tsc",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts --fix ."
   },
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/celer-network/cBridge-typescript-client/issues"
+    "url": "https://github.com/klaytn/klaytn-developer-sdk/issues"
   },
-  "homepage": "https://github.com/celer-network/cBridge-typescript-client#readme",
+  "homepage": "https://github.com/klaytn/klaytn-developer-sdk/blob/main/packages/bridges-starter-kit/celer/README.md",
   "dependencies": {
     "axios": "^0.26.1",
     "celer-web-utils": "^1.0.9",
-    "dotenv": "^16.0.3",
     "ethers": "^5.7.1",
     "google-protobuf": "^3.20.0-rc.2",
     "grpc-web": "^1.4.1",
@@ -31,6 +35,8 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
-    "ts-node": "^10.7.0"
+    "dotenv": "^16.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
   }
 }

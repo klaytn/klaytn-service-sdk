@@ -40,6 +40,16 @@ Implementations:
 - [MintCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#21mint-canoncial-token-refund)
 - [BurnCanoncialToken](/packages/bridges-starter-kit/celer/README.md#3burn-canonical-token)
 - [BurnCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#31burn-canoncial-token-refund)
+
+## DEX Module
+### @klaytn/dex-contracts
+Integration of the following 5 DEX contracts:
+- [Swap](/packages/dexs-starter-kit/core/Swap.ts)
+- [Liquidity](/packages/dexs-starter-kit/core/Liquidity.ts)
+- [Farming](/packages/dexs-starter-kit/core/Farming.ts)
+- [Staking](/packages/dexs-starter-kit/core/Staking.ts)
+- [Multisig Wallet](/packages/
+
 <br/>
 
 ### Wormhole Bridge
