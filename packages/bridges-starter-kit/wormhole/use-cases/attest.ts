@@ -4,59 +4,51 @@ import {
   attestFromEth,
   tryNativeToHexString,
   CHAINS
-} from '@certusone/wormhole-sdk';
+} from '../core';
 import { Contract, providers, utils, Wallet } from "ethers"
 import axios from 'axios';
-let Bridge =  require('./abi/bridge.json');
-require("dotenv").config();
-
-let CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
-  acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };  
-  return acc;
-}, {});
+import Bridge from '../core/abi/bridge.json';
 
 // Attest a token from Source chain to Destination chain (Works only for EVM compatible chains)
 
-let config = {
-  wormhole: {
-    restAddress: process.env.WORMHOLE_REST_URL
-  }
-};
+export async function attest(
+    config:{ wormhole: { restAddress: string }},
+    source: {
+      token: string, // Token to be attested
+      privatekey: string,
+      rpcUrl: string,
+      coreBridge: string,
+      tokenBridge: string,
+      wormholeChainId: string },
+    destination: {
+      privatekey: string,
+      rpcUrl: string,
+      tokenBridge: string,
+      wormholeChainId: string }
+): Promise<string> {
 
-const source = {
-  token: process.env.SOURCE_TOKEN?? '', // Token to be attested
-  privatekey: process.env.SOURCE_PRIVATE_KEY?? '',
-  rpcUrl: process.env.SOURCE_RPC_URL?? '',
-  coreBridge: process.env.SOURCE_CORE_BRIDGE?? '',
-  tokenBridge: process.env.SOURCE_TOKEN_BRIDGE?? '',
-  wormholeChainId: process.env.SOURCE_WORMHOLE_CHAIN_ID?? '13'
-};
-
-const destination = {
-  privatekey: process.env.DESTINATION_PRIVATE_KEY?? '',
-  rpcUrl: process.env.DESTINATION_RPC_URL?? '',
-  tokenBridge: process.env.DESTINATION_TOKEN_BRIDGE?? '',
-  wormholeChainId: process.env.DESTINATION_WORMHOLE_CHAIN_ID?? '2'
-};
-
-const sourceWallet = new Wallet(
-  source.privatekey,
-  new providers.JsonRpcProvider(source.rpcUrl)
-);
-const destinationnWallet = new Wallet(
-  destination.privatekey,
-  new providers.JsonRpcProvider(destination.rpcUrl)
-);
-
-(async () => {
   console.log("Registering a token");
+// inits
+  const sourceWallet = new Wallet(
+      source.privatekey,
+      new providers.JsonRpcProvider(source.rpcUrl)
+  );
+  const destinationnWallet = new Wallet(
+      destination.privatekey,
+      new providers.JsonRpcProvider(destination.rpcUrl)
+  );
+  const CHAINSBYID = Object.entries(CHAINS).reduce((acc:any, curr:any) => {
+    acc[curr[1].toString()] = { name: curr[0].toString(), chainId: curr[1] };
+    return acc;
+  }, {});
+
   console.log("1. Create AttestMeta VAA ");
   const networkTokenAttestation = await attestFromEth(
     source.tokenBridge, // Token Bridge Address
     sourceWallet, //Private Key to sign and pay for TX + RPC Endpoint
     source.token //Token Address
   );
-  
+
   await new Promise((r) => setTimeout(r, 2000));
   console.log("2. Retrive VAA and sequence");
   const emitterAddr = getEmitterAddressEth(source.tokenBridge);
@@ -79,7 +71,7 @@ const destinationnWallet = new Wallet(
   const contractInterface = new utils.Interface(Bridge['abi']);
   const targetTokenBridge = new Contract(destination.tokenBridge, contractInterface, destinationnWallet)
 
-  let wrappedTxn = await targetTokenBridge.createWrapped(
+  const wrappedTxn = await targetTokenBridge.createWrapped(
     Buffer.from(vaaBytes.vaaBytes, "base64"),
     {
       gasLimit: 2000000,
@@ -93,5 +85,6 @@ const destinationnWallet = new Wallet(
     {gasLimit: 2000000 }
   );
   console.log("Wrapped token on destination chain created at: ", wrappedTokenAddress);
+  return wrappedTokenAddress;
 
-})();
+}
