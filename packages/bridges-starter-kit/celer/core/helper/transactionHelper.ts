@@ -35,7 +35,7 @@ export const getTransferId = (
     )
 }
 
-export const transactor = async (tx: any, chainId?: number): Promise<ethers.ContractTransaction> => {
+export const transactor = async (tx: any, rpcURL: string, privateKey: string): Promise<ethers.ContractTransaction> => {
     let result: TransactionResponse;
     if (tx instanceof Promise) {
         result = await tx;
@@ -46,7 +46,7 @@ export const transactor = async (tx: any, chainId?: number): Promise<ethers.Cont
         if (!tx.gasLimit) {
             tx.gasLimit = BigNumber.from(120000)
         }
-        result = await getSigner(chainId).sendTransaction(tx);
+        result = await getSigner(rpcURL, privateKey).sendTransaction(tx);
     }
     return result!;
 }
@@ -172,6 +172,7 @@ export const getAllowance = async (
     originalAddress: string,
     fromChainId: number | undefined = undefined,
     tokenSymbol: string | undefined = undefined,
+    rpcURL: string,
     peggedPairs: Array<any> | undefined = undefined
 ) => {
     const tokenAddress = getTokenBalanceAddress(
@@ -180,7 +181,7 @@ export const getAllowance = async (
         tokenSymbol,
         peggedPairs
     )
-    const tokenContract = new Contract(tokenAddress, tokenInterface, getSigner(fromChainId))
+    const tokenContract = new Contract(tokenAddress, tokenInterface, getSigner(rpcURL))
     const allowance = await tokenContract?.allowance(walletAddress, spenderAddress)
     return allowance
 }
@@ -205,15 +206,16 @@ export const checkApprove = (allowance: BigNumber, amount: string, token?: Token
     }
 }
 
-export const approve = async (spenderAddress: string, token?: Token, amount?: string, chainId?: number) => {
+export const approve = async (spenderAddress: string, rpcURL: string, privateKey: string, token?: Token, amount?: string) => {
     if (!token) {
         return
     }
     try {
-        const tokenContract = new Contract(token.address, tokenInterface, getSigner(chainId))
+        const tokenContract = new Contract(token.address, tokenInterface, getSigner(rpcURL, privateKey))
         const approveTx = await transactor(
                 tokenContract.approve(spenderAddress, safeParseUnits(amount || "0", token?.decimal ?? 18), {gasLimit: 100000 }),
-                chainId
+                rpcURL,
+                privateKey
             )
         await approveTx.wait()
         return approveTx

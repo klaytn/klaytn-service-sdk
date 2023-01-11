@@ -101,4 +101,5 @@ lint/tmp/
 gas-report.txt
 
 contracts/test/fuzzing/crytic-export!
+/packages/bridges-starter-kit/celer/dist/
 /packages/dexs-starter-kit/dist

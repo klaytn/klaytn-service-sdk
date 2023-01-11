@@ -3,19 +3,24 @@ import { GetTransferStatusResponse, WithdrawLiquidityRequest, WithdrawMethodType
 import { WithdrawReq, WithdrawType } from "../ts-proto/sgn/cbridge/v1/tx_pb"
 import { getTransferStatus } from "./GetData"
 import { parseRefundTxResponse } from "./withdraw"
-import { Contract, ContractTransaction } from "ethers"
-import { getConfirmations, transactor } from "../helper"
+import { Contract, ContractReceipt, ContractTransaction } from "ethers"
+import { transactor } from "../helper"
 import { statusTracker } from "./StatusTracker"
 
-const srcChainId = parseInt(process.env.CHAIN1_ID!);
-const confirmations: number = parseInt(process.env.CONFIRMATIONS ? process.env.CONFIRMATIONS : "6");
-
-export const requestRefund = async (type: string, contractInstance: Contract, rpc: string, transferId: string, estimated: string) => {
-    const client = new WebClient(rpc, null, null)
+export const requestRefund = async (
+    type: string,
+    contractInstance: Contract,
+    CBRIDGE_GATEWAY_URL: string,
+    TRANSFER_ID: string,
+    estimated: string,
+    SRC_CHAIN_RPC: string,
+    PRIVATE_KEY: string,
+    CONFIRMATIONS: number ): Promise<ContractReceipt> => {
+    const client = new WebClient(CBRIDGE_GATEWAY_URL, null, null)
 
     const timestamp = Math.floor(Date.now() / 1000)
     const withdrawReqProto = new WithdrawReq()
-    withdrawReqProto.setXferId(transferId)
+    withdrawReqProto.setXferId(TRANSFER_ID)
     withdrawReqProto.setReqId(timestamp)
     withdrawReqProto.setWithdrawType(WithdrawType.WITHDRAW_TYPE_REFUND_TRANSFER)
 
@@ -28,8 +33,11 @@ export const requestRefund = async (type: string, contractInstance: Contract, rp
     console.log("2. Submitting withdrawal request to cBRIDGE network...");
     const wres = await client.withdrawLiquidity(req, null)
     let refundTx: ContractTransaction;
+    const statusTx = (status:number) => { return status}
+    let resolver;
+    const refund = new Promise( (r) => { resolver = r;} )
     if (!wres.getErr() || wres.getErr()?.getCode() == 500) {
-        statusTracker(rpc, transferId, async (res: GetTransferStatusResponse.AsObject) => {
+        statusTracker(CBRIDGE_GATEWAY_URL, TRANSFER_ID, async (res: GetTransferStatusResponse.AsObject) => {
             if (res.status !== 8) return console.error("invalid transfer status: " + res.status);
             const { wdmsg, sigs, signers, powers } =  parseRefundTxResponse(res.wdOnchain, res.signersList, res.sortedSigsList, res.powersList)
             console.log("3. Confirming Refund Request on-chain...")
@@ -45,17 +53,21 @@ export const requestRefund = async (type: string, contractInstance: Contract, rp
                         sigs,
                         signers,
                         powers, {gasLimit: 200000 }),
-                srcChainId
+                SRC_CHAIN_RPC,
+                PRIVATE_KEY
             )
-            if ( !refundTx) return console.log("Error while refunding on-chain");
+            if ( !refundTx) throw new Error("Error while refunding on-chain");
 
             console.log("refundTx hash: " + refundTx.hash);
             console.log("Waiting for the confirmations of refundTx");
-            const confirmationReceipt = await getConfirmations(refundTx.hash, confirmations, type === "BURN" ? process.env.CHAIN2_RPC!: process.env.CHAIN1_RPC!); // instead of waiting for fixed time, wait for some confirmations
+            const confirmationReceipt = await refundTx.wait(CONFIRMATIONS ?? 6)
+             // = await getConfirmations(refundTx.hash, CONFIRMATIONS, type === "BURN" ? DST_CHAIN_RPC: SRC_CHAIN_RPC); // instead of waiting for fixed time, wait for some confirmations
             console.log(`refundTx confirmed upto ${confirmationReceipt.confirmations} confirmations`);
 
-            statusTracker(rpc, transferId, null,8);
+            statusTracker(CBRIDGE_GATEWAY_URL, TRANSFER_ID, null,8);
+            resolver(confirmationReceipt);
         }, 7)
+        return await refund as ContractReceipt;
 
     } else {
         console.log(`Refund error`, wres.getErr()?.toObject())

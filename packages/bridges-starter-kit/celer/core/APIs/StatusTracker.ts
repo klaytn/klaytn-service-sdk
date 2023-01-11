@@ -35,7 +35,7 @@ export const statusTracker = async (rpc: string, transferId: string, callback?: 
         }else if (res.status === 6 && res.status !== observerdStatus) {
             observerdStatus = res.status;
             console.warn("cBRIDGE => TRANSFER_TO_BE_REFUNDED")
-            console.log("Initiate the Refund process, e.g: examples/***FlowRefund.ts")
+            console.log("Initiate the Refund process, e.g: use-cases/***FlowRefund.ts")
             console.log("Tx Details: ", res)
             clearInterval(interval)
                 callback ? callback(res) : null;
