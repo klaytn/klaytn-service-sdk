@@ -14,13 +14,13 @@ task("request-data", "Calls an API Consumer Contract to request external data")
 
     //Create connection to API Consumer Contract and call the createRequestTo function
     const apiConsumerContract = new ethers.Contract(contractAddr, APIConsumer.interface, signer)
-    var result = await apiConsumerContract.requestVolumeData()
+    var result = await apiConsumerContract.requestVolumeData({gasLimit: 200000})
     console.log(
       "Contract ",
       contractAddr,
-      " external data request successfully called. Transaction Hash: ",
-      result.hash
+      " external data request successfully called.  "
     )
+    console.log("Transaction Hash: "+result.hash)
     console.log("Run the following to read the returned result:")
     console.log("yarn hardhat read-data --contract " + contractAddr + " --network " + network.name)
   })

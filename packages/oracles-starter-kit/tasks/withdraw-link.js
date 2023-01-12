@@ -31,10 +31,9 @@ task("withdraw-link", "Returns any LINK left in deployed contract")
       )
       const result = await ConsumerContract.withdrawLink()
       console.log(
-        "All LINK withdrew from contract " + contractAddr,
-        ". Transaction Hash: ",
-        result.hash
+        "All LINK withdrew from contract " + contractAddr
       )
+      console.log("Transaction Hash: "+result.hash);
     } else {
       console.log("Contract doesn't have any LINK to withdraw")
     }

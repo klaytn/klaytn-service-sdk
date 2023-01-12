@@ -19,7 +19,7 @@ task("read-witnet-random-number", "Reads the random number returned to a contrac
 
     const randomNumber = await witnetRandomContract.randomness()
     console.log(
-      `Random Numbers is: ${randomNumber.toString()}`
+      `Random Number is: ${randomNumber.toString()}`
     )
   })
 

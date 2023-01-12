@@ -6,6 +6,7 @@ const {
 } = require("../helper-hardhat-config")
 const { verify } = require("../helper-functions")
 const { networks } = require("../hardhat.config")
+const fs = require("fs");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments
@@ -40,9 +41,27 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   //   await verify(WitnetPriceFeed.address, [priceFeedAddress])
   // }
 
+  let sourcePath = "./deployedContracts.json";
+  let jsonData = {
+    chainLinkPriceFeed: '',
+    chainLinkApiData: '',
+    chainLinkRandomNumber: '',
+    keepersCounter: '',
+    witnetPriceFeed: '',
+    witnetRandomNumber: '',
+    network: ''
+  };
+  if (fs.existsSync(sourcePath)) {
+    jsonData = JSON.parse(fs.readFileSync(sourcePath));
+  }
+
   log("Run Witnet Price Feed contract with command:")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
-  log(`yarn hardhat read-witnet-price-feed --contract ${witnetPriceFeed.address} --network ${networkName}`)
+  // log(`yarn hardhat read-witnet-price-feed --contract ${witnetPriceFeed.address} --network ${networkName}`)
+  log(`Execute readWitnetPriceFeed method`);
+  jsonData["witnetPriceFeed"] = witnetPriceFeed.address;
+  jsonData["network"] = networkName;
+  fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
   log("----------------------------------------------------")
 }
 

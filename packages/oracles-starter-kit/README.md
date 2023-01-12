@@ -1,36 +1,88 @@
 # Oracle Starter Kit
-- [Usage](#usage)
-  - [Deploying Contracts](#deploying-contracts)
-  - [Setup Baobab Klaytn network](#setup-baobab-klaytn-network)
-- [Interacting with Deployed Contracts](#interacting-with-deployed-contracts)
-  - [Chainlink Price Feeds](#chainlink-price-feeds)
-  - [Request & Receive Data](#chainlink-request--receive-data)
-  - [VRF Get a random number](#chainlink-vrf-get-a-random-number)
-  - [Keepers](#chainlink-keepers)
-  - [Witnet Price Feeds](#witnet-price-feeds)
-  - [Witnet Randomness](#witnet-randomness)
-- [Witnet Web Oracle Request](#witnet-web-oracle-request)
-- [Resources](#resources)
+- [Oracle Starter Kit](#oracle-starter-kit)
+  - [Usage](#usage)
+  - [Setup Hardhat configurations Baobab Klaytn network and variables](#setup-hardhat-configurations-baobab-klaytn-network-and-variables)
+  - [Interacting with Deployed Contracts](#interacting-with-deployed-contracts)
+    - [Chainlink Price Feeds](#chainlink-price-feeds)
+    - [Chainlink Request \& Receive Data](#chainlink-request--receive-data)
+    - [Chainlink VRF Get a random number](#chainlink-vrf-get-a-random-number)
+    - [Chainlink Keepers](#chainlink-keepers)
+    - [Witnet Price Feeds](#witnet-price-feeds)
+    - [Witnet Randomness](#witnet-randomness)
+  - [Witnet Web Oracle Request](#witnet-web-oracle-request)
+  - [Resources](#resources)
 
 <br/>
 
 ## Usage
-If you run `yarn hardhat --help` you'll get an output of all the tasks you can run. Please setup the Baobab network before running any task. 
-
-## Setup Baobab Klaytn network
-In your `hardhat.config.js` you'll see section like:
-
 ```
-module.exports = {
-  defaultNetwork: "baobab",
-  networks: {
+const {
+    setVariables, 
+    getVariables,
+    setBaobabHardhatConfigurations,
+    getBaobabHardhatConfigurations,
+    compile,
+    deployAll,
+    deployChainLinkPriceFeed,
+    readChainLinkPriceFeed,
+    deployChainLinkApiData,
+    fundChainLinkApiData,
+    requestChainLinkApiData,
+    deployChainLinkRandomNumber,
+    requestChainLinkRandomNumber,
+    readChainLinkRandomNumber,
+    deployChainLinkKeepersCounter,
+    readChainLinkKeepersCounter,
+    deployWitnetPriceFeed,
+    readWitnetPriceFeed,
+    deployWitnetRandomNumber,
+    requestWitnetRandomNumber,
+    readWitnetLatestRandomizingBlock,
+    fetchWitnetRandomNumber,
+    readWitnetRandomNumber,
+    compileWitnetQueriesToSolidityContracts,
+    getCompiledWitnetQueriesSolFiles,
+    tryWitnetQueries
+} = require("@klaytn-developer-sdk/oracles-starter-kit");
 ```
 
-This section of the file is where you define which networks you want to interact with. You can read more about that whole file in the [hardhat documentation.](https://hardhat.org/config/)
+## Setup Hardhat configurations Baobab Klaytn network and variables
+Use `console.log(getBaobabHardhatConfigurations())` to get the configurations
 
-First, we will need to set environment variables. We can do so by setting them in our `.env` file inside `packages/oracles-starter-kit/chainlink` (create it if it's not there). You can also read more about [environment variables](https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html) from the linked twilio blog. You'll find a sample of what this file will look like in `.env.example`
+Modify and execute below method to change the Hardhat configurations
+```
+Default Configurations are as shown below:
+setBaobabHardhatConfigurations({
+    name: 'baobab',
+    linkToken: '0x04c5046A1f4E3fFf094c26dFCAA75eF293932f18',
+    keyHash: '0x9be50e2346ee6abe000e6d3a34245e1d232c669703efc44660a413854427027c',
+    chainLinkPriceFeed: '0xf49f81b3d2F2a79b706621FA2D5934136352140c',
+    oracle: '0xfC3BdAbD8a6A73B40010350E2a61716a21c87610',
+    jobId: 'ca98366cc7314957b8c012c72f05aeeb',
+    vrfCoordinator: '0x771143FcB645128b07E41D79D82BE707ad8bDa1C',
+    witnetPriceRouter: '0xeD074DA2A76FD2Ca90C1508930b4FB4420e413B0',
+    witnetRandomness: '0xb4b2e2e00e9d6e5490d55623e4f403ec84c6d33f',
+    fee: '100000000000000',
+    fundAmount: '100000000000000'
+  })
+```
+This command will modify the `helper-hardhat-config.json` in the package node_modules.
 
-> IMPORTANT: MAKE SURE YOU'D DON'T EXPOSE THE KEYS YOU PUT IN THIS `.env` FILE. By that, I mean don't push them to a public repo, and please try to keep them keys you use in development not associated with any real funds. 
+First, we will need to set environment variables. We can do so by using below commands.
+
+Use `console.log(getVariables)` to fetch the environment variables. This are retrieved from .env file of package in node_modules.
+
+Use below command to set the environment variables. Explaination of each variable can be found below.
+```
+setVariables({
+    BAOBAB_RPC_URL: 'https://api.baobab.klaytn.net:8651', 
+    PRIVATE_KEY: 'Private key here', 
+    AUTO_FUND: true, 
+    VRF_SUBSCRIPTION_ID: <vrf subscription id>
+})
+```
+
+> IMPORTANT: MAKE SURE YOU DON'T EXPOSE THE KEYS YOU PUT IN THIS `.env` FILE. By that, I mean don't push them to a public repo, and please try to keep them keys you use in development not associated with any real funds. 
 
 1. Set your `BAOBAB_RPC_URL` [environment variable.](https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html)
 
@@ -38,7 +90,7 @@ You can use this https://api.baobab.klaytn.net:8651/. This is your connection to
 
 2. Set your `PRIVATE_KEY` environment variable. 
 
-This is your private key from your wallet, ie [MetaMask](https://metamask.io/). This is needed for deploying contracts to public networks. You can optionally set your `MNEMONIC` environment variable instead with some changes to the `hardhat.config.js`.
+This is your private key from your wallet, ie [MetaMask](https://metamask.io/). This is needed for deploying contracts to public networks. 
 
 ![WARNING](https://via.placeholder.com/15/f03c15/000000?text=+) **WARNING** ![WARNING](https://via.placeholder.com/15/f03c15/000000?text=+)
 
@@ -46,97 +98,96 @@ When developing, it's best practice to use a Metamask that isn't associated with
 
 Don't commit and push any changes to .env files that may contain sensitive information, such as a private key! If this information reaches a public GitHub repository, someone can use it to check if you have any Mainnet funds in that wallet address, and steal them!
 
-`.env` example:
-```
-BAOBAB_RPC_URL='https://api.baobab.klaytn.net:8651/'
-PRIVATE_KEY='abcdef'
-```
-`bash` example
-```
-export BAOBAB_RPC_URL='https://api.baobab.klaytn.net:8651/'
-export PRIVATE_KEY='abcdef'
-```
-
-> You can also use a `MNEMONIC` instead of a `PRIVATE_KEY` environment variable by uncommenting the section in the `hardhat.config.js`, and commenting out the `PRIVATE_KEY` line. However this is not recommended. 
-
 For mainnet, you can use different environment variables for your RPC URL and your private key. See the `hardhat.config.js` to learn more. 
 
-3. Get some Baobab Testnet KLAY and LINK 
-Go to the [Klaytn faucets](https://baobab.wallet.klaytn.foundation/faucet) to get some KLAY.
-Head over to the [Chainlink faucets](https://faucets.chain.link/) and get some LINK. Please follow [the chainlink documentation](https://docs.chain.link/docs/acquire-link/) if unfamiliar. 
+1. Get some Baobab Testnet KLAY and LINK 
+Go to the [Klaytn faucets](https://baobab.wallet.klaytn.foundation/faucet) to get some KLAY to configured private key account.
+Head over to the [Chainlink faucets](https://faucets.chain.link/) and get some LINK to configured private key account. Please follow [the chainlink documentation](https://docs.chain.link/docs/acquire-link/) if unfamiliar. 
 
-4. Create VRF V2 subscription
+1. Create VRF V2 subscription
 
-Head over to [VRF Subscription Page](https://vrf.chain.link/klaytn-testnet) and create the new subscription. Save your subscription ID and put it in `.env` file as `VRF_SUBSCRIPTION_ID`
+Head over to [VRF Subscription Page](https://vrf.chain.link/klaytn-testnet) and create the new subscription. Save your subscription ID and put it in environment variables as `VRF_SUBSCRIPTION_ID` with the help of `setVariables` function along with `PRIVATE_KEY`
 
-5. Running commands
+1. Running methods
 
-You should now be all setup! You can run any command and just pass the `--network baobab` now! Since we config default network is baobab so you don't really need to pass that argument for sort.
+You should now be all setup! You can run any method now! Since we configured the environment variables and hardhat configurations so you don't really need to pass that argument for sort.
 
 To deploy contracts:
 
 ```
-yarn hardhat deploy --network baobab
+deployAll().then(result => console.log(result))
 ```
 
-To run tests
+To deploy individual contracts:
 ```
-yarn hardhat test --network baobab
+deployChainLinkPriceFeed().then(result => console.log(result))
+deployChainLinkApiData().then(result => console.log(result))
+deployChainLinkRandomNumber().then(result => console.log(result))
+deployChainLinkKeepersCounter().then(result => console.log(result))
+deployWitnetPriceFeed().then(result => console.log(result))
+deployWitnetRandomNumber().then(result => console.log(result))
 ```
 
 ## Interacting with Deployed Contracts
 
-After deploying your contracts, the deployment output will give you the contract addresses as they are deployed. You can then use these contract addresses in conjunction with Hardhat tasks to perform operations on each contract.
+After deploying your contracts, the deployment output will give you the contract addresses as they are deployed and also stored in `deployedContracts.json` within the node_modules. You can then use these contract addresses in conjunction with Hardhat tasks to perform operations on each contract.
 
+To fetch the deployed contracts:
+```
+console.log(readDeployedContracts())
+```
 ### Chainlink Price Feeds
 The Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
 
 ```bash
-yarn hardhat read-price-feed --contract insert-contract-address-here --network baobab
+readChainLinkPriceFeed().then(result => console.log(result))
 ```
 
 ### Chainlink Request & Receive Data
 The APIConsumer contract has two tasks, one to request external data based on a set of parameters, and one to check to see what the result of the data request is. This contract needs to be funded with link first:
 
 ```bash
-yarn hardhat fund-link --contract insert-contract-address-here --network baobab
+fundChainLinkApiData().then(result => console.log(result))
 ```
 > **WARNING**: `chainlink-plugin-fund-link` have not supported `baobab network`. You have to fund link manually
 
 Once it's funded, you can request external data by passing in a number of parameters to the request-data task. The contract parameter is mandatory, the rest are optional
 
 ```bash
-yarn hardhat request-data --contract insert-contract-address-here
+requestChainLinkApiData().then(result => console.log(result))
 ```
 
-Once you have successfully made a request for external data, you can see the result via the read-data task
+Once you have successfully made a request for external data, you can see the result via the read-data task. it retrives VOLUME24 from https://min-api.cryptocompare.com/data/pricemultifull?fsyms=KLAY&tsyms=USD from the contract
 ```bash
-yarn hardhat read-data --contract insert-contract-address-here
+readChainLinkApiData().then(result => console.log(result));
 ```
 
 ### Chainlink VRF Get a random number
-The VRFConsumer contract has two tasks, one to request a random number, and one to read the result of the random number request. To start, go to [VRF Subscription Page](https://vrf.chain.link/goerli) and create the new subscription. Save your subscription ID and put it in `.env` file as `VRF_SUBSCRIPTION_ID`:
+The VRFConsumer contract has two tasks, one to request a random number, and one to read the result of the random number request. To start, go to [VRF Subscription Page](https://vrf.chain.link/klaytn-testnet) and create the new subscription. Save your subscription ID and put it in environment variables as `VRF_SUBSCRIPTION_ID` using `setVariables` method:
 
 ```bash
-VRF_SUBSCRIPTION_ID=subscription_id
+setVariables({
+  VRF_SUBSCRIPTION_ID=subscription_id
+})
 ```
 
 Then, deploy your VRF V2 contract consumer(if its not deployed already with the subscription id) to the network with your recent subscription using subscription id as constructor argument.
 
 ```bash
-yarn hardhat deploy   
+deployChainLinkRandomNumber().then(result => console.log(result))  
 ```
 
-Finally, you need to go to your subscription page one more time and add the address of deployed contract as a new consumer. Once that's done, you can perform a VRF request with the request-random-number task:
+Finally, you need to go to your subscription page one more time and add the address of deployed contract as a new consumer (https://vrf.chain.link/klaytn-testnet/<subscriptionid>). Once that's done, you can perform a VRF request with the request-random-number task.
+Make sure to add LINK funds to the subscription from the chainlink UI screen:
 
 ```bash
-yarn hardhat request-random-number --contract insert-contract-address-here
+requestChainLinkRandomNumber().then(result => console.log(result))
 ```
 
 Once you have successfully made a request for a random number, you can see the result via the read-random-number task:
 
 ```bash
-yarn hardhat read-random-number --contract insert-contract-address-here
+readChainLinkRandomNumber().then(result => console.log(result));
 ```
 
 ### Chainlink Keepers
@@ -144,7 +195,7 @@ yarn hardhat read-random-number --contract insert-contract-address-here
 
 
 ```bash
-yarn hardhat read-keepers-counter --contract insert-contract-address-here
+readChainLinkKeepersCounter().then(result => console.log(result));
 ``` -->
 > **WARNING**:
 The Baobab network is not supported by Chainlink Automation (aka Chainlink Keepers) yet. Because of that, the response of the Keeper will always be 0. You can ignore this feature in the current version.
@@ -155,28 +206,28 @@ The Baobab network is not supported by Chainlink Automation (aka Chainlink Keepe
 The Witnet Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
 
 ```bash
-yarn hardhat read-witnet-price-feed --contract insert-contract-address-here --network baobab
+readWitnetPriceFeed().then(result => console.log(result));
 ```
 
 ### Witnet Randomness
 The Witnet Randomness has 4 tasks:
 - Request new randomness:
 ```bash
-yarn hardhat request-witnet-randomness --contract insert-contract-address-here --network baobab
+requestWitnetRandomNumber().then(result => console.log(result));
 ```
 - Get the latest randomizing block:
 ```bash
-yarn hardhat read-latest-randomizing-block --contract insert-contract-address-here --network baobab
+readWitnetLatestRandomizingBlock().then(result => console.log(result))
 ```
 - Fetch Witnet random number:
 ```bash
-yarn hardhat fetch-witnet-random-number --contract insert-contract-address-here --network baobab
+fetchWitnetRandomNumber().then(result => console.log(result))
 ```
 > **WARNING**:
 Calling fetch-witnet-random-number right after request-witnet-randomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete
 - Get the random number:
 ```bash
-yarn hardhat read-witnet-random-number --contract insert-contract-address-here --network baobab
+readWitnetRandomNumber().then(result => console.log(result));
 ```
 
 ## Witnet Web Oracle Request
@@ -190,13 +241,21 @@ You can follow this [link](https://docs.witnet.io/smart-contracts/witnet-web-ora
 
 To compile the Witnet queries into Solidity contracts, run:
 ```
-npx rad2sol --target ./witnet-queries --write-contracts ./contracts/witnet-requests
+compileWitnetQueriesToSolidityContracts().then(result => console.log(result))
+```
+
+To fetch the compiled contract filenames, run:
+```
+console.log(getCompiledWitnetQueriesSolFiles());
 ```
 
 After the contracts have been created, you can query locally to preview the result by running:
 ```
-npx witnet-toolkit try-query --from-solidity ./contracts/witnet-requests/{contract-file-name}
+tryWitnetQueries(<CompiledSolFileName>).then(result => console.log(result))
+Example: tryWitnetQueries("klayPrice.sol").then(result => console.log(result))
 ```
+If above tryWitnetQueries is stuck, please try to run command shown in below snapshot, install the binary and retry above method
+![WitnetToolkitBinary](./WitnetToolkitBinary.png)
 
 ## Resources
 
