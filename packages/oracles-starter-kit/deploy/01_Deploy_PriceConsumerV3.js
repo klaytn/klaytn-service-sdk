@@ -6,6 +6,7 @@ const {
 } = require("../helper-hardhat-config")
 const { verify } = require("../helper-functions")
 const { networks } = require("../hardhat.config")
+const fs = require("fs");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments
@@ -17,7 +18,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const EthUsdAggregator = await deployments.get("MockV3Aggregator")
     priceFeedAddress = EthUsdAggregator.address
   } else if (chainId === networks.baobab.chainId) {
-    priceFeedAddress = networkConfig[chainId]["linkKlayPriceFeed"]
+    priceFeedAddress = networkConfig[chainId]["chainLinkPriceFeed"]
   } else {
     priceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"]
   }
@@ -42,8 +43,26 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   // }
 
   log("Run Price Feed contract with command:")
+
+  let sourcePath = "./deployedContracts.json";
+  let jsonData = {
+    chainLinkPriceFeed: '',
+    chainLinkApiData: '',
+    chainLinkRandomNumber: '',
+    keepersCounter: '',
+    witnetPriceFeed: '',
+    witnetRandomNumber: '',
+    network: ''
+  };
+  if (fs.existsSync(sourcePath)) {
+    jsonData = JSON.parse(fs.readFileSync(sourcePath));
+  }
   const networkName = network.name == "hardhat" ? "localhost" : network.name
-  log(`yarn hardhat read-price-feed --contract ${priceConsumerV3.address} --network ${networkName}`)
+  //log(`yarn hardhat read-price-feed --contract ${priceConsumerV3.address} --network ${networkName}`)
+  log(`Execute readChainLinkPriceFeed method`);
+  jsonData["chainLinkPriceFeed"] = priceConsumerV3.address;
+  jsonData["network"] = networkName;
+  fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
   log("----------------------------------------------------")
 }
 

@@ -22,13 +22,13 @@ task("request-witnet-random-number", "Requests a random number for a Witnet enab
       WitnetRandom.interface,
       signer
     )
-    const transaction = await witnetRandomContract.requestRandomness({ value })
+    const transaction = await witnetRandomContract.requestRandomness({ value, gasLimit: 200000 })
     console.log(
       "Contract ",
       contractAddr,
-      " random number request successfully called. Transaction Hash: ",
-      transaction.hash
+      " random number request successfully called."
     )
+    console.log("Transaction Hash: "+transaction.hash);
     console.log("Run the following to fetch the random number:")
     console.log(
       "yarn hardhat fetch-witnet-random-number --contract " + contractAddr + " --network " + network.name

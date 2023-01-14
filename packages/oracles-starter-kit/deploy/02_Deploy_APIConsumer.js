@@ -5,6 +5,7 @@ const {
   VERIFICATION_BLOCK_CONFIRMATIONS,
 } = require("../helper-hardhat-config")
 const { autoFundCheck, verify } = require("../helper-functions")
+const fs = require("fs");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log, get } = deployments
@@ -61,9 +62,26 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     }
   }
 
+  let sourcePath = "./deployedContracts.json";
+  let jsonData = {
+    chainLinkPriceFeed: '',
+    chainLinkApiData: '',
+    chainLinkRandomNumber: '',
+    keepersCounter: '',
+    witnetPriceFeed: '',
+    witnetRandomNumber: '',
+    network: ''
+  };
+  if (fs.existsSync(sourcePath)) {
+    jsonData = JSON.parse(fs.readFileSync(sourcePath));
+  }
   log("Run API Consumer contract with following command:")
   const networkName = network.name == "hardhat" ? "localhost" : network.name
-  log(`yarn hardhat request-data --contract ${apiConsumer.address} --network ${networkName}`)
+  //log(`yarn hardhat request-data --contract ${apiConsumer.address} --network ${networkName}`)
+  log(`Execute fundChainLinkApiData, requestChainLinkApiData, readChainLinkApiData methods`);
+  jsonData["chainLinkApiData"] = apiConsumer.address;
+  jsonData["network"] = networkName;
+  fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
   log("----------------------------------------------------")
 }
 module.exports.tags = ["all", "api", "main"]
