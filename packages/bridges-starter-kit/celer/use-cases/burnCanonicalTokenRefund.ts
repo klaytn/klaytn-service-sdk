@@ -36,7 +36,7 @@ export async function burnCanonicalTokenRefund(
     const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
     const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === SRC_CHAIN_ID && config.bridge_version === 2)?.pegged_burn_contract_addr
     const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
-
+    if (!peggedTokenBridgeAddress && !peggedTokenBridgeV2Address) throw new Error('SRC_CHAIN_ID not supported by cBridge');
     const pegConfig = getPegConfig(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL)
     const bridgeVersion = pegConfig?.bridge_version;
     const peggedTokenContact = bridgeVersion === 2 ? peggedTokenBridgeV2: peggedTokenBridge;

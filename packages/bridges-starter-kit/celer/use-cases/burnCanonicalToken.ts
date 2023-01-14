@@ -32,22 +32,23 @@ export async function burnCanonicalToken(
     console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL)
 
-    // check if its a valid pair transfer
-    const isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
-                        (chainToken.org_chain_id == DST_CHAIN_ID
-                            && chainToken.pegged_chain_id == SRC_CHAIN_ID
-                            && chainToken.pegged_token?.token?.symbol.toUpperCase() == TOKEN_SYMBOL
-                        )).length > 0);
-
-    if(!isPairPresent) {
-        throw new Error("Please choose valid pairs");
-    }
 
     const peggedTokenBridgeAddress = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === SRC_CHAIN_ID && config.bridge_version < 2)?.pegged_burn_contract_addr
     const peggedTokenBridge = getContract(peggedTokenBridgeAddress || '', PeggedTokenBridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
     const peggedTokenBridgeV2Address = transferConfigs.pegged_pair_configs.find(config => config.pegged_chain_id === SRC_CHAIN_ID && config.bridge_version === 2)?.pegged_burn_contract_addr
     const peggedTokenBridgeV2 = getContract(peggedTokenBridgeV2Address || '', PeggedTokenBridgeV2ABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
+    if (!peggedTokenBridgeAddress && !peggedTokenBridgeV2Address) throw new Error('SRC_CHAIN_ID not yet supported by cBridge');
 
+    // check if its a valid pair transfer
+    const isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
+        (chainToken.org_chain_id == DST_CHAIN_ID
+            && chainToken.pegged_chain_id == SRC_CHAIN_ID
+            && chainToken.pegged_token?.token?.symbol.toUpperCase() == TOKEN_SYMBOL
+        )).length > 0);
+
+    if(!isPairPresent) {
+        throw new Error("Please choose valid TOKEN_SYMBOL that is supported by given pair of chains");
+    }
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
         SRC_CHAIN_ID,
