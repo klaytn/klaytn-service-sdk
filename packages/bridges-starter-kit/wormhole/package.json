@@ -2,7 +2,7 @@
   "name": "@klaytn-developer-sdk/bridge-wormhole",
   "version": "1.0.0",
   "description": "Typescript and Javascript client and use-cases for wormhole",
-  "main": "core/index.ts",
+  "main": "dist/core/index.js",
   "scripts": {
     "test-attest": "ts-node use-cases/attest.ts",
     "test-transfer-basic": "ts-node use-cases/transferBasic.ts",

@@ -7,6 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "build": "wsrun -m build",
+    "lint": "wsrun -m lint",
+    "test": "wsrun -m test",
     "oracle:help": "yarn workspace oracles-starter-kit help",
     "oracle:compile": "yarn workspace oracles-starter-kit compile",
     "oracle:deploy": "yarn workspace oracles-starter-kit deploy",
@@ -30,6 +33,7 @@
   },
   "dependencies": {
     "chai": "^4.3.7",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "wsrun": "^5.2.4"
   }
 }
