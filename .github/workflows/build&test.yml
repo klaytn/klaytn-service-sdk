@@ -11,11 +11,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.17.0
+#     - name: 'installing python3 [reason: 'act' was throwing error of python not found]
       - run: apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3 make g++
       - run: python3 --version
 #      - name: 'installing dependencies'
-      - run: npm install
+      - run: yarn install
 #      - name: 'building'
-      - run: npm run build
+      - run: yarn run build
+#      - name: 'linting'
+      - run: yarn run lint
 #      - name: 'testing'
-      - run: npm run test
+#      - run: yarn run test
