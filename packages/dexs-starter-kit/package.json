@@ -1,0 +1,33 @@
+{
+  "name": "@klaytn-developer-sdk/dex",
+  "version": "1.0.0",
+  "description": "it includes dex-contracts integration & use-cases",
+  "main": "core/index.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "echo not tests to run yet",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts --fix ."
+  },
+  "keywords": [
+    "klaytn",
+    "contracts",
+    "dex",
+    "swap",
+    "trade",
+    "farming",
+    "pool"
+  ],
+  "author": "Klaytn Community <developer@klaytn.foundation>",
+  "license": "MIT",
+  "dependencies": {
+    "mocha": "^10.1.0",
+    "ts-node": "^8.6.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "eslint": "^8.30.0",
+    "typescript": "^4.9.4"
+  }
+}

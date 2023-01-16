@@ -4,14 +4,11 @@
 const { ethers } = require("hardhat")
 
 async function readPrice() {
-  const priceConsumerV3 = await ethers.getContract("PriceConsumerV3")
-  const price = await priceConsumerV3.getLatestPrice()
-  console.log(price.toString())
+  try {
+    const priceConsumerV3 = await ethers.getContract("PriceConsumerV3")
+    const price = await priceConsumerV3.getLatestPrice()
+    return price.toString();
+  } catch(err) {
+    console.log(err);
+  }
 }
-
-readPrice()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error)
-    process.exit(1)
-  })
