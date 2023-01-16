@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-      # - name: Install dependencies and build 🔧
+      - name: Install dependencies and build 🔧
        run: npm ci && npm run build
       - name: Publish package on NPM 📦
         run: npx pnpm --filter "@klaytn-developer-sdk/*" -r publish --publish-branch main --no-git-check
