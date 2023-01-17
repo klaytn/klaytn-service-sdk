@@ -13,7 +13,6 @@ describe("poolTransfer", async () => {
     let AMOUNT: string
     let SLIPPAGE_TOLERANCE: number
     let CONFIRMATIONS: number
-
     let transferId;
 
     it("should init the params", async () => {
@@ -83,7 +82,6 @@ describe("poolTransfer", async () => {
     })
 
     it("should perform poolTransfer action", async () => {
-        // return true;
          transferId = await poolTransfer(
             CBRIDGE_GATEWAY_URL,
             WALLET_ADDRESS,

@@ -82,7 +82,6 @@ describe("burnCanonicalTokenRefund", async () => {
     })
     it("should throw error if BURN_ID is of status 'TRANSFER_ALREADY_COMPLETED'", async function() {
         let alreadyRefundedBurnId = '0x0963539b3ef3f0c4033e3e93ac733a7f6484345f6db8d3d85b389033ab466827'
-        return true;
         try {
             await burnCanonicalTokenRefund(
                 CBRIDGE_GATEWAY_URL,
