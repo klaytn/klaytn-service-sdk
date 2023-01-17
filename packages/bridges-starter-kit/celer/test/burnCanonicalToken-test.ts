@@ -75,7 +75,7 @@ describe("burnCanonicalToken", async () => {
     })
 
     it("should perform burnCanonicalToken action", async () => {
-         const depositId = await burnCanonicalToken(
+         const burnId = await burnCanonicalToken(
             CBRIDGE_GATEWAY_URL,
             SRC_CHAIN_RPC,
             WALLET_ADDRESS,
@@ -87,6 +87,6 @@ describe("burnCanonicalToken", async () => {
             CONFIRMATIONS
         )
 
-        expect(depositId).to.contains('0x', "invalid deposit id")
+        expect(burnId).to.contains('0x', "invalid burn id")
     })
 })
