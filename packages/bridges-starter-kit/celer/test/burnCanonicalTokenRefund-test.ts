@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { burnCanonicalTokenRefund, mintCanonicalTokenRefund } from "../use-cases"
+import { burnCanonicalTokenRefund } from "../use-cases"
 import { getTransferStatus } from "../core"
 describe("burnCanonicalTokenRefund", async () => {
     let CBRIDGE_GATEWAY_URL: string
@@ -106,7 +106,7 @@ describe("burnCanonicalTokenRefund", async () => {
         expect(status.status).to.equal(5, "status is not TRANSFER_TO_BE_REFUNDED")
     })
 
-    it("should perform mintCanonicalTokenRefund action", async () => {
+    it("should perform burnCanonicalTokenRefund action", async () => {
          const receipt = await burnCanonicalTokenRefund(
             CBRIDGE_GATEWAY_URL,
             WALLET_ADDRESS,

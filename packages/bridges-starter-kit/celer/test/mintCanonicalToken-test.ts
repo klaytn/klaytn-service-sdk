@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { mintCanonicalToken, poolTransfer } from "../use-cases"
+import { mintCanonicalToken } from "../use-cases"
 describe("mintCanonicalToken", async () => {
     let CBRIDGE_GATEWAY_URL: string
     let WALLET_ADDRESS: string

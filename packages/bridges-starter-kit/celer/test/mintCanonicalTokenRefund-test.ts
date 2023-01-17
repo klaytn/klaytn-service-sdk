@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { mintCanonicalTokenRefund, poolTransferRefund } from "../use-cases"
+import { mintCanonicalTokenRefund } from "../use-cases"
 import { getTransferStatus } from "../core"
 describe("mintCanonicalTokenRefund", async () => {
     let CBRIDGE_GATEWAY_URL: string

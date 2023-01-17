@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { burnCanonicalToken, mintCanonicalToken } from "../use-cases"
+import { burnCanonicalToken } from "../use-cases"
 describe("burnCanonicalToken", async () => {
     let CBRIDGE_GATEWAY_URL: string
     let WALLET_ADDRESS: string
@@ -74,7 +74,7 @@ describe("burnCanonicalToken", async () => {
 
     })
 
-    it("should perform mintCanonicalToken action", async () => {
+    it("should perform burnCanonicalToken action", async () => {
          const depositId = await burnCanonicalToken(
             CBRIDGE_GATEWAY_URL,
             SRC_CHAIN_RPC,
