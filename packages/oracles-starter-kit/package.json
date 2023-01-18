@@ -7,7 +7,7 @@
     "help": "hardhat --help",
     "compile": "hardhat compile",
     "deploy": "hardhat deploy",
-    "run:test": "hardhat test test/unit/*_test.js --network hardhat",
+    "test": "hardhat test --grep \"Unit Tests - \" --network hardhat",
     "fuzzing": "docker run -it --rm -v $PWD:/src trailofbits/eth-security-toolbox",
     "lint": "eslint . --ext .js",
     "lint-fix": "eslint --fix . --ext .js"
@@ -41,6 +41,7 @@
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-n": "^15.6.1",
-    "eslint-plugin-promise": "^6.1.1"
+    "eslint-plugin-promise": "^6.1.1",
+    "mocha": "^10.2.0"
   }
 }

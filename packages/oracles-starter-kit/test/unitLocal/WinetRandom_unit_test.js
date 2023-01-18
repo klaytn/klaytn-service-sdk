@@ -1,8 +1,6 @@
 const { assert, expect } = require("chai")
-const { network, ethers, waffle } = require("hardhat")
+const { network, deployments, ethers } = require("hardhat")
 const { developmentChains } = require("../../helper-hardhat-config")
-const { numToBytes32, toBytes32String } = require("@chainlink/test-helpers/dist/src/helpers");
-const { deployMockContract, provider } = waffle;
 
 !developmentChains.includes(network.name)
   ? describe.skip
@@ -15,9 +13,6 @@ const { deployMockContract, provider } = waffle;
       })
 
       it("Should successfully request a random number", async () => {
-        await witnetRandomContract.mock.requestRandomness.withArgs({ value: '1000000000000000000' }).returns();
-        await witnetRandomContract.mock.latestRandomizingBlock.returns(123);
-
         await witnetRandomContract.requestRandomness({ value: '1000000000000000000' })
         
         const latestRandomizingBlock = await witnetRandomContract.latestRandomizingBlock()
@@ -29,10 +24,6 @@ const { deployMockContract, provider } = waffle;
       })
 
       it("Should successfully fetch a random number", async () => {
-        await witnetRandomContract.mock.requestRandomness.withArgs({ value: '1000000000000000000' }).returns();
-        await witnetRandomContract.mock.fetchRandomNumber.returns();
-        await witnetRandomContract.mock.randomness.returns(123);
-
         await witnetRandomContract.requestRandomness({ value: '1000000000000000000' })
 
         await witnetRandomContract.fetchRandomNumber()
@@ -43,4 +34,3 @@ const { deployMockContract, provider } = waffle;
         assert.isAtLeast(randomNumber, 0, 'random number is greater than or equal zero')
       })
     })
-
