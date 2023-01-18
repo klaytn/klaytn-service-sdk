@@ -81,7 +81,7 @@ export async function attest(
   await new Promise((r) => setTimeout(r, 5000)); //Time out to let block propagate
   const wrappedTokenAddress = await targetTokenBridge.wrappedAsset(
     source.wormholeChainId,
-    Buffer.from(tryNativeToHexString(source.token, CHAINSBYID[destination.wormholeChainId].name), "hex"),
+    Buffer.from(tryNativeToHexString(source.token, CHAINSBYID[destination.wormholeChainId]?.name), "hex"),
     {gasLimit: 2000000 }
   );
   console.log("Wrapped token on destination chain created at: ", wrappedTokenAddress);
