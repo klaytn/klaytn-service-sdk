@@ -7,18 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "oracle:help": "yarn workspace oracles-starter-kit help",
-    "oracle:compile": "yarn workspace oracles-starter-kit compile",
-    "oracle:deploy": "yarn workspace oracles-starter-kit deploy",
-    "oracle:test": "yarn workspace oracles-starter-kit test",
-    "celer:test-transfer": "yarn workspace cbridge-starter-kit test-transfer",
-    "celer:test-transfer-refund": "yarn workspace cbridge-starter-kit test-transfer-refund",
-    "celer:test-mint": "yarn workspace cbridge-starter-kit test-mint",
-    "celer:test-mint-refund": "yarn workspace cbridge-starter-kit test-mint-refund",
-    "celer:test-burn": "yarn workspace cbridge-starter-kit test-burn",
-    "celer:test-burn-refund": "yarn workspace cbridge-starter-kit test-burn-refund",
-    "wormhole:test-attest": "yarn workspace wormhole-starter-kit test-attest",
-    "wormhole:test-transfer-basic": "yarn workspace wormhole-starter-kit test-transfer-basic"
+    "build": "wsrun -m build",
+    "lint": "wsrun -m lint",
+    "test": "wsrun -m test"
   },
   "workspaces": {
     "packages": [
@@ -27,6 +18,9 @@
     "nohoist": [
       "**/witnet-solidity-bridge"
     ]
+  },
+  "devDependencies": {
+    "wsrun": "^5.2.4"
   },
   "dependencies": {
     "chai": "^4.3.7",
