@@ -47,7 +47,7 @@ export async function transferBasic(
   );
 
   const targetReceipient = Buffer.from(
-      tryNativeToHexString(destinationnWallet.address, CHAINSBYID[destination.wormholeChainId].name),
+      tryNativeToHexString(destinationnWallet.address, CHAINSBYID[destination.wormholeChainId]?.name),
       "hex"
   );
 
@@ -96,7 +96,7 @@ export async function transferBasic(
       sourceWallet,
       source.token,
       utils.parseUnits(AMOUNT, tokenContract?.decimal ?? 18),
-      CHAINSBYID[destination.wormholeChainId].chainId,
+      CHAINSBYID[destination.wormholeChainId]?.chainId,
       targetReceipient,
       undefined,
       undefined,

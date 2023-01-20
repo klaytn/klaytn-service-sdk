@@ -47,7 +47,8 @@ const {
 ```
 
 ## Setup Hardhat configurations Baobab Klaytn network and variables
-Use `console.log(getBaobabHardhatConfigurations())` to get the configurations
+Use `console.log(getBaobabHardhatConfigurations())` to get the configurations.
+Default configurations are already using Klaytn vrf configurations. These details can be found https://docs.chain.link/vrf/v2/subscription/supported-networks/ .
 
 Modify and execute below method to change the Hardhat configurations
 ```
