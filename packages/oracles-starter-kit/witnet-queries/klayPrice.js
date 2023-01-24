@@ -1,22 +1,22 @@
-import * as Witnet from "witnet-requests";
+import * as Witnet from 'witnet-requests'
 
 const cryptoCompare = new Witnet.Source(
-  "https://min-api.cryptocompare.com/data/price?fsym=KLAY&tsyms=USD"
+  'https://min-api.cryptocompare.com/data/price?fsym=KLAY&tsyms=USD'
 )
   .parseJSONMap()
-  .getFloat("USD")
+  .getFloat('USD')
   .multiply(10 ** 6)
-  .round();
+  .round()
 
 const coinbase = new Witnet.Source(
-  "https://api.coinbase.com/v2/exchange-rates?currency=KLAY"
+  'https://api.coinbase.com/v2/exchange-rates?currency=KLAY'
 )
   .parseJSONMap()
-  .getMap("data")
-  .getMap("rates")
-  .getFloat("USD")
+  .getMap('data')
+  .getMap('rates')
+  .getFloat('USD')
   .multiply(10 ** 6)
-  .round();
+  .round()
 
 const aggregator = Witnet.Aggregator.deviationAndMean(1.5)
 

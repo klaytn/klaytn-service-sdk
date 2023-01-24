@@ -1,12 +1,11 @@
-const { getNamedAccounts, deployments, network, run } = require("hardhat")
+const { network } = require('hardhat')
 const {
   networkConfig,
   developmentChains,
-  VERIFICATION_BLOCK_CONFIRMATIONS,
-} = require("../helper-hardhat-config")
-const { verify } = require("../helper-functions")
-const { networks } = require("../hardhat.config")
-const fs = require("fs");
+  VERIFICATION_BLOCK_CONFIRMATIONS
+} = require('../helper-hardhat-config')
+const { networks } = require('../hardhat.config')
+const fs = require('fs')
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments
@@ -14,37 +13,37 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const chainId = network.config.chainId
 
   let priceFeedAddress
-  if (chainId == 31337) {
-    const EthUsdAggregator = await deployments.get("MockV3Aggregator")
+  if (chainId === 31337) {
+    const EthUsdAggregator = await deployments.get('MockV3Aggregator')
     priceFeedAddress = EthUsdAggregator.address
   } else if (chainId === networks.baobab.chainId) {
-    priceFeedAddress = networkConfig[chainId]["chainLinkPriceFeed"]
+    priceFeedAddress = networkConfig[chainId].chainLinkPriceFeed
   } else {
-    priceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"]
+    priceFeedAddress = networkConfig[chainId].ethUsdPriceFeed
   }
   // Price Feed Address, values can be obtained at https://docs.chain.link/docs/reference-contracts
   // Default one below is ETH/USD contract on Goerli
   const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
-  log("----------------------------------------------------")
-  const priceConsumerV3 = await deploy("PriceConsumerV3", {
+  log('----------------------------------------------------')
+  const priceConsumerV3 = await deploy('PriceConsumerV3', {
     from: deployer,
     args: [priceFeedAddress],
     log: true,
-    waitConfirmations: waitBlockConfirmations,
+    waitConfirmations: waitBlockConfirmations
   })
 
-  //TODO: implement verify
+  // TODO: implement verify
   // Verify the deployment
   // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
   //   log("Verifying...")
   //   await verify(priceConsumerV3.address, [priceFeedAddress])
   // }
 
-  log("Run Price Feed contract with command:")
+  log('Run Price Feed contract with command:')
 
-  let sourcePath = "./deployedContracts.json";
+  const sourcePath = './deployedContracts.json'
   let jsonData = {
     chainLinkPriceFeed: '',
     chainLinkApiData: '',
@@ -53,17 +52,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     witnetPriceFeed: '',
     witnetRandomNumber: '',
     network: ''
-  };
-  if (fs.existsSync(sourcePath)) {
-    jsonData = JSON.parse(fs.readFileSync(sourcePath));
   }
-  const networkName = network.name == "hardhat" ? "localhost" : network.name
-  //log(`yarn hardhat read-price-feed --contract ${priceConsumerV3.address} --network ${networkName}`)
-  log(`Execute readChainLinkPriceFeed method`);
-  jsonData["chainLinkPriceFeed"] = priceConsumerV3.address;
-  jsonData["network"] = networkName;
+  if (fs.existsSync(sourcePath)) {
+    jsonData = JSON.parse(fs.readFileSync(sourcePath))
+  }
+  const networkName = network.name === 'hardhat' ? 'localhost' : network.name
+  // log(`yarn hardhat read-price-feed --contract ${priceConsumerV3.address} --network ${networkName}`)
+  log('Execute readChainLinkPriceFeed method')
+  jsonData.chainLinkPriceFeed = priceConsumerV3.address
+  jsonData.network = networkName
   fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
-  log("----------------------------------------------------")
+  log('----------------------------------------------------')
 }
 
-module.exports.tags = ["all", "feed", "main"]
+module.exports.tags = ['all', 'feed', 'main']
