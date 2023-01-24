@@ -1,10 +1,10 @@
 export function Wallet() {
-
+    return;
 }
 
 export const providers = {
     JsonRpcProvider: function() {
-
+        return;
     }
 }
 
@@ -30,7 +30,7 @@ export function Contract() {
 
 export const utils = {
     Interface: function() {
-
+        return;
     },
     parseUnits: () => {
         return {
