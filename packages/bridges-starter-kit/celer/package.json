@@ -8,12 +8,12 @@
     "url": "git+https://github.com/klaytn/klaytn-developer-sdk.git"
   },
   "scripts": {
-    "test-transfer": "mocha -r ts-node/register test/poolTransfer-test.ts -t 1200000",
-    "test-transfer-refund": "mocha -r ts-node/register test/poolTransferRefund-test.ts -t 1200000",
-    "test-mint": "mocha -r ts-node/register test/mintCanonicalToken-test.ts -t 1200000",
-    "test-mint-refund": "mocha -r ts-node/register test/mintCanonicalTokenRefund-test.ts -t 1200000",
-    "test-burn": "mocha -r ts-node/register test/burnCanonicalToken-test.ts -t 1200000",
-    "test-burn-refund": "mocha -r ts-node/register test/burnCanonicalTokenRefund-test.ts -t 1200000",
+    "test-transfer": "mocha -r ts-node/register test/poolTransfer-test.ts -t 2400000",
+    "test-transfer-refund": "mocha -r ts-node/register test/poolTransferRefund-test.ts -t 2400000",
+    "test-mint": "mocha -r ts-node/register test/mintCanonicalToken-test.ts -t 2400000",
+    "test-mint-refund": "mocha -r ts-node/register test/mintCanonicalTokenRefund-test.ts -t 2400000",
+    "test-burn": "mocha -r ts-node/register test/burnCanonicalToken-test.ts -t 2400000",
+    "test-burn-refund": "mocha -r ts-node/register test/burnCanonicalTokenRefund-test.ts -t 2400000",
     "test": "mocha -r ts-node/register test/*.ts",
     "build": "npx tsc",
     "lint": "eslint --ext .ts .",
