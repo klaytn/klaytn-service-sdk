@@ -2,7 +2,7 @@
   "name": "@klaytn-developer-sdk/dex",
   "version": "1.0.0",
   "description": "it includes dex-contracts integration & use-cases",
-  "main": "core/index.ts",
+  "main": "dist/use-cases/index.js",
   "scripts": {
     "build": "npx tsc",
     "test": "echo not tests to run yet",
