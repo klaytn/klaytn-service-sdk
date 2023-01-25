@@ -81,7 +81,7 @@ describe("mintCanonicalTokenRefund", async () => {
         }
     })
     it("should throw error if DEPOSIT_ID is of status 'TRANSFER_ALREADY_COMPLETED'", async function() {
-        let alreadyRefundedDepositId = '0x0963539b3ef3f0c4033e3e93ac733a7f6484345f6db8d3d85b389033ab466827'
+        let alreadyRefundedDepositId = '0xc217631faae968f150c194754566e13594b7f25b65a04288712f736bf6d62343'
         try {
             await mintCanonicalTokenRefund(
                 CBRIDGE_GATEWAY_URL,
@@ -103,7 +103,7 @@ describe("mintCanonicalTokenRefund", async () => {
     })
     it("given DEPOSIT_ID should be of status 'TRANSFER_TO_BE_REFUNDED' to proceed", async function() {
         const status = await getTransferStatus(CBRIDGE_GATEWAY_URL, DEPOSIT_ID)
-        expect(status.status).to.equal(5, "status is not TRANSFER_TO_BE_REFUNDED")
+        expect(status.status).to.equal(6, "status is not TRANSFER_TO_BE_REFUNDED")
     })
 
     it("should perform mintCanonicalTokenRefund action", async () => {

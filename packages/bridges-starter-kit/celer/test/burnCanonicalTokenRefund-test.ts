@@ -81,7 +81,7 @@ describe("burnCanonicalTokenRefund", async () => {
         }
     })
     it("should throw error if BURN_ID is of status 'TRANSFER_ALREADY_COMPLETED'", async function() {
-        let alreadyRefundedBurnId = '0x0963539b3ef3f0c4033e3e93ac733a7f6484345f6db8d3d85b389033ab466827'
+        let alreadyRefundedBurnId = '0x0abae3baaedb7deab855ade410118b740f2c55fe216e06bf782a71e453006d61'
         try {
             await burnCanonicalTokenRefund(
                 CBRIDGE_GATEWAY_URL,
@@ -103,7 +103,7 @@ describe("burnCanonicalTokenRefund", async () => {
     })
     it("given BURN_ID should be of status 'TRANSFER_TO_BE_REFUNDED' to proceed", async function() {
         const status = await getTransferStatus(CBRIDGE_GATEWAY_URL, BURN_ID)
-        expect(status.status).to.equal(5, "status is not TRANSFER_TO_BE_REFUNDED")
+        expect(status.status).to.equal(6, "status is not TRANSFER_TO_BE_REFUNDED")
     })
 
     it("should perform burnCanonicalTokenRefund action", async () => {

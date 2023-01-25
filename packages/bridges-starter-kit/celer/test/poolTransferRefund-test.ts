@@ -78,7 +78,7 @@ describe("poolTransferRefund", async () => {
         }
     })
     it("should throw error if TRANSFER_ID is of status 'TRANSFER_ALREADY_COMPLETED'", async function() {
-        let alreadyRefundedTransferId = '0x0963539b3ef3f0c4033e3e93ac733a7f6484345f6db8d3d85b389033ab466827'
+        let alreadyRefundedTransferId = '0xc217631faae968f150c194754566e13594b7f25b65a04288712f736bf6d62343'
         try {
             await poolTransferRefund(
                 CBRIDGE_GATEWAY_URL,
@@ -99,7 +99,7 @@ describe("poolTransferRefund", async () => {
     })
     it("given TRANSFER_ID should be of status 'TRANSFER_TO_BE_REFUNDED' to proceed", async function() {
         const status = await getTransferStatus(CBRIDGE_GATEWAY_URL, TRANSFER_ID)
-        expect(status.status).to.equal(5, "status is not TRANSFER_TO_BE_REFUNDED")
+        expect(status.status).to.equal(6, "status is not TRANSFER_TO_BE_REFUNDED")
     })
     it("should perform poolTransferRefund action", async () => {
          const receipt = await poolTransferRefund(
