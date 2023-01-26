@@ -1,51 +1,50 @@
-const { network } = require("hardhat")
+const { network, ethers } = require('hardhat')
 const {
   networkConfig,
   developmentChains,
-  VERIFICATION_BLOCK_CONFIRMATIONS,
-} = require("../helper-hardhat-config")
-const { verify } = require("../helper-functions")
-const fs = require("fs");
+  VERIFICATION_BLOCK_CONFIRMATIONS
+} = require('../helper-hardhat-config')
+const fs = require('fs')
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-  const { deploy, get, log } = deployments
+  const { deploy, log } = deployments
   const { deployer } = await getNamedAccounts()
   const chainId = network.config.chainId
   let vrfCoordinatorAddress
   let subscriptionId
 
-  if (chainId == 31337) {
-    VRFCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
+  if (chainId === 31337) {
+    const VRFCoordinatorV2Mock = await ethers.getContract('VRFCoordinatorV2Mock')
 
     vrfCoordinatorAddress = VRFCoordinatorV2Mock.address
 
-    const fundAmount = networkConfig[chainId]["fundAmount"]
+    const fundAmount = networkConfig[chainId].fundAmount
     const transaction = await VRFCoordinatorV2Mock.createSubscription()
     const transactionReceipt = await transaction.wait(1)
     subscriptionId = ethers.BigNumber.from(transactionReceipt.events[0].topics[1])
     await VRFCoordinatorV2Mock.fundSubscription(subscriptionId, fundAmount)
   } else {
     subscriptionId = process.env.VRF_SUBSCRIPTION_ID
-    vrfCoordinatorAddress = networkConfig[chainId]["vrfCoordinator"]
+    vrfCoordinatorAddress = networkConfig[chainId].vrfCoordinator
   }
-  const keyHash = networkConfig[chainId]["keyHash"]
+  const keyHash = networkConfig[chainId].keyHash
   const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
   const args = [subscriptionId, vrfCoordinatorAddress, keyHash]
-  const randomNumberConsumerV2 = await deploy("RandomNumberConsumerV2", {
+  const randomNumberConsumerV2 = await deploy('RandomNumberConsumerV2', {
     from: deployer,
-    args: args,
+    args,
     log: true,
-    waitConfirmations: waitBlockConfirmations,
+    waitConfirmations: waitBlockConfirmations
   })
-  //TODO: implement verify
+  // TODO: implement verify
   // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
   //   log("Verifying...")
   //   await verify(randomNumberConsumerV2.address, args)
   // }
 
-  let sourcePath = "./deployedContracts.json";
+  const sourcePath = './deployedContracts.json'
   let jsonData = {
     chainLinkPriceFeed: '',
     chainLinkApiData: '',
@@ -54,20 +53,20 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     witnetPriceFeed: '',
     witnetRandomNumber: '',
     network: ''
-  };
-  if (fs.existsSync(sourcePath)) {
-    jsonData = JSON.parse(fs.readFileSync(sourcePath));
   }
-  log("Then run RandomNumberConsumer contract with the following command")
-  const networkName = network.name == "hardhat" ? "localhost" : network.name
+  if (fs.existsSync(sourcePath)) {
+    jsonData = JSON.parse(fs.readFileSync(sourcePath))
+  }
+  log('Then run RandomNumberConsumer contract with the following command')
+  const networkName = network.name === 'hardhat' ? 'localhost' : network.name
   // log(
   //   `yarn hardhat request-random-number --contract ${randomNumberConsumerV2.address} --network ${networkName}`
   // )
-  log(`Execute requestChainLinkRandomNumber, readChainLinkRandomNumber methods`);
-  jsonData["chainLinkRandomNumber"] = randomNumberConsumerV2.address;
-  jsonData["network"] = networkName;
+  log('Execute requestChainLinkRandomNumber, readChainLinkRandomNumber methods')
+  jsonData.chainLinkRandomNumber = randomNumberConsumerV2.address
+  jsonData.network = networkName
   fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
-  log("----------------------------------------------------")
+  log('----------------------------------------------------')
 }
 
-module.exports.tags = ["all", "vrf"]
+module.exports.tags = ['all', 'vrf']

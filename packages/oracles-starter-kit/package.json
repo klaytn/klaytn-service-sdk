@@ -10,7 +10,7 @@
     "test": "hardhat test --grep \"Unit Tests - \" --network hardhat",
     "fuzzing": "docker run -it --rm -v $PWD:/src trailofbits/eth-security-toolbox",
     "lint": "eslint . --ext .js",
-    "lint-fix": "eslint --fix . --ext .js"
+    "lint-fix": "eslint . --fix --ext .js"
   },
   "license": "MIT",
   "dependencies": {

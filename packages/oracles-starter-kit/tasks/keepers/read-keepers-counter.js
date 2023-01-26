@@ -1,16 +1,17 @@
+/* eslint-disable no-undef */
 task(
-  "read-keepers-counter",
-  "Gets the value of the counter from the Counter contract used to demo Chainlink Keepers"
+  'read-keepers-counter',
+  'Gets the value of the counter from the Counter contract used to demo Chainlink Keepers'
 )
-  .addParam("contract", "The address of the Price Feed consumer contract that you want to read")
+  .addParam('contract', 'The address of the Price Feed consumer contract that you want to read')
   .setAction(async (taskArgs) => {
     const contractAddr = taskArgs.contract
     const networkId = network.name
 
-    const KeepersCounterContract = await ethers.getContractFactory("KeepersCounter")
-    console.log("Reading counter from Keepers contract ", contractAddr, " on network ", networkId)
+    const KeepersCounterContract = await ethers.getContractFactory('KeepersCounter')
+    console.log('Reading counter from Keepers contract ', contractAddr, ' on network ', networkId)
 
-    //Get signer information
+    // Get signer information
     const accounts = await ethers.getSigners()
     const signer = accounts[0]
     const keepersCounterContract = await new ethers.Contract(
@@ -19,7 +20,7 @@ task(
       signer
     )
     await keepersCounterContract.counter().then((data) => {
-      console.log("Counter is: ", BigInt(data).toString())
+      console.log('Counter is: ', BigInt(data).toString())
     })
   })
 
