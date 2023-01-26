@@ -33,22 +33,21 @@ export async function mintCanonicalToken(
     console.log("0. get transfer config for transaction");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL)
 
+    const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version < 2 && config.pegged_chain_id === DST_CHAIN_ID)?.pegged_deposit_contract_addr
+    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
+    const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version === 2 && config.pegged_chain_id === DST_CHAIN_ID)?.pegged_deposit_contract_addr
+    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
+    if (!originalTokenVaultAddress && !originalTokenVaultV2Address) throw new Error('SRC_CHAIN_ID not yet supported by cBridge');
+
     // check if its a valid pair transfer
     const isPairPresent = !!(transferConfigs.pegged_pair_configs.filter(chainToken =>
         (chainToken.org_chain_id == SRC_CHAIN_ID
             && chainToken.pegged_chain_id == DST_CHAIN_ID
             && chainToken.pegged_token?.token?.symbol.toUpperCase() == TOKEN_SYMBOL
         )).length > 0);
-
     if(!isPairPresent) {
-        throw new Error("Please choose valid pairs");
+        throw new Error("Please choose valid TOKEN_SYMBOL that is supported by given pair of chains");
     }
-
-    const originalTokenVaultAddress = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version < 2)?.pegged_deposit_contract_addr
-    const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
-    const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version === 2)?.pegged_deposit_contract_addr
-    const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
-
     const { transferToken, value, nonce } = getTransferObject(
         transferConfigs,
         SRC_CHAIN_ID,

@@ -34,6 +34,8 @@ export async function poolTransfer(
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
 
     const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
+    if (!bridgeAddress) throw new Error('SRC_CHAIN_ID not yet supported by cBridge');
+
     const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     // check if TOKEN_SYMBOL is present in both chain tokens list
@@ -41,7 +43,7 @@ export async function poolTransfer(
     const isPresentInDst = !!(transferConfigs.chain_token[DST_CHAIN_ID]?.token?.filter(chainToken => chainToken?.token?.symbol.toUpperCase() == TOKEN_SYMBOL.toUpperCase()).length > 0);
 
     if(!(isPresentInSrc && isPresentInDst)) {
-        throw new Error("Please choose valid pairs");
+        throw new Error("Please choose valid TOKEN_SYMBOL that is supported by given pair of chains");
     }
 
     const { transferToken, value, toChain, nonce, fromChain } = getTransferObject(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL, AMOUNT)

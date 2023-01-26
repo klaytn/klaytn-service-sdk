@@ -32,6 +32,7 @@ export async function mintCanonicalTokenRefund(
     const originalTokenVault = getContract(originalTokenVaultAddress || '', OriginalTokenVaultABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
     const originalTokenVaultV2Address = transferConfigs.pegged_pair_configs.find(config => config.org_chain_id === SRC_CHAIN_ID && config.vault_version === 2)?.pegged_deposit_contract_addr
     const originalTokenVaultV2 = getContract(originalTokenVaultV2Address || '', OriginalTokenVaultV2ABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
+    if (!originalTokenVaultAddress && !originalTokenVaultV2Address) throw new Error('SRC_CHAIN_ID not supported by cBridge');
 
     const pegConfig = getPegConfig(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL);
     const vaultVersion = pegConfig?.vault_version;

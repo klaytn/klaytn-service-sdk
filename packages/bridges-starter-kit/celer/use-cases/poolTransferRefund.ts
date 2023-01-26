@@ -24,6 +24,8 @@ export async function poolTransferRefund(
    console.log("0. Initiating refund transfer...");
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
     const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
+    if (!bridgeAddress) throw new Error('SRC_CHAIN_ID not supported by cBridge');
+
     const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     // Transfer status should not be 0, 5 OR 10
