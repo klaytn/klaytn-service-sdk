@@ -2,12 +2,15 @@
   "name": "oracles-starter-kit",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
     "help": "hardhat --help",
     "compile": "hardhat compile",
     "deploy": "hardhat deploy",
-    "test": "hardhat test test/unit/*_test.js --network hardhat",
-    "fuzzing": "docker run -it --rm -v $PWD:/src trailofbits/eth-security-toolbox"
+    "test": "hardhat test --grep \"Unit Tests - \" --network hardhat",
+    "fuzzing": "docker run -it --rm -v $PWD:/src trailofbits/eth-security-toolbox",
+    "lint": "eslint . --ext .js",
+    "lint-fix": "eslint . --fix --ext .js"
   },
   "license": "MIT",
   "dependencies": {
@@ -32,5 +35,13 @@
   },
   "mocha": {
     "timeout": 10000000
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.4",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "mocha": "^10.2.0"
   }
 }

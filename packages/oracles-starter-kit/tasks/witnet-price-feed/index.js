@@ -1,1 +1,1 @@
-exports.readWitnetPriceFeed = require("./read-witnet-price-feed")
+exports.readWitnetPriceFeed = require('./read-witnet-price-feed')

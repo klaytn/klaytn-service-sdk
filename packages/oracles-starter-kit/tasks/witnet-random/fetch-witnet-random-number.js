@@ -1,36 +1,37 @@
-task("fetch-witnet-random-number", "Fetch a random number for a Witnet enabled smart contract")
-  .addParam("contract", "The address of the Witnet Random contract that you want to call")
+/* eslint-disable no-undef */
+task('fetch-witnet-random-number', 'Fetch a random number for a Witnet enabled smart contract')
+  .addParam('contract', 'The address of the Witnet Random contract that you want to call')
   .setAction(async (taskArgs) => {
     const { contract: contractAddr } = taskArgs
     const networkId = network.name
     console.log(
-      "Fetch a random number using Witnet Random contract ",
+      'Fetch a random number using Witnet Random contract ',
       contractAddr,
-      " on network ",
+      ' on network ',
       networkId
     )
-    const WitnetRandom = await ethers.getContractFactory("WitnetRandom")
+    const WitnetRandom = await ethers.getContractFactory('WitnetRandom')
 
-    //Get signer information
+    // Get signer information
     const accounts = await hre.ethers.getSigners()
     const signer = accounts[0]
 
-    //Create connection to VRF Contract and call the getRandomNumber function
+    // Create connection to VRF Contract and call the getRandomNumber function
     const witnetRandomContract = new ethers.Contract(
       contractAddr,
       WitnetRandom.interface,
       signer
     )
-    const transaction = await witnetRandomContract.fetchRandomNumber({gasLimit: 200000})
+    const transaction = await witnetRandomContract.fetchRandomNumber({ gasLimit: 200000 })
     console.log(
-      "Contract ",
+      'Contract ',
       contractAddr,
-      " random number request successfully called."
+      ' random number request successfully called.'
     )
-    console.log("Transaction Hash: "+transaction.hash);
-    console.log("Run the following to read the returned random number:")
+    console.log('Transaction Hash: ' + transaction.hash)
+    console.log('Run the following to read the returned random number:')
     console.log(
-      "yarn hardhat read-witnet-random-number --contract " + contractAddr + " --network " + network.name
+      'yarn hardhat read-witnet-random-number --contract ' + contractAddr + ' --network ' + network.name
     )
   })
 

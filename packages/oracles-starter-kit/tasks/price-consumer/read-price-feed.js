@@ -1,18 +1,19 @@
-task("read-price-feed", "Gets the latest price from a Chainlink Price Feed")
-  .addParam("contract", "The address of the Price Feed consumer contract that you want to read")
+/* eslint-disable no-undef */
+task('read-price-feed', 'Gets the latest price from a Chainlink Price Feed')
+  .addParam('contract', 'The address of the Price Feed consumer contract that you want to read')
   .setAction(async (taskArgs) => {
     const contractAddr = taskArgs.contract
     const networkId = network.name
 
-    const PriceFeedConsumerContract = await ethers.getContractFactory("PriceConsumerV3")
+    const PriceFeedConsumerContract = await ethers.getContractFactory('PriceConsumerV3')
     console.log(
-      "Reading data from Price Feed consumer contract ",
+      'Reading data from Price Feed consumer contract ',
       contractAddr,
-      " on network ",
+      ' on network ',
       networkId
     )
 
-    //Get signer information
+    // Get signer information
     const accounts = await ethers.getSigners()
     const signer = accounts[0]
     const priceFeedConsumerContract = await new ethers.Contract(
@@ -21,7 +22,7 @@ task("read-price-feed", "Gets the latest price from a Chainlink Price Feed")
       signer
     )
     await priceFeedConsumerContract.getLatestPrice().then((data) => {
-      console.log("Price is: ", BigInt(data).toString())
+      console.log('Price is: ', BigInt(data).toString())
     })
   })
 

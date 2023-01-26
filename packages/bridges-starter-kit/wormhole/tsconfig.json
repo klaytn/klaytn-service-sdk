@@ -6,7 +6,7 @@
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
         "jsx": "react-jsx",
-        "lib": ["es5", "es6", "dom"],
+        "lib": ["es5", "es6", "dom", "es2017.object"],
         "module": "commonjs",
         "moduleResolution": "node",
         "noEmit": false,

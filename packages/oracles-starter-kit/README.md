@@ -47,7 +47,8 @@ const {
 ```
 
 ## Setup Hardhat configurations Baobab Klaytn network and variables
-Use `console.log(getBaobabHardhatConfigurations())` to get the configurations
+Use `console.log(getBaobabHardhatConfigurations())` to get the configurations.
+Default configurations are already using Klaytn vrf configurations. These details can be found https://docs.chain.link/vrf/v2/subscription/supported-networks/ .
 
 Modify and execute below method to change the Hardhat configurations
 ```
@@ -144,12 +145,12 @@ readChainLinkPriceFeed().then(result => console.log(result))
 ```
 
 ### Chainlink Request & Receive Data
-The APIConsumer contract has two tasks, one to request external data based on a set of parameters, and one to check to see what the result of the data request is. This contract needs to be funded with link first:
+The APIConsumer contract has two tasks, one to request external data based on a set of parameters, and one to check to see what the result of the data request is. This chainLinkApiData contract needs to be funded with link first:
 
 ```bash
 fundChainLinkApiData().then(result => console.log(result))
 ```
-> **WARNING**: `chainlink-plugin-fund-link` have not supported `baobab network`. You have to fund link manually
+> **WARNING**: `chainlink-plugin-fund-link` have not supported `baobab network`. You have to fund link manually to the deployed chainLinkApiData contract. Get deployed contracts list using `console.log(readDeployedContracts())` method.
 
 Once it's funded, you can request external data by passing in a number of parameters to the request-data task. The contract parameter is mandatory, the rest are optional
 

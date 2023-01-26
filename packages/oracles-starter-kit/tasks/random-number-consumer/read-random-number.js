@@ -1,16 +1,17 @@
-task("read-random-number", "Reads the random number returned to a contract by Chainlink VRF")
-  .addParam("contract", "The address of the VRF contract that you want to read")
+/* eslint-disable no-undef */
+task('read-random-number', 'Reads the random number returned to a contract by Chainlink VRF')
+  .addParam('contract', 'The address of the VRF contract that you want to read')
   .setAction(async (taskArgs) => {
     const contractAddr = taskArgs.contract
     const networkId = network.name
-    console.log("Reading data from VRF contract ", contractAddr, " on network ", networkId)
-    const RandomNumberConsumerV2 = await ethers.getContractFactory("RandomNumberConsumerV2")
+    console.log('Reading data from VRF contract ', contractAddr, ' on network ', networkId)
+    const RandomNumberConsumerV2 = await ethers.getContractFactory('RandomNumberConsumerV2')
 
-    //Get signer information
+    // Get signer information
     const accounts = await hre.ethers.getSigners()
     const signer = accounts[0]
 
-    //Create connection to API Consumer Contract and call the createRequestTo function
+    // Create connection to API Consumer Contract and call the createRequestTo function
     const vrfConsumerContractV2 = new ethers.Contract(
       contractAddr,
       RandomNumberConsumerV2.interface,
@@ -24,7 +25,7 @@ task("read-random-number", "Reads the random number returned to a contract by Ch
         `Random Numbers are: ${firstRandomNumber.toString()} and ${secondRandomNumber.toString()}`
       )
     } catch (error) {
-      if (["hardhat", "localhost", "ganache"].includes(network.name)) {
+      if (['hardhat', 'localhost', 'ganache'].includes(network.name)) {
         console.log("You'll have to manually update the value since you're on a local chain!")
       } else {
         console.log(

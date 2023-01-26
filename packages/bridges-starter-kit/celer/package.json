@@ -2,7 +2,7 @@
   "name": "@klaytn-developer-sdk/bridge-celer",
   "version": "0.0.1",
   "description": "TypeScript client and user-cases for cBridge",
-  "main": "core/index.ts",
+  "main": "dist/use-cases/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/klaytn/klaytn-developer-sdk.git"
