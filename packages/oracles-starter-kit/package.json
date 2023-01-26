@@ -1,5 +1,5 @@
 {
-  "name": "oracles-starter-kit",
+  "name": "@klaytn-developer-sdk/oracles-starter-kit",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

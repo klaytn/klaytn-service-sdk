@@ -16,44 +16,17 @@
 
 ## Usage
 ```
-const {
-    setVariables, 
-    getVariables,
-    setBaobabHardhatConfigurations,
-    getBaobabHardhatConfigurations,
-    compile,
-    deployAll,
-    deployChainLinkPriceFeed,
-    readChainLinkPriceFeed,
-    deployChainLinkApiData,
-    fundChainLinkApiData,
-    requestChainLinkApiData,
-    deployChainLinkRandomNumber,
-    requestChainLinkRandomNumber,
-    readChainLinkRandomNumber,
-    deployChainLinkKeepersCounter,
-    readChainLinkKeepersCounter,
-    deployWitnetPriceFeed,
-    readWitnetPriceFeed,
-    deployWitnetRandomNumber,
-    requestWitnetRandomNumber,
-    readWitnetLatestRandomizingBlock,
-    fetchWitnetRandomNumber,
-    readWitnetRandomNumber,
-    compileWitnetQueriesToSolidityContracts,
-    getCompiledWitnetQueriesSolFiles,
-    tryWitnetQueries
-} = require("@klaytn-developer-sdk/oracles-starter-kit");
+const OracleSDK = require("@klaytn-developer-sdk/oracles-starter-kit");
 ```
 
 ## Setup Hardhat configurations Baobab Klaytn network and variables
-Use `console.log(getBaobabHardhatConfigurations())` to get the configurations.
+Use `console.log(OracleSDK.getBaobabHardhatConfigurations())` to get the configurations.
 Default configurations are already using Klaytn vrf configurations. These details can be found https://docs.chain.link/vrf/v2/subscription/supported-networks/ .
 
 Modify and execute below method to change the Hardhat configurations
 ```
 Default Configurations are as shown below:
-setBaobabHardhatConfigurations({
+OracleSDK.setBaobabHardhatConfigurations({
     name: 'baobab',
     linkToken: '0x04c5046A1f4E3fFf094c26dFCAA75eF293932f18',
     keyHash: '0x9be50e2346ee6abe000e6d3a34245e1d232c669703efc44660a413854427027c',
@@ -71,11 +44,11 @@ This command will modify the `helper-hardhat-config.json` in the package node_mo
 
 First, we will need to set environment variables. We can do so by using below commands.
 
-Use `console.log(getVariables)` to fetch the environment variables. This are retrieved from .env file of package in node_modules.
+Use `console.log(OracleSDK.getVariables())` to fetch the environment variables. This are retrieved from .env file of package in node_modules.
 
 Use below command to set the environment variables. Explaination of each variable can be found below.
 ```
-setVariables({
+OracleSDK.setVariables({
     BAOBAB_RPC_URL: 'https://api.baobab.klaytn.net:8651', 
     PRIVATE_KEY: 'Private key here', 
     AUTO_FUND: true, 
@@ -116,17 +89,17 @@ You should now be all setup! You can run any method now! Since we configured the
 To deploy contracts:
 
 ```
-deployAll().then(result => console.log(result))
+OracleSDK.deployAll().then(result => console.log(result))
 ```
 
 To deploy individual contracts:
 ```
-deployChainLinkPriceFeed().then(result => console.log(result))
-deployChainLinkApiData().then(result => console.log(result))
-deployChainLinkRandomNumber().then(result => console.log(result))
-deployChainLinkKeepersCounter().then(result => console.log(result))
-deployWitnetPriceFeed().then(result => console.log(result))
-deployWitnetRandomNumber().then(result => console.log(result))
+OracleSDK.deployChainLinkPriceFeed().then(result => console.log(result))
+OracleSDK.deployChainLinkApiData().then(result => console.log(result))
+OracleSDK.deployChainLinkRandomNumber().then(result => console.log(result))
+OracleSDK.deployChainLinkKeepersCounter().then(result => console.log(result))
+OracleSDK.deployWitnetPriceFeed().then(result => console.log(result))
+OracleSDK.deployWitnetRandomNumber().then(result => console.log(result))
 ```
 
 ## Interacting with Deployed Contracts
@@ -135,13 +108,13 @@ After deploying your contracts, the deployment output will give you the contract
 
 To fetch the deployed contracts:
 ```
-console.log(readDeployedContracts())
+console.log(OracleSDK.readDeployedContracts())
 ```
 ### Chainlink Price Feeds
 The Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
 
 ```bash
-readChainLinkPriceFeed().then(result => console.log(result))
+OracleSDK.readChainLinkPriceFeed().then(result => console.log(result))
 ```
 
 ### Chainlink Request & Receive Data
@@ -150,24 +123,24 @@ The APIConsumer contract has two tasks, one to request external data based on a 
 ```bash
 fundChainLinkApiData().then(result => console.log(result))
 ```
-> **WARNING**: `chainlink-plugin-fund-link` have not supported `baobab network`. You have to fund link manually to the deployed chainLinkApiData contract. Get deployed contracts list using `console.log(readDeployedContracts())` method.
+> **WARNING**: `chainlink-plugin-fund-link` have not supported `baobab network`. You have to fund link manually to the deployed chainLinkApiData contract. Get deployed contracts list using `console.log(OracleSDK.readDeployedContracts())` method.
 
 Once it's funded, you can request external data by passing in a number of parameters to the request-data task. The contract parameter is mandatory, the rest are optional
 
 ```bash
-requestChainLinkApiData().then(result => console.log(result))
+OracleSDK.requestChainLinkApiData().then(result => console.log(result))
 ```
 
 Once you have successfully made a request for external data, you can see the result via the read-data task. it retrives VOLUME24 from https://min-api.cryptocompare.com/data/pricemultifull?fsyms=KLAY&tsyms=USD from the contract
 ```bash
-readChainLinkApiData().then(result => console.log(result));
+OracleSDK.readChainLinkApiData().then(result => console.log(result));
 ```
 
 ### Chainlink VRF Get a random number
 The VRFConsumer contract has two tasks, one to request a random number, and one to read the result of the random number request. To start, go to [VRF Subscription Page](https://vrf.chain.link/klaytn-testnet) and create the new subscription. Save your subscription ID and put it in environment variables as `VRF_SUBSCRIPTION_ID` using `setVariables` method:
 
 ```bash
-setVariables({
+OracleSDK.setVariables({
   VRF_SUBSCRIPTION_ID=subscription_id
 })
 ```
@@ -175,20 +148,20 @@ setVariables({
 Then, deploy your VRF V2 contract consumer(if its not deployed already with the subscription id) to the network with your recent subscription using subscription id as constructor argument.
 
 ```bash
-deployChainLinkRandomNumber().then(result => console.log(result))  
+OracleSDK.deployChainLinkRandomNumber().then(result => console.log(result))  
 ```
 
 Finally, you need to go to your subscription page one more time and add the address of deployed contract as a new consumer (https://vrf.chain.link/klaytn-testnet/<subscriptionid>). Once that's done, you can perform a VRF request with the request-random-number task.
 Make sure to add LINK funds to the subscription from the chainlink UI screen:
 
 ```bash
-requestChainLinkRandomNumber().then(result => console.log(result))
+OracleSDK.requestChainLinkRandomNumber().then(result => console.log(result))
 ```
 
 Once you have successfully made a request for a random number, you can see the result via the read-random-number task:
 
 ```bash
-readChainLinkRandomNumber().then(result => console.log(result));
+OracleSDK.readChainLinkRandomNumber().then(result => console.log(result));
 ```
 
 ### Chainlink Keepers
@@ -207,28 +180,28 @@ The Baobab network is not supported by Chainlink Automation (aka Chainlink Keepe
 The Witnet Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
 
 ```bash
-readWitnetPriceFeed().then(result => console.log(result));
+OracleSDK.readWitnetPriceFeed().then(result => console.log(result));
 ```
 
 ### Witnet Randomness
 The Witnet Randomness has 4 tasks:
 - Request new randomness:
 ```bash
-requestWitnetRandomNumber().then(result => console.log(result));
+OracleSDK.requestWitnetRandomNumber().then(result => console.log(result));
 ```
 - Get the latest randomizing block:
 ```bash
-readWitnetLatestRandomizingBlock().then(result => console.log(result))
+OracleSDK.readWitnetLatestRandomizingBlock().then(result => console.log(result))
 ```
 - Fetch Witnet random number:
 ```bash
-fetchWitnetRandomNumber().then(result => console.log(result))
+OracleSDK.fetchWitnetRandomNumber().then(result => console.log(result))
 ```
 > **WARNING**:
 Calling fetch-witnet-random-number right after request-witnet-randomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete
 - Get the random number:
 ```bash
-readWitnetRandomNumber().then(result => console.log(result));
+OracleSDK.readWitnetRandomNumber().then(result => console.log(result));
 ```
 
 ## Witnet Web Oracle Request
@@ -242,18 +215,18 @@ You can follow this [link](https://docs.witnet.io/smart-contracts/witnet-web-ora
 
 To compile the Witnet queries into Solidity contracts, run:
 ```
-compileWitnetQueriesToSolidityContracts().then(result => console.log(result))
+OracleSDK.compileWitnetQueriesToSolidityContracts().then(result => console.log(result))
 ```
 
 To fetch the compiled contract filenames, run:
 ```
-console.log(getCompiledWitnetQueriesSolFiles());
+console.log(OracleSDK.getCompiledWitnetQueriesSolFiles());
 ```
 
 After the contracts have been created, you can query locally to preview the result by running:
 ```
-tryWitnetQueries(<CompiledSolFileName>).then(result => console.log(result))
-Example: tryWitnetQueries("klayPrice.sol").then(result => console.log(result))
+OracleSDK.tryWitnetQueries(<CompiledSolFileName>).then(result => console.log(result))
+Example: OracleSDK.tryWitnetQueries("klayPrice.sol").then(result => console.log(result))
 ```
 If above tryWitnetQueries is stuck, please try to run command shown in below snapshot, install the binary and retry above method
 ![WitnetToolkitBinary](./WitnetToolkitBinary.png)

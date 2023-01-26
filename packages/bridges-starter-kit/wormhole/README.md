@@ -39,7 +39,7 @@ To attest a token of one chain (source chain) to another chain (destination chai
 2. Make sure the Token to be attested is present in source chain. Native fee coins in source and destination chain is sufficient
 3. import this use-case with
 ```typescript
-import { attest } from '@klaytn-developer-sdk/bridge-wormhole/use-cases';
+import { attest } from '@klaytn-developer-sdk/bridge-wormhole';
 ```
 ## 2.Transfer Tokens
 To transfer tokens from source chain to destination chain for EVM compatible chains, please perform the following steps:
@@ -62,7 +62,7 @@ To transfer tokens from source chain to destination chain for EVM compatible cha
 2. Make sure the tokens/coins in source chain and native fee coins in destination chain is sufficient
 3. import this use-case with
 ```typescript
-import { transferBasics } from '@klaytn-developer-sdk/bridge-wormhole/use-cases';
+import { transferBasics } from '@klaytn-developer-sdk/bridge-wormhole';
 ```
 
 ## Reference Docs:

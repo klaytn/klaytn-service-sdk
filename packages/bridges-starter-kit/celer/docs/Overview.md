@@ -19,7 +19,7 @@ method. It's a liquidity based transfer in which your assets are locked at sourc
 destination_chain (receiving chain) from a pool of liquidity available on the destination chain.
 Thanos snap 🫰 for this is: 
 ```
-import { poolTransfer } from @klaytn-sdk/bridge-celer/use-cases
+import { poolTransfer } from "@klaytn-developer-sdk/bridge-celer"
 ```
 
 ### 1.1. PoolBased Refund Transfer
@@ -27,7 +27,7 @@ Due to any reason if your funds / assets were not released on destination_chain,
 source_chain by submitting refund request.
 🫰 of it:
 ``` 
-import{ poolTransferRefund } from @klaytn-sdk/bridge-celer/use-cases
+import{ poolTransferRefund } from "@klaytn-developer-sdk/bridge-celer"
 ```
 ## 2. mintCanonicalToken
 You will be able to transfer your assets using cBridge's `Mint Canonical Token`
@@ -35,7 +35,7 @@ method. It's a traditional method in which your assets are locked at source_chai
 destination_chain (receiving chain).
 Thanos snap 🫰 for this is:
 ```
-import { mintCanonicalToken } from @klaytn-sdk/bridge-celer/use-cases
+import { mintCanonicalToken } from "@klaytn-developer-sdk/bridge-celer"
 ```
 
 ### 2.1. Refund mintCanonicalToken
@@ -43,7 +43,7 @@ Due to any reason if your funds / assets were not minted on destination_chain, d
 source_chain by submitting refund request.
 🫰 of it:
 ``` 
-import{ mintCanonicalTokenRefund } from @klaytn-sdk/bridge-celer/use-cases
+import{ mintCanonicalTokenRefund } from "@klaytn-developer-sdk/bridge-celer"
 ```
 ## 3. burnCanonicalToken
 You will also be able to withdraw your assets from destination chain to source chain (the chain from where you sent tokens earlier) using cBridge's `Burn Canonical Token`
@@ -51,7 +51,7 @@ method. It's a method in which your assets get burnt at source_chain ( the chain
 destination_chain (the chain on which you want to receive you withdrawn assets).
 Thanos snap 🫰 for this is:
 ```
-import { burnCanonicalToken } from @klaytn-sdk/bridge-celer/use-cases
+import { burnCanonicalToken } from "@klaytn-developer-sdk/bridge-celer"
 ```
 
 ### 3.1. Refund mintCanonicalToken
@@ -59,5 +59,5 @@ Due to any reason if your funds / assets were not released on destination_chain,
 source_chain by submitting refund request.
 🫰 of it:
 ``` 
-import{ burnCanonicalTokenRefund } from @klaytn-sdk/bridge-celer/use-cases
+import{ burnCanonicalTokenRefund } from "@klaytn-developer-sdk/bridge-celer"
 ```
