@@ -10,7 +10,7 @@ export class MultiSig {
 
     /**
      * A function to submit transaction on MULTISIG contract for later votings & execution.
-     * @notic only registered owner on MULTISIG contract & who has already voted the given transactionId can execute this function
+     * @notice only registered owner on MULTISIG contract & who has already voted the given transactionId can execute this function
      * @param {string} value - KLAY amount to send in wei (if no value to send pass 0).
      * @param {string} destination - the contract on which given rawTx to be executed (once got enough votes).
      * @param {string} data - the encoded rawTx data which is required to be submitted.
@@ -27,7 +27,7 @@ export class MultiSig {
 
     /**
      * A function to vote & execute the transaction (if it has received enough votes).
-     * @notic only registered owner on MULTISIG contract can execute this function
+     * @notice only registered owner on MULTISIG contract can execute this function
      * @param {string} transactionId - the id of the transaction you want to vote and execute.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */
@@ -39,7 +39,7 @@ export class MultiSig {
 
     /**
      * A function to revoke vote from given transaction id.
-     * @notic only registered owner on MULTISIG contract & who has already voted the given transactionId can execute this function
+     * @notice only registered owner on MULTISIG contract & who has already voted the given transactionId can execute this function
      * @param {string} transactionId - the id of the transaction needs to be executed.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */
@@ -51,7 +51,7 @@ export class MultiSig {
 
     /**
      * A function execute the given transaction id (if it has already received enough votes).
-     * @notic only registered owner on MULTISIG contract can execute this function
+     * @notice only registered owner on MULTISIG contract can execute this function
      * @param {string} transactionId - the id of the transaction needs to be executed.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */

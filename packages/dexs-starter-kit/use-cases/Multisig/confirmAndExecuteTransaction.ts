@@ -3,7 +3,7 @@ import { ContractReceipt } from 'ethers'
 
 /**
  * A function to vote & execute the transaction (if it has received enough votes).
- * @notic only registered owner on MULTISIG contract can execute this function
+ * @notice only registered owner on MULTISIG contract can execute this function
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
  * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
