@@ -19,13 +19,13 @@ task('read-random-number', 'Reads the random number returned to a contract by Ch
     )
 
     try {
-      let randomWordsCount = (await vrfConsumerContractV2.getRandomWordsCount()).toNumber();
-      let randomWords = [];
-      for(let i=0; i< randomWordsCount; i++) {
-        randomWords.push(await vrfConsumerContractV2.s_randomWords(i));
+      const randomWordsCount = (await vrfConsumerContractV2.getRandomWordsCount()).toNumber()
+      const randomWords = []
+      for (let i = 0; i < randomWordsCount; i++) {
+        randomWords.push(await vrfConsumerContractV2.s_randomWords(i))
       }
       console.log(
-        `Random Numbers are: ${randomWords.join(",")}`
+        `Random Numbers are: ${randomWords.join(',')}`
       )
     } catch (error) {
       if (['hardhat', 'localhost', 'ganache'].includes(network.name)) {

@@ -272,7 +272,7 @@ async function deployChainLinkRandomNumber () {
 /**
  * @returns {Promise} response
  */
-async function requestChainLinkRandomNumber (_numWords=2) {
+async function requestChainLinkRandomNumber (_numWords = 2) {
   if (!fs.existsSync(deployedContractsSourcePath)) {
     throw new Error('Please deploy the contracts')
   }
@@ -527,7 +527,7 @@ async function readWitnetRandomNumber () {
 
 /**
  * @param {Object} coinPriceData
- * @param {string} coinPriceData.coinSymbol - coinsymbol from cryptocompare.com and api.coinbase.com 
+ * @param {string} coinPriceData.coinSymbol - coinsymbol from cryptocompare.com and api.coinbase.com
  * @param {Object} postRequestData
  * @param {string} postRequestData.url - post api url
  * @param {string} postRequestData.body - post api input body
@@ -536,20 +536,19 @@ async function readWitnetRandomNumber () {
  * @returns {Promise} compile info
  */
 function compileWitnetQueriesToSolidityContracts (coinPriceData, postRequestData) {
-  
-  if(coinPriceData && coinPriceData.coinSymbol) {
+  if (coinPriceData && coinPriceData.coinSymbol) {
     let filePath = path.join(__dirname, 'witnet-queries', 'coinPrice.js')
-    filePath = filePath.replaceAll("\\", "/")
-    let data = fs.readFileSync(filePath, 'utf8')
-    let searchString = 'let coinSymbol ='
-    let re = new RegExp(searchString + '.*$', 'gm')
-    let formatted = data.replace(re, `let coinSymbol = "${coinPriceData.coinSymbol}"`)
+    filePath = filePath.replaceAll('\\', '/')
+    const data = fs.readFileSync(filePath, 'utf8')
+    const searchString = 'let coinSymbol ='
+    const re = new RegExp(searchString + '.*$', 'gm')
+    const formatted = data.replace(re, `let coinSymbol = "${coinPriceData.coinSymbol}"`)
     fs.writeFileSync(filePath, formatted, 'utf8')
   }
 
-  if(postRequestData && postRequestData.url) {
+  if (postRequestData && postRequestData.url) {
     let filePath = path.join(__dirname, 'witnet-queries', 'postAPI.js')
-    filePath = filePath.replaceAll("\\", "/")
+    filePath = filePath.replaceAll('\\', '/')
     let data = fs.readFileSync(filePath, 'utf8')
 
     let searchString = 'let url ='
@@ -589,7 +588,6 @@ function compileWitnetQueriesToSolidityContracts (coinPriceData, postRequestData
  * @returns {Object} compiled witnet query sol files
  */
 function getCompiledWitnetQueriesSolFiles () {
-
   const witnetSolidityBridgeSourcePath = path.join(__dirname, 'node_modules', 'witnet-solidity-bridge')
   if (!fs.existsSync(witnetSolidityBridgeSourcePath)) {
     if (fs.existsSync(path.join(__dirname, '..', 'witnet-solidity-bridge'))) {
@@ -620,23 +618,23 @@ async function tryWitnetQueries (contractFileName) {
       }
     }
   }
-  let filePath = path.join(__dirname, 'contracts', 'witnet-requests', contractFileName);
-  filePath = filePath.replaceAll("\\", "/");
-  console.log(filePath);
-  let response = await command(`npx --yes witnet-toolkit try-query --from-solidity ${filePath}`)
+  let filePath = path.join(__dirname, 'contracts', 'witnet-requests', contractFileName)
+  filePath = filePath.replaceAll('\\', '/')
+  console.log(filePath)
+  const response = await command(`npx --yes witnet-toolkit try-query --from-solidity ${filePath}`)
   const result = { value: '' }
   response.split('\n').forEach(res => {
     const key = 'Result:'
     if (res.indexOf(key) > -1) {
       const data = res.replace(key, '').trim()
       if (data) {
-        result.value = data.split(":")[1].trim();
+        result.value = data.split(':')[1].trim()
       } else {
         result.message = 'not able to fetch the data'
       }
     }
   })
-  return result;
+  return result
 }
 
 module.exports = {

@@ -6,8 +6,8 @@ task('request-data', 'Calls an API Consumer Contract to request external data')
   .addParam('coindecimals', 'coin decimals ex: 18')
   .setAction(async (taskArgs) => {
     const contractAddr = taskArgs.contract
-    const coinsymbol = taskArgs.coinsymbol || "KLAY"
-    const coindecimals = parseInt(taskArgs.coindecimals || "18")
+    const coinsymbol = taskArgs.coinsymbol || 'KLAY'
+    const coindecimals = parseInt(taskArgs.coindecimals || '18')
     console.log('Calling API Consumer contract ', contractAddr, ' on network ', network.name)
     const APIConsumer = await ethers.getContractFactory('APIConsumer')
 
@@ -24,7 +24,7 @@ task('request-data', 'Calls an API Consumer Contract to request external data')
       ' external data request successfully called.  '
     )
     console.log('Transaction Hash: ' + result.hash)
-    //console.log('Run the following to read the returned result:')
-    //console.log('yarn hardhat read-data --contract ' + contractAddr + ' --network ' + network.name)
+    // console.log('Run the following to read the returned result:')
+    // console.log('yarn hardhat read-data --contract ' + contractAddr + ' --network ' + network.name)
   })
 module.exports = {}

@@ -5,7 +5,7 @@ task('request-random-number', 'Requests a random number for a Chainlink VRF enab
   .setAction(async (taskArgs) => {
     const contractAddr = taskArgs.contract
     const networkId = network.name
-    const numWords = parseInt(taskArgs.numwords || "0")
+    const numWords = parseInt(taskArgs.numwords || '0')
     console.log(
       'Requesting a random number using VRF consumer contract ',
       contractAddr,
@@ -30,7 +30,7 @@ task('request-random-number', 'Requests a random number for a Chainlink VRF enab
       contractAddr,
       ' random number request successfully called.'
     )
-    console.log('Transaction Hash: ' + transaction.hash);
+    console.log('Transaction Hash: ' + transaction.hash)
   })
 
 module.exports = {}

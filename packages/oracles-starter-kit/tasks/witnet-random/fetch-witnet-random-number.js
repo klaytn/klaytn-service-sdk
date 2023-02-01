@@ -31,7 +31,7 @@ task('fetch-witnet-random-number', 'Fetch a random number for a Witnet enabled s
     console.log('Transaction Hash: ' + transaction.hash)
     console.log('Run the following to read the returned random number:')
     console.log(
-      "await OracleSDK.readWitnetLatestRandomizingBlock() or await OracleSDK.readWitnetRandomNumber()"
+      'await OracleSDK.readWitnetLatestRandomizingBlock() or await OracleSDK.readWitnetRandomNumber()'
     )
   })
 

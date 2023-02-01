@@ -1,6 +1,6 @@
 import * as Witnet from 'witnet-requests'
 
-let coinSymbol = "KLAY"
+const coinSymbol = 'KLAY'
 
 const cryptoCompare = new Witnet.Source(
   `https://min-api.cryptocompare.com/data/price?fsym=${coinSymbol}&tsyms=USD`
