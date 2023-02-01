@@ -140,6 +140,35 @@ async function readChainLinkPriceFeed () {
 }
 
 /**
+ * @param {string} pricefeedaddress - Reference: https://docs.chain.link/data-feeds/price-feeds/addresses/?network=klaytn
+ * @returns {Promise} result
+ */
+async function changeChainLinkPriceFeed (pricefeedaddress) {
+  if (!fs.existsSync(deployedContractsSourcePath)) {
+    throw new Error('Please deploy the contracts')
+  }
+  const jsonData = JSON.parse(fs.readFileSync(deployedContractsSourcePath))
+  if (!jsonData.chainLinkPriceFeed) {
+    throw new Error('ChainLinkPriceFeed contract not deployed')
+  }
+  const response = await command(`cd ${__dirname} && npx hardhat change-price-feed --contract ${jsonData.chainLinkPriceFeed} --pricefeedaddress ${pricefeedaddress} --network ${jsonData.network}`)
+  console.log(response)
+  const result = { }
+  response.split('\n').forEach(res => {
+    const key = 'Transaction Hash:'
+    if (res.indexOf(key) > -1) {
+      const data = res.replace(key, '').trim()
+      if (data) {
+        result.txnHash = data
+      } else {
+        result.message = 'not able to change pricefeed'
+      }
+    }
+  })
+  return result
+}
+
+/**
  * @returns {Promise} deployment info
  */
 async function deployChainLinkApiData () {
@@ -161,13 +190,13 @@ async function fundChainLinkApiData () {
   console.log("**WARNING**: 'chainlink-plugin-fund-link' have not supported 'baobab network'. You have to fund link manually")
   const response = await command(`cd ${__dirname} && npx hardhat fund-link --contract ${jsonData.chainLinkApiData} --network ${jsonData.network}`)
   console.log(response)
-  const result = { data: '' }
+  const result = { }
   response.split('\n').forEach(res => {
     const key = 'Transaction Hash:'
     if (res.indexOf(key) > -1) {
       const data = res.replace(key, '').trim()
       if (data) {
-        result.data = data
+        result.txnHash = data
       } else {
         result.message = 'not able to request'
       }
@@ -179,7 +208,7 @@ async function fundChainLinkApiData () {
 /**
  * @returns {Promise} result
  */
-async function requestChainLinkApiData () {
+async function requestChainLinkApiData (coinsymbol, coindecimals) {
   if (!fs.existsSync(deployedContractsSourcePath)) {
     throw new Error('Please deploy the contracts')
   }
@@ -187,15 +216,15 @@ async function requestChainLinkApiData () {
   if (!jsonData.chainLinkApiData) {
     throw new Error('ChainLinkApiData contract not deployed')
   }
-  const response = await command(`cd ${__dirname} && npx hardhat request-data --contract ${jsonData.chainLinkApiData} --network ${jsonData.network}`)
+  const response = await command(`cd ${__dirname} && npx hardhat request-data --contract ${jsonData.chainLinkApiData} --coinsymbol ${coinsymbol} --coindecimals ${coindecimals} --network ${jsonData.network}`)
   console.log(response)
-  const result = { txHash: '' }
+  const result = { }
   response.split('\n').forEach(res => {
     const key = 'Transaction Hash:'
     if (res.indexOf(key) > -1) {
       const data = res.replace(key, '').trim()
       if (data) {
-        result.txHash = data
+        result.txnHash = data
       } else {
         result.message = 'not able to request'
       }
@@ -243,7 +272,7 @@ async function deployChainLinkRandomNumber () {
 /**
  * @returns {Promise} response
  */
-async function requestChainLinkRandomNumber () {
+async function requestChainLinkRandomNumber (_numWords=2) {
   if (!fs.existsSync(deployedContractsSourcePath)) {
     throw new Error('Please deploy the contracts')
   }
@@ -251,15 +280,15 @@ async function requestChainLinkRandomNumber () {
   if (!jsonData.chainLinkRandomNumber) {
     throw new Error('ChainlinkRandomNumber contract not deployed')
   }
-  const response = await command(`cd ${__dirname} && npx hardhat request-random-number --contract ${jsonData.chainLinkRandomNumber} --network ${jsonData.network}`)
+  const response = await command(`cd ${__dirname} && npx hardhat request-random-number --contract ${jsonData.chainLinkRandomNumber} --numwords ${_numWords} --network ${jsonData.network}`)
   console.log(response)
-  const result = { data: '' }
+  const result = { }
   response.split('\n').forEach(res => {
     const key = 'Transaction Hash:'
     if (res.indexOf(key) > -1) {
       const data = res.replace(key, '').trim()
       if (data) {
-        result.data = data
+        result.txnHash = data
       } else {
         result.message = 'not able to request'
       }
@@ -285,7 +314,7 @@ async function readChainLinkRandomNumber () {
   response.split('\n').forEach(res => {
     const key = 'Random Numbers are:'
     if (res.indexOf(key) > -1) {
-      let data = res.replace(key, '').trim().split('and')
+      let data = res.replace(key, '').trim().split(',')
 
       if (data && data.length > 0) {
         data = data.map(rand => rand.trim())
@@ -346,9 +375,10 @@ async function deployWitnetPriceFeed () {
 }
 
 /**
+ * @param id - https://docs.witnet.io/smart-contracts/witnet-data-feeds/addresses/klaytn-price-feeds#klaytn-baobab ex: 0x6cc828d1
  * @returns {Promise} result
  */
-async function readWitnetPriceFeed () {
+async function readWitnetPriceFeed (id) {
   if (!fs.existsSync(deployedContractsSourcePath)) {
     throw new Error('Please deploy the contracts')
   }
@@ -356,7 +386,7 @@ async function readWitnetPriceFeed () {
   if (!jsonData.witnetPriceFeed) {
     throw new Error('contract not deployed')
   }
-  const response = await command(`cd ${__dirname} && npx hardhat read-witnet-price-feed --contract ${jsonData.witnetPriceFeed} --network ${jsonData.network}`)
+  const response = await command(`cd ${__dirname} && npx hardhat read-witnet-price-feed --contract ${jsonData.witnetPriceFeed} --id ${id} --network ${jsonData.network}`)
   console.log(response)
   const result = { price: '0' }
   response.split('\n').forEach(res => {
@@ -384,7 +414,7 @@ async function deployWitnetRandomNumber () {
 /**
  * @returns {Promise} result
  */
-async function requestWitnetRandomNumber () {
+async function requestWitnetRandomness () {
   if (!fs.existsSync(deployedContractsSourcePath)) {
     throw new Error('Please deploy the contracts')
   }
@@ -392,9 +422,9 @@ async function requestWitnetRandomNumber () {
   if (!jsonData.witnetRandomNumber) {
     throw new Error('contract not deployed')
   }
-  const response = await command(`cd ${__dirname} && npx hardhat request-witnet-random-number --contract ${jsonData.witnetRandomNumber} --value 1000000000000000000 --network ${jsonData.network}`)
+  const response = await command(`cd ${__dirname} && npx hardhat request-witnet-randomness --contract ${jsonData.witnetRandomNumber} --value 1000000000000000000 --network ${jsonData.network}`)
   console.log(response)
-  const result = { txnHash: '' }
+  const result = { }
   response.split('\n').forEach(res => {
     const key = 'Transaction Hash:'
     if (res.indexOf(key) > -1) {
@@ -449,7 +479,7 @@ async function fetchWitnetRandomNumber () {
     throw new Error('contract not deployed')
   }
   const response = await command(`cd ${__dirname} && npx hardhat fetch-witnet-random-number --contract ${jsonData.witnetRandomNumber} --network ${jsonData.network}`)
-  const result = { txnHash: '' }
+  const result = { }
   response.split('\n').forEach(res => {
     const key = 'Transaction Hash:'
     if (res.indexOf(key) > -1) {
@@ -496,9 +526,51 @@ async function readWitnetRandomNumber () {
 }
 
 /**
+ * @param {Object} coinPriceData
+ * @param {string} coinPriceData.coinSymbol - coinsymbol from cryptocompare.com and api.coinbase.com 
+ * @param {Object} postRequestData
+ * @param {string} postRequestData.url - post api url
+ * @param {string} postRequestData.body - post api input body
+ * @param {Object} postRequestData.headers - post api headers
+ * @param {Array} postRequestData.jsonPath - parse response result
  * @returns {Promise} compile info
  */
-function compileWitnetQueriesToSolidityContracts () {
+function compileWitnetQueriesToSolidityContracts (coinPriceData, postRequestData) {
+  
+  if(coinPriceData && coinPriceData.coinSymbol) {
+    let filePath = path.join(__dirname, 'witnet-queries', 'coinPrice.js')
+    filePath = filePath.replaceAll("\\", "/")
+    let data = fs.readFileSync(filePath, 'utf8')
+    let searchString = 'let coinSymbol ='
+    let re = new RegExp(searchString + '.*$', 'gm')
+    let formatted = data.replace(re, `let coinSymbol = "${coinPriceData.coinSymbol}"`)
+    fs.writeFileSync(filePath, formatted, 'utf8')
+  }
+
+  if(postRequestData && postRequestData.url) {
+    let filePath = path.join(__dirname, 'witnet-queries', 'postAPI.js')
+    filePath = filePath.replaceAll("\\", "/")
+    let data = fs.readFileSync(filePath, 'utf8')
+
+    let searchString = 'let url ='
+    let re = new RegExp(searchString + '.*$', 'gm')
+    data = data.replace(re, `let url = "${postRequestData.url}"`)
+
+    searchString = 'let body ='
+    re = new RegExp(searchString + '.*$', 'gm')
+    data = data.replace(re, `let body = "${postRequestData.body}"`)
+
+    searchString = 'let headers ='
+    re = new RegExp(searchString + '.*$', 'gm')
+    data = data.replace(re, `let headers = ${JSON.stringify(postRequestData.headers)}`)
+
+    searchString = 'let jsonPath ='
+    re = new RegExp(searchString + '.*$', 'gm')
+    data = data.replace(re, `let jsonPath = ${JSON.stringify(postRequestData.jsonPath)}`)
+
+    fs.writeFileSync(filePath, data, 'utf8')
+  }
+
   const witnetSolidityBridgeSourcePath = path.join(__dirname, 'node_modules', 'witnet-solidity-bridge')
   if (!fs.existsSync(witnetSolidityBridgeSourcePath)) {
     if (fs.existsSync(path.join(__dirname, '..', 'witnet-solidity-bridge'))) {
@@ -517,6 +589,7 @@ function compileWitnetQueriesToSolidityContracts () {
  * @returns {Object} compiled witnet query sol files
  */
 function getCompiledWitnetQueriesSolFiles () {
+
   const witnetSolidityBridgeSourcePath = path.join(__dirname, 'node_modules', 'witnet-solidity-bridge')
   if (!fs.existsSync(witnetSolidityBridgeSourcePath)) {
     if (fs.existsSync(path.join(__dirname, '..', 'witnet-solidity-bridge'))) {
@@ -535,7 +608,7 @@ function getCompiledWitnetQueriesSolFiles () {
 /**
  * @returns {Promise} query info
  */
-function tryWitnetQueries (contractFileName) {
+async function tryWitnetQueries (contractFileName) {
   const witnetSolidityBridgeSourcePath = path.join(__dirname, 'node_modules', 'witnet-solidity-bridge')
   if (!fs.existsSync(witnetSolidityBridgeSourcePath)) {
     if (fs.existsSync(path.join(__dirname, '..', 'witnet-solidity-bridge'))) {
@@ -545,9 +618,25 @@ function tryWitnetQueries (contractFileName) {
       } catch (err) {
         console.log(err)
       }
-    }path
+    }
   }
-  return command(`cd ${__dirname} && npx --yes witnet-toolkit try-query --from-solidity ${path.join(__dirname, 'contracts', 'witnet-requests', contractFileName)})}`)
+  let filePath = path.join(__dirname, 'contracts', 'witnet-requests', contractFileName);
+  filePath = filePath.replaceAll("\\", "/");
+  console.log(filePath);
+  let response = await command(`npx --yes witnet-toolkit try-query --from-solidity ${filePath}`)
+  const result = { value: '' }
+  response.split('\n').forEach(res => {
+    const key = 'Result:'
+    if (res.indexOf(key) > -1) {
+      const data = res.replace(key, '').trim()
+      if (data) {
+        result.value = data.split(":")[1].trim();
+      } else {
+        result.message = 'not able to fetch the data'
+      }
+    }
+  })
+  return result;
 }
 
 module.exports = {
@@ -559,6 +648,7 @@ module.exports = {
   deployAll,
   readDeployedContracts,
   deployChainLinkPriceFeed,
+  changeChainLinkPriceFeed,
   readChainLinkPriceFeed,
   deployChainLinkApiData,
   fundChainLinkApiData,
@@ -572,7 +662,7 @@ module.exports = {
   deployWitnetPriceFeed,
   readWitnetPriceFeed,
   deployWitnetRandomNumber,
-  requestWitnetRandomNumber,
+  requestWitnetRandomness,
   readWitnetLatestRandomizingBlock,
   fetchWitnetRandomNumber,
   readWitnetRandomNumber,

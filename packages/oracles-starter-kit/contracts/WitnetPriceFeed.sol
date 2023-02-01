@@ -14,7 +14,12 @@ contract WitnetPriceFeed {
         witnetPriceRouter = _router;
     }
 
-    function getKlayUsdPrice() public view returns (int256 _lastPrice, uint256 _lastTimestamp) {
-        (_lastPrice, _lastTimestamp,) = witnetPriceRouter.valueFor(bytes4(0x6cc828d1));
+    /*
+    * @param _id4 - pricefeed id. 
+    * id4 can be found here https://docs.witnet.io/smart-contracts/witnet-data-feeds/addresses/klaytn-price-feeds
+    * 
+    **/
+    function getKlayUsdPrice(bytes4 _id4) public view returns (int256 _lastPrice, uint256 _lastTimestamp) {
+        (_lastPrice, _lastTimestamp,) = witnetPriceRouter.valueFor(_id4);
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "klaytn-developer-sdk",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/klaytn/klaytn-developer-sdk",
   "author": "Klaytn Community <developer@klaytn.foundation>",
@@ -32,9 +32,6 @@
     ]
   },
   "devDependencies": {
-    "wsrun": "^5.2.4"
-  },
-  "dependencies": {
     "wsrun": "^5.2.4"
   }
 }

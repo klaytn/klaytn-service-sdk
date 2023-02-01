@@ -6,27 +6,27 @@ Make sure you've read the [Prerequisites](./Prerequisites.md) section to ensure 
 particular **core**'s module requires, please refer to its code-level documentation.
 ## Liquidity
 ```js
-import { addLiquidity } from '@klaytn-developer-sdk/dexs-starter-kit/dist/core'
+import { addLiquidity } from '@klaytn-developer-sdk/dexs/core'
 ```
 ## Swap
 ```js
-import { Swap } from '@klaytn-developer-sdk/dexs-starter-kit/dist/core'
+import { Swap } from '@klaytn-developer-sdk/dexs/core'
 ```
 ## Farming
 ```js
-import { Farming } from '@klaytn-developer-sdk/dexs-starter-kit/dist/core'
+import { Farming } from '@klaytn-developer-sdk/dexs/core'
 ```
 ## Staking
 ```js
-import { Staking } from '@klaytn-developer-sdk/dexs-starter-kit/dist/core'
+import { Staking } from '@klaytn-developer-sdk/dexs/core'
 ```
 ## Multisig
 ```js
-import { Multisig } from '@klaytn-developer-sdk/dexs-starter-kit/dist/core'
+import { Multisig } from '@klaytn-developer-sdk/dexs/core'
 ```
 ## Config
 ```js
-import { Config } from '@klaytn-developer-sdk/dexs-starter-kit/dist/core'
+import { Config } from '@klaytn-developer-sdk/dexs/core'
 ```
 
 # How to import the use-cases
@@ -38,135 +38,135 @@ particular use-case requires, please refer to its code-level documentation.
 ## Liquidity
 ### 1. addLiquidity
 ```js
-import { addLiquidity } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { addLiquidity } from '@klaytn-developer-sdk/dexs'
 ```
 ### 2. addLiquidityWithKlay
 ```js
-import { addLiquidityWithKlay } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { addLiquidityWithKlay } from '@klaytn-developer-sdk/dexs'
 ```
 ### 3. removeLiquidity
 ```js
-import { removeLiquidity } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { removeLiquidity } from '@klaytn-developer-sdk/dexs'
 ```
 ### 4. removeLiquidityWithKlay
 ```js
-import { removeLiquidityWithKlay } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { removeLiquidityWithKlay } from '@klaytn-developer-sdk/dexs'
 ```
 ## Swap
 ### 1. swapExactTokensForTokens
 ```js
-import { swapExactTokensForTokens } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { swapExactTokensForTokens } from '@klaytn-developer-sdk/dexs'
 ```
 ### 2. swapTokensForExactTokens
 ```js
-import { swapTokensForExactTokens } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { swapTokensForExactTokens } from '@klaytn-developer-sdk/dexs'
 ```
 ### 3. swapExactKlayForTokens
 ```js
-import { swapExactKlayForTokens } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { swapExactKlayForTokens } from '@klaytn-developer-sdk/dexs'
 ```
 ### 4. swapTokensForExactKlay
 ```js
-import { swapTokensForExactKlay } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { swapTokensForExactKlay } from '@klaytn-developer-sdk/dexs'
 ```
 ### 5. swapExactTokensForKlay
 ```js
-import { swapExactTokensForKlay } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { swapExactTokensForKlay } from '@klaytn-developer-sdk/dexs'
 ```
 ### 6. swapKlayForExactTokens
 ```js
-import { swapKlayForExactTokens } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { swapKlayForExactTokens } from '@klaytn-developer-sdk/dexs'
 ```
 ## Farming
 ### 1. addPool
 ```js
-import { addPool } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { addPool } from '@klaytn-developer-sdk/dexs'
 ```
 ### 2. minterRole
 ```js
-import { minterRole } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { minterRole } from '@klaytn-developer-sdk/dexs'
 ```
 ### 3. setPool
 ```js
-import { setPool } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { setPool } from '@klaytn-developer-sdk/dexs'
 ```
 ### 4. updateRewardPerBlock
 ```js
-import { updateRewardPerBlock } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { updateRewardPerBlock } from '@klaytn-developer-sdk/dexs'
 ```
 ### 5. updateMultiplier
 ```js
-import { updateMultiplier } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { updateMultiplier } from '@klaytn-developer-sdk/dexs'
 ```
 ### 6. deposit
 ```js
-import { deposit } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { deposit } from '@klaytn-developer-sdk/dexs'
 ```
 ### 7. withdraw
 ```js
-import { withdraw } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { withdraw } from '@klaytn-developer-sdk/dexs'
 ```
 ### 8. emergencyWithdraw
 ```js
-import { emergencyWithdraw } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { emergencyWithdraw } from '@klaytn-developer-sdk/dexs'
 ```
 ## Multisig
 ### 1. submitTransaction
 ```js
-import { submitTransaction } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { submitTransaction } from '@klaytn-developer-sdk/dexs'
 ```
 ### 2. confirmAndExecuteTransaction
 ```js
-import { confirmAndExecuteTransaction } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { confirmAndExecuteTransaction } from '@klaytn-developer-sdk/dexs'
 ```
 ### 3. executeTransaction
 ```js
-import { executeTransaction } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { executeTransaction } from '@klaytn-developer-sdk/dexs'
 ```
 ### 4. revokeConfirmation
 ```js
-import { revokeConfirmation } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { revokeConfirmation } from '@klaytn-developer-sdk/dexs'
 ```
 ## Staking
 ### 1. deployPool
 ```js
-import { deployPool } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { deployPool } from '@klaytn-developer-sdk/dexs'
 ```
 ### 2. updatePoolLimit
 ```js
-import { updatePoolLimit } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { updatePoolLimit } from '@klaytn-developer-sdk/dexs'
 ```
 ### 3. stopReward
 ```js
-import { stopReward } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { stopReward } from '@klaytn-developer-sdk/dexs'
 ```
 ### 4. updateReward
 ```js
-import { updateReward } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { updateReward } from '@klaytn-developer-sdk/dexs'
 ```
 ### 5. updateStartAndEndBlocks
 ```js
-import { updateStartAndEndBlocks } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { updateStartAndEndBlocks } from '@klaytn-developer-sdk/dexs'
 ```
 ### 6. recoverToken
 ```js
-import { recoverToken } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { recoverToken } from '@klaytn-developer-sdk/dexs'
 ```
 ### 7. emergencyRewardWithdraw
 ```js
-import { emergencyRewardWithdraw } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { emergencyRewardWithdraw } from '@klaytn-developer-sdk/dexs'
 ```
 ### 8. deposit
 ```js
-import { deposit } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { deposit } from '@klaytn-developer-sdk/dexs'
 ```
 ### 9. withdraw
 ```js
-import { withdraw } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { withdraw } from '@klaytn-developer-sdk/dexs'
 ```
 ### 10. emergencyWithdraw
 ```js
-import { emergencyWithdraw } from '@klaytn-developer-sdk/dexs-starter-kit'
+import { emergencyWithdraw } from '@klaytn-developer-sdk/dexs'
 ```
 #### Note:
 Make sure you've read the pre-requisite section to ensure that you've all the required information for each use-case. To understand what information

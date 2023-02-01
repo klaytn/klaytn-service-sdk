@@ -8,18 +8,29 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
  * @notice Acontract that returns latest price from Chainlink Price Feeds
  */
 contract PriceConsumerV3 {
-    AggregatorV3Interface internal immutable priceFeed;
+    AggregatorV3Interface internal priceFeed;
 
     /**
      * @notice Executes once when a contract is created to initialize state variables
      *
-     * @param _priceFeed - Price Feed Address
+     * @param _priceFeed - Price Feed Address. Refer here https://docs.chain.link/data-feeds/price-feeds/addresses/?network=klaytn
      *
      * Network: Baobab
      * Aggregator: LINK/KLAY
      * Address: 0xf49f81b3d2F2a79b706621FA2D5934136352140c
      */
     constructor(address _priceFeed) {
+        priceFeed = AggregatorV3Interface(_priceFeed);
+    }
+
+    /**
+     * @notice Changes price feed address
+     * 
+     * @param _priceFeed - Price Feed Address. Refer here https://docs.chain.link/data-feeds/price-feeds/addresses/?network=klaytn
+     *
+     * 
+     */
+    function changePriceFeed(address _priceFeed) public {
         priceFeed = AggregatorV3Interface(_priceFeed);
     }
 

@@ -2,10 +2,16 @@
 - [Klaytn wormhole starter kit](#klaytn-wormhole-starter-kit)
   - [About](#about)
   - [Folder Structure](#folder-structure)
-  - [Setup](#setup)
+  - [Installation](#installation)
   - [Quick Start](#quick-start)
-  - [1.Token Attestation](#1token-attestation)
+  - [1. Token Attestation](#1-token-attestation)
+    - [Parameters](#parameters)
+    - [Returns](#returns)
+    - [Example](#example)
   - [2.Transfer Tokens](#2transfer-tokens)
+    - [Parameters](#parameters-1)
+    - [Returns](#returns-1)
+    - [Example](#example-1)
   - [Reference Docs:](#reference-docs)
 
 ## About
@@ -16,53 +22,141 @@ Wormhole is a communication bridge between Klaytn and other top decentralized fi
 - [core](./core): it includes @wormhole-sdk and the contracts ABIs
 - [use-cases](./use-cases): Ready-to-run code of some use-cases to call the Wormhole Rest APIs.
 
-## Setup
-2. `yarn install`
+## Installation
+`npm install @klaytn-developer-sdk/bridges-wormhole --save`
 
 ## Quick Start
-You can run following ready-made use-cases to test
-## 1.Token Attestation
-To attest a token of one chain (source chain) to another chain (destination chain) for EVM compatible chains, please perform the following steps:
-1. Make sure are required params are provided. Below table explains the variables required for attestation process. 
+BridgeSDK is the package containing the readymade use-cases.
+CoreBridgeSDK exposes methods of `@certusone/wormhole-sdk` to write custom methods.
 
-| Variable        | Description           | Example  | References |
-| ------------- | ------------- | ------------- | ------------- |
-| WORMHOLE_REST_URL | wormhole rest api | https://wormhole-v2-testnet-api.certus.one | [https://book.wormhole.com/reference/rpcnodes.html](https://book.wormhole.com/reference/rpcnodes.html) |
-| SOURCE_PRIVATE_KEY | source chain private key containing base curreny required for performing transactions | Private key here | |
-| SOURCE_RPC_URL | source chain rpc url      | https://api.baobab.klaytn.net:8651 |
-| SOURCE_CORE_BRIDGE | source chain core bridge address      | 0x1830CC6eE66c84D2F177B94D544967c774E624cA | [https://book.wormhole.com/reference/contracts.html#core-bridge-1](https://book.wormhole.com/reference/contracts.html#core-bridge-1) |
-| SOURCE_TOKEN_BRIDGE | source chain token bridge address      | 0xC7A13BE098720840dEa132D860fDfa030884b09A | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-| SOURCE_WORMHOLE_CHAIN_ID | source chain wormhole chainName      | 13 | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
-| DESTINATION_PRIVATE_KEY | destination chain private key containing base curreny required for performing transactions | Private key here |
-| DESTINATION_RPC_URL | destination chain rpc url      | https://ethereum-goerli-rpc.allthatnode.com | |
-| DESTINATION_TOKEN_BRIDGE | destination chain token bridge      | 0xF890982f9310df57d00f659cf4fd87e65adEd8d7 | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-2. Make sure the Token to be attested is present in source chain. Native fee coins in source and destination chain is sufficient
-3. import this use-case with
 ```typescript
-import { attest } from '@klaytn-developer-sdk/bridge-wormhole';
+import BridgeSDK from '@klaytn-developer-sdk/bridges-wormhole';
+import CoreBridgeSDK from '@klaytn-developer-sdk/bridges-wormhole/core';
+
+or
+
+const BridgeSDK = require('@klaytn-developer-sdk/bridges-wormhole');
+const CoreBridgeSDK = require('@klaytn-developer-sdk/bridges-wormhole/core');
 ```
-## 2.Transfer Tokens
-To transfer tokens from source chain to destination chain for EVM compatible chains, please perform the following steps:
-1. Make sure the required params updated. Below table explains the variables required for attestation process. 
 
-| Variable        | Description           | Example  | References |
-| ------------- | ------------- | ------------- | ------------- |
-| WORMHOLE_REST_URL | wormhole rest api | https://wormhole-v2-testnet-api.certus.one | [https://book.wormhole.com/reference/rpcnodes.html](https://book.wormhole.com/reference/rpcnodes.html) |
-| SOURCE_PRIVATE_KEY | source chain private key containing base curreny required for performing transactions | Private key here | |
-| SOURCE_RPC_URL | source chain rpc url      | https://api.baobab.klaytn.net:8651 |
-| SOURCE_CORE_BRIDGE | source chain core bridge address      | 0x1830CC6eE66c84D2F177B94D544967c774E624cA | [https://book.wormhole.com/reference/contracts.html#core-bridge-1](https://book.wormhole.com/reference/contracts.html#core-bridge-1) |
-| SOURCE_TOKEN_BRIDGE | source chain token bridge address      | 0xC7A13BE098720840dEa132D860fDfa030884b09A | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-| SOURCE_WORMHOLE_CHAIN_ID | source chain wormhole chainName      | 13 | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
-| DESTINATION_PRIVATE_KEY | destination chain private key containing base curreny required for performing transactions | Private key here |
-| DESTINATION_RPC_URL | destination chain rpc url      | https://ethereum-goerli-rpc.allthatnode.com | |
-| DESTINATION_TOKEN_BRIDGE | destination chain token bridge      | 0xF890982f9310df57d00f659cf4fd87e65adEd8d7 | [https://book.wormhole.com/reference/contracts.html#token-bridge-1](https://book.wormhole.com/reference/contracts.html#token-bridge-1) |
-| DESTINATION_WORMHOLE_CHAIN_ID | destination wormhole chainName      | 2 | [https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts](https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/utils/consts.ts) |
-| IS_NATIVE_TRANSFER | is native transfer (Y/N)      | Y | |
-| AMOUNT_TO_BE_TRANSFERRED | amount to be transferred (Ex: 1 coin) | 1 | |
-2. Make sure the tokens/coins in source chain and native fee coins in destination chain is sufficient
-3. import this use-case with
+You can run following ready-made use-cases to test
+## 1. Token Attestation
+Attests a token of one chain (source chain) to another chain (destination chain) for EVM compatible chains.
+
 ```typescript
-import { transferBasics } from '@klaytn-developer-sdk/bridge-wormhole';
+BridgeSDK.attest(config, source, destination)
+```
+
+> **_NOTE:_**  Make sure the Token to be attested is present in source chain. Native fee coins in source and destination chain in the provided privatekey account is sufficient.
+
+### Parameters
+1. `Object` - `config`
+   * `restAddress` - wormhole api url. See [Wormhole Rpc Nodes](https://book.wormhole.com/reference/rpcnodes.html) for reference.
+2. `Object` - `source`
+   * `token` - token contract address to be attested
+   * `privatekey` - privatekey to perform transactions
+   * `rpcUrl` - blockchain rpc url
+   * `coreBridge` - core bridge contract address. see [Testnet CoreBridge](https://book.wormhole.com/reference/contracts.html#core-bridge-1) for reference.
+   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+3. `Object` - `destination`
+   * `privatekey` - privatekey to perform transactions
+   * `rpcUrl` -  blockchain rpc url
+   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+
+### Returns
+`String` - Deployed contract address on Destination chain
+
+### Example
+```typescript
+const BridgeSDK = require('@klaytn-developer-sdk/bridges-wormhole');
+const CoreBridgeSDK = require('@klaytn-developer-sdk/bridges-wormhole/core');
+
+const config = { restAddress: "https://wormhole-v2-testnet-api.certus.one" };
+const source = {
+  token: "0x0FD3f122A9B6471928B60eeE73bF35D895C4Ee01", // Token to be attested
+  privatekey: "source chain private key",
+  rpcUrl: "https://api.baobab.klaytn.net:8651",
+  coreBridge: "0x1830CC6eE66c84D2F177B94D544967c774E624cA",
+  tokenBridge: "0xC7A13BE098720840dEa132D860fDfa030884b09A",
+  wormholeChainId: "13" 
+};
+const destination = {
+  privatekey: "destination chain private key",
+  rpcUrl: "https://ethereum-goerli-rpc.allthatnode.com",
+  tokenBridge: "0xF890982f9310df57d00f659cf4fd87e65adEd8d7",
+  wormholeChainId: "2" 
+}
+
+console.log(CoreBridgeSDK.CHAINS); // prints the chains from @certusone/wormhole-sdk
+
+const destinationDeployedContract = await BridgeSDK.attest(config, source, destination);
+
+// Destination chain deployed contract
+console.log(destinationDeployedContract); // 0xfdA23F910E5CE6b7C712F624DE20d9cC3A5d2122
+```
+
+## 2.Transfer Tokens
+Transfer tokens from source chain to destination chain for EVM compatible chains.
+
+```typescript
+BridgeSDK.transferBasic(config, source, destination, AMOUNT, IS_NATIVE)
+```
+
+> **_NOTE:_**  Make sure the tokens/coins is present in source chain. Native fee coins in source and destination chain in the provided privatekey account is sufficient.
+
+### Parameters
+1. `Object` - `config`
+   * `restAddress` - wormhole api url. See [Wormhole Rpc Nodes](https://book.wormhole.com/reference/rpcnodes.html) for reference.
+2. `Object` - `source`
+   * `token` - token contract address. Provide if `IS_NATIVE` is false.
+   * `privatekey` - privatekey to perform transactions
+   * `rpcUrl` - blockchain rpc url
+   * `coreBridge` - core bridge contract address. see [Testnet CoreBridge](https://book.wormhole.com/reference/contracts.html#core-bridge-1) for reference.
+   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+3. `Object` - `destination`
+   * `privatekey` - privatekey to perform transactions
+   * `rpcUrl` -  blockchain rpc url
+   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+4. `String` - `AMOUNT` - Amount to be transferred.
+5. `Boolean` - `IS_NATIVE` - Provide `true` if its a native coin transfer from source and `false` if its a token transfer.
+
+### Returns
+`Object` - Transaction Object
+
+### Example
+```typescript
+const BridgeSDK = require('@klaytn-developer-sdk/bridges-wormhole');
+const CoreBridgeSDK = require('@klaytn-developer-sdk/bridges-wormhole/core');
+
+const config = { restAddress: "https://wormhole-v2-testnet-api.certus.one" };
+const source = {
+  token: "0x0FD3f122A9B6471928B60eeE73bF35D895C4Ee01", // Token to be attested
+  privatekey: "source chain private key",
+  rpcUrl: "https://api.baobab.klaytn.net:8651",
+  coreBridge: "0x1830CC6eE66c84D2F177B94D544967c774E624cA",
+  tokenBridge: "0xC7A13BE098720840dEa132D860fDfa030884b09A",
+  wormholeChainId: "13" 
+};
+const destination = {
+  privatekey: "destination chain private key",
+  rpcUrl: "https://ethereum-goerli-rpc.allthatnode.com",
+  tokenBridge: "0xF890982f9310df57d00f659cf4fd87e65adEd8d7",
+  wormholeChainId: "2" 
+}
+// Transfers 1 token from source chain's provided token address.
+const AMOUNT = "1";
+const IS_NATIVE = false;
+
+console.log(CoreBridgeSDK.CHAINS); // prints the chains from @certusone/wormhole-sdk
+
+const result = await BridgeSDK.transferBasic(config, source, destination, AMOUNT, IS_NATIVE);
+
+// Transaction hash of the destination chain
+console.log(result.hash);
 ```
 
 ## Reference Docs:

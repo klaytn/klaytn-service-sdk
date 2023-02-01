@@ -1,8 +1,11 @@
 {
-  "name": "@klaytn-developer-sdk/dexs-starter-kit",
-  "version": "1.0.0",
+  "name": "@klaytn-developer-sdk/dexs",
+  "version": "0.0.1",
   "description": "it includes dex-contracts integration & use-cases",
-  "main": "dist/use-cases/index.js",
+  "exports": {
+    ".": "./dist/use-cases/index.js",
+    "./core": "./dist/core/index.js"
+  },
   "scripts": {
     "build": "npx tsc",
     "test": "echo not tests to run yet",

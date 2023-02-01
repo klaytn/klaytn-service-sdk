@@ -3,7 +3,7 @@ import { attest } from "../use-cases"
 
 describe("attest", () => {
     test("Token attestation", async () => {
-        const config = { wormhole: { restAddress: "https://wormhole-v2-testnet-api.certus.one" }};
+        const config = { restAddress: "https://wormhole-v2-testnet-api.certus.one" };
         const source = {
           token: "0x0FD3f122A9B6471928B60eeE73bF35D895C4Ee01", // Token to be attested
           privatekey: "",
@@ -18,8 +18,8 @@ describe("attest", () => {
           tokenBridge: "0xF890982f9310df57d00f659cf4fd87e65adEd8d7",
           wormholeChainId: "2" 
         }
-        const expectedOutput = "0x345";
-        const actualOutput = await attest(config, source, destination);
-        expect(expectedOutput).to.equal(actualOutput);
+        const expectedDestDeployedContract = "0x345";
+        const actualDestDeployedContract = await attest(config, source, destination);
+        expect(expectedDestDeployedContract).to.equal(actualDestDeployedContract);
     });
 });

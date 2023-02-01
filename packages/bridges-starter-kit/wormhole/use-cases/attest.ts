@@ -12,7 +12,7 @@ import Bridge from '../core/abi/bridge.json';
 // Attest a token from Source chain to Destination chain (Works only for EVM compatible chains)
 
 export async function attest(
-    config:{ wormhole: { restAddress: string }},
+    config:{ restAddress: string },
     source: {
       token: string, // Token to be attested
       privatekey: string,
@@ -56,7 +56,7 @@ export async function attest(
     networkTokenAttestation,
     source.coreBridge
   );
-  const vaaURL = `${config.wormhole.restAddress}/v1/signed_vaa/${source.wormholeChainId}/${emitterAddr}/${seq}`;
+  const vaaURL = `${config.restAddress}/v1/signed_vaa/${source.wormholeChainId}/${emitterAddr}/${seq}`;
   console.log("Searching for: ", vaaURL);
   await new Promise((r) => setTimeout(r, 2000));
   let vaaBytes: any = await axios.get(vaaURL);
