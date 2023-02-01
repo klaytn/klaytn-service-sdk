@@ -20,8 +20,8 @@ const { deployMockContract, provider } = waffle
     })
 
     it('Should successfully make an API request', async () => {
-      await apiConsumer.mock.requestVolumeData.withArgs("KLAY", 18).returns(toBytes32String('123'))
-      const transaction = await apiConsumer.requestVolumeData("KLAY", 18)
+      await apiConsumer.mock.requestVolumeData.withArgs('KLAY', 18).returns(toBytes32String('123'))
+      const transaction = await apiConsumer.requestVolumeData('KLAY', 18)
       const transactionReceipt = await transaction.wait(1)
       const requestId = transactionReceipt?.events[0]?.topics[1]
       expect(requestId).to.not.be.null
@@ -31,7 +31,7 @@ const { deployMockContract, provider } = waffle
       const callbackValue = 777
       await apiConsumer.mock.requestVolumeData.returns(toBytes32String('123'))
       await apiConsumer.mock.volume.returns(callbackValue)
-      const transaction = await apiConsumer.requestVolumeData("KLAY", 18)
+      const transaction = await apiConsumer.requestVolumeData('KLAY', 18)
       const transactionReceipt = await transaction.wait(1)
       const requestId = transactionReceipt?.events[0]?.topics[1]
 
@@ -43,7 +43,7 @@ const { deployMockContract, provider } = waffle
 
     it('Our event should successfully fire event on callback', async () => {
       const callbackValue = 777
-      await apiConsumer.mock.requestVolumeData.withArgs("KLAY", 18).returns(toBytes32String('123'))
+      await apiConsumer.mock.requestVolumeData.withArgs('KLAY', 18).returns(toBytes32String('123'))
       await apiConsumer.mock.volume.returns(callbackValue)
       apiConsumer.once = (a, b) => {
         b()
@@ -52,7 +52,7 @@ const { deployMockContract, provider } = waffle
 
       // we setup a promise so we can wait for our callback from the `once` function
       await new Promise(async (resolve, reject) => {
-        const transaction = await apiConsumer.requestVolumeData("KLAY", 18)
+        const transaction = await apiConsumer.requestVolumeData('KLAY', 18)
         const transactionReceipt = await transaction.wait(1)
         const requestId = transactionReceipt?.events[0]?.topics[1]
 

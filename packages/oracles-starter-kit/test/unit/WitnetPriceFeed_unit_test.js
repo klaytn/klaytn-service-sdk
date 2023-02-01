@@ -18,8 +18,8 @@ const { deployMockContract, provider } = waffle
 
     describe('getPrice', () => {
       it('should return the same value as the mock', async () => {
-        await witnetPriceFeed.mock.getPrice.withArgs("0x6cc828d1").returns(10, 10)
-        const priceConsumerResult = (await witnetPriceFeed.getPrice("0x6cc828d1")).toString()
+        await witnetPriceFeed.mock.getPrice.withArgs('0x6cc828d1').returns(10, 10)
+        const priceConsumerResult = (await witnetPriceFeed.getPrice('0x6cc828d1')).toString()
         console.log(priceConsumerResult)
         assert.equal(priceConsumerResult.toString(), '10,10')
       })
