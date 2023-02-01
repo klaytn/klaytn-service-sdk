@@ -6,11 +6,11 @@ import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers
  * A function to deposit given amount of LP token in given LP Farming pool.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} farmingAddress - Farming contract's address.
  * @param {string} depositAmount - amount of the LP KIP7 token going to be deposited.
  * @param {string} poolId - pool id in which amount is going to be deposited.
- * @param {number} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
+ * @param {number} confirmations - Number of blocks confirmations required to achieve to proceed per transaction.
  * @return {Promise<ContractReceipt>} - ContractTransaction object.
  */
 export async function deposit(

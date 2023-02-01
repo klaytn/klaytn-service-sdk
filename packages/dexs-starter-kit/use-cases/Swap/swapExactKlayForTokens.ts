@@ -6,13 +6,13 @@ import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers
  * A function to swap exact amount of KLAY for a given amount of Tokens.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} routerAddress - DEX SWAP Router contract's address.
  * @param {string} factoryAddress - DEX SWAP Factory contract's address.
  * @param {string[]} path - a pair of tokens address, path[0] should be the address of WKLAY & path[1] should be the address of out Token.
- * @param {string} amountIn- amount of WKLAY tokens to be swapped.
- * @param {string} amountOut- minimum amount of tokens expecting to receive.
- * @param {string} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
+ * @param {string} amountIn - amount of WKLAY tokens to be swapped.
+ * @param {string} amountOut - minimum amount of tokens expecting to receive.
+ * @param {string} confirmations - Number of blocks confirmations required to achieve to proceed per transaction.
  * @return {Promise<ContractReceipt>} - ContractTransaction object.
  */
 export async function swapExactKlayForTokens(

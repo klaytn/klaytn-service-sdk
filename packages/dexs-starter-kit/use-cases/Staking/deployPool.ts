@@ -4,7 +4,7 @@ import { Staking } from "../../core"
  * A function that encodes all the details required to deploy a new Staking Pool.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} factoryAddress - Staking Factory contract's address.
  * @param {string} stakedTokenAddress - Address of the KIP7 token which will be staked in this Staking Pool.
  * @param {string} rewardTokenAddress - Address of the KIP7 token in which stakers will get their reward.

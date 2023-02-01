@@ -4,7 +4,6 @@ import { Farming} from "../../core"
  * A function that encodes all the details required to create a new LP farming pool.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
  * @param {string} farmingAddress - Farming contract's address.
  * @param {string} lpAddress - Address of the LP KIP7 token.
  * @param {string} allocPoints - Number of allocation points for the new pool.
@@ -15,7 +14,6 @@ import { Farming} from "../../core"
 export async function addPool(
     rpcURL: string,
     privKey: string,
-    pubKey: string,
     farmingAddress: string,
     lpAddress: string,
     allocPoints: string,

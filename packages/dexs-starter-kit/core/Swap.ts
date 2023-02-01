@@ -13,8 +13,8 @@ export class Swap {
     /**
      * A function to swap exact amount of Tokens for a given amount of Tokens.
      * @param {string[]} path - a pair of tokens addresses, path[0] should be the address of input Token & path[1] should be the address of output Token.
-     * @param {string} amountIn- amount of Token to be swapped.
-     * @param {string} amountDesiredOut- minimum amount of Tokens expecting to receive.
+     * @param {string} amountIn - amount of Token to be swapped.
+     * @param {string} amountDesiredOut - minimum amount of Tokens expecting to receive.
      * @param {number} deadline - UTC timestamp as deadline of this transaction, once deadline passed on-chain transaction should be reverted.
      * * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */
@@ -32,8 +32,8 @@ export class Swap {
     /**
      * A function to swap given amount of Tokens for exact amount of KLAYs.
      * @param {string[]} path - a pair of tokens addresses, path[0] should be the address of Token & path[1] should be the address of WKLAY.
-     * @param {string} amountDesiredMaxIn- max amount of Tokens to be swapped.
-     * @param {string} amountOut- exact amount of KLAYs expecting to receive.
+     * @param {string} amountDesiredMaxIn - max amount of Tokens to be swapped.
+     * @param {string} amountOut - exact amount of KLAYs expecting to receive.
      * @param {number} deadline - UTC timestamp as deadline of this transaction, once deadline passed on-chain transaction should be reverted.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */
@@ -51,8 +51,8 @@ export class Swap {
     /**
      * A function to swap exact amount of KLAY for a given amount of Tokens.
      * @param {string[]} path - a pair of tokens address, path[0] should be the address of WKLAY & path[1] should be the address of out Token.
-     * @param {string} amountKlayIn- amount of WKLAY tokens to be swapped.
-     * @param {string} amountDesiredOutMin- minimum amount of tokens expecting to receive.
+     * @param {string} amountKlayIn - amount of WKLAY tokens to be swapped.
+     * @param {string} amountDesiredOutMin - minimum amount of tokens expecting to receive.
      * @param {number} deadline - UTC timestamp as deadline of this transaction, once deadline passed on-chain transaction should be reverted.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */
@@ -70,8 +70,8 @@ export class Swap {
     /**
      * A function to swap given amount of Tokens for exact amount of KLAYs.
      * @param {string[]} path - a pair of tokens addresses, path[0] should be the address of Token & path[1] should be the address of WKLAY.
-     * @param {string} amountDesiredTokenMaxIn- max amount of Tokens to be swapped.
-     * @param {string} amountKlayOut- exact amount of KLAYs expecting to receive.
+     * @param {string} amountDesiredTokenMaxIn - max amount of Tokens to be swapped.
+     * @param {string} amountKlayOut - exact amount of KLAYs expecting to receive.
      * @param {number} deadline - UTC timestamp as deadline of this transaction, once deadline passed on-chain transaction should be reverted.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */
@@ -90,8 +90,8 @@ export class Swap {
     /**
      * A function to swap exact amount of Tokens for a given amount of KLAY.
      * @param {string[]} path - a pair of tokens addresses, path[0] should be the address of Token & path[1] should be the address of WKLAY.
-     * @param {string} amountIn- amount of Token to be swapped.
-     * @param {string} amountDesiredKlayOut- minimum amount of KLAYs expecting to receive.
+     * @param {string} amountIn - amount of Token to be swapped.
+     * @param {string} amountDesiredKlayOut - minimum amount of KLAYs expecting to receive.
      * @param {number} deadline - UTC timestamp as deadline of this transaction, once deadline passed on-chain transaction should be reverted.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */
@@ -109,8 +109,8 @@ export class Swap {
     /**
      * A function to swap KLAYs for a given exact amount of Tokens.
      * @param {string[]} path - a pair of tokens addresses, path[0] should be the address of WKLAY & path[1] should be the address of output Token.
-     * @param {string} amountKlayIn- max amount of WKLAY to be swapped.
-     * @param {string} amountDesiredOut- exact amount of Tokens expecting to receive.
+     * @param {string} amountKlayIn - max amount of WKLAY to be swapped.
+     * @param {string} amountDesiredOut - exact amount of Tokens expecting to receive.
      * @param {number} deadline - UTC timestamp as deadline of this transaction, once deadline passed on-chain transaction should be reverted.
      * @return {Promise<ContractTransaction>} - ContractTransaction object.
      */

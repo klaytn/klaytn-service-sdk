@@ -5,11 +5,11 @@ import { BigNumber, constants, ContractReceipt } from 'ethers'
  * A function to withdraw LP tokens from given LP farming pool
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} farmingAddress - Farming contract's address.
  * @param {string} withdrawAmount - amount of the LP KIP7 token going to be withdrawn.
  * @param {string} poolId - pool id of LP farming pool from which amount is going to be withdrawn.
- * @param {number} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
+ * @param {number} confirmations - Number of blocks confirmations required to achieve to proceed per transaction.
  * @return {Promise<ContractReceipt>} - ContractTransaction object.
  */
 export async function withdraw(

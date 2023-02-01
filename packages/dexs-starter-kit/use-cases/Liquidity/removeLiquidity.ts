@@ -6,7 +6,7 @@ import { BigNumber, ContractReceipt } from 'ethers'
  * A function to remove liquidity from a given pair of tokens (token0 & token1).
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} routerAddress - DEX SWAP Router contract's address.
  * @param {string} factoryAddress - DEX SWAP Factory contract's address.
  * @param {string} token0Address - token0 a KIP7 contract's address of a given pair of tokens (whose liquidity to be removed).

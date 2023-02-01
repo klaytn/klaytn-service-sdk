@@ -6,13 +6,13 @@ import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers
  * A function to swap given amount of Tokens for exact amount of Tokens.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} routerAddress - DEX SWAP Router contract's address.
  * @param {string} factoryAddress - DEX SWAP Factory contract's address.
  * @param {string[]} path - a pair of tokens addresses, path[0] should be the address of input Token & path[1] should be the address of output Token.
- * @param {string} amountIn- max amount of Tokens to be swapped.
- * @param {string} amountOut- exact amount of Tokens expecting to receive.
- * @param {string} confirmations- Number of blocks confirmations required to achieve to proceed per transaction.
+ * @param {string} amountIn - max amount of Tokens to be swapped.
+ * @param {string} amountOut - exact amount of Tokens expecting to receive.
+ * @param {string} confirmations - Number of blocks confirmations required to achieve to proceed per transaction.
  * @return {Promise<ContractReceipt>} - ContractTransaction object.
  */
 export async function swapTokensForExactTokens(

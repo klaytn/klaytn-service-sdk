@@ -5,7 +5,7 @@ import { BigNumber, constants, ContractReceipt } from 'ethers'
  * A function to emergency withdraw funds from given LP farming pool.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} farmingAddress - Farming contract's address.
  * @param {string} poolId - pool id of LP farming pool from where funds are to be withdrawn.
  * @param {number} confirmations - number of blocks confirmations requires to proceed per transaction.

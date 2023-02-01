@@ -6,7 +6,7 @@ import { Wallet, providers, BigNumber, constants, ContractReceipt } from 'ethers
  * A function to deposit given amount of Staked Token in given Staking Pool contract.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} stakingAddress - Staking Pool contract's address.
  * @param {string} depositAmount - amount of the KIP7 token (stakedToken) going to be staked.
  * @param {string} confirmations - total block confirmations required to achieve per transaction to proceed.

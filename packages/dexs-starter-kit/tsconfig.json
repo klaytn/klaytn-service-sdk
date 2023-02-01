@@ -36,7 +36,7 @@
     "contracts/**/**/**/**/*.ts"
   ],
   "typedocOptions": {
-    "entryPoints": ["core"],
+    "entryPoints": ["core", "use-cases"],
     "out": "docs/typedoc"
   }
 }

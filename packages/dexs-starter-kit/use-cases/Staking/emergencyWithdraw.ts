@@ -6,7 +6,7 @@ import { BigNumber, constants, ContractReceipt } from 'ethers'
  * A function to emergency withdraw funds from given Staking Pool contract.
  * @param {string} rpcURL - RPC URL of blockchain provider.
  * @param {string} privKey - secret key of account with which you want to sign the transaction.
- * @param {string} pubKey- public key / address of account with which you want to sign the transaction.
+ * @param {string} pubKey - public key / address of account with which you want to sign the transaction.
  * @param {string} stakingAddress - Staking Pool contract's address.
  * @param {string} confirmations - total block confirmations required to achieve per transaction to proceed.
  * @return {Promise<ContractReceipt>} - ContractReceipt object.
