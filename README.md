@@ -7,6 +7,7 @@
   - [Bridges Module](#bridges-module)
     - [Celer Bridge](#celer-bridge)
     - [Wormhole Bridge](#wormhole-bridge)
+  - [DEX Module](#dex-module)
 - [Getting started](#getting-started)
     - [Requirement](#requirement)
     - [Quickstart](#quickstart)
@@ -41,22 +42,18 @@ Implementations:
 - [BurnCanoncialToken](/packages/bridges-starter-kit/celer/README.md#3burn-canonical-token)
 - [BurnCanoncialToken Refund](/packages/bridges-starter-kit/celer/README.md#31burn-canoncial-token-refund)
 
+### Wormhole Bridge
+Implementations:
+- [Token Attestation](/packages/bridges-starter-kit/wormhole/README.md#1token-attestation)
+- [Transfer Tokens](/packages/bridges-starter-kit/wormhole/README.md#2transfer-tokens)
+
 ## DEX Module
-### @klaytn/dex-contracts
+### Open source DEX
 Integration of the following 5 DEX contracts:
 - [Swap](/packages/dexs-starter-kit/core/Swap.ts)
 - [Liquidity](/packages/dexs-starter-kit/core/Liquidity.ts)
 - [Farming](/packages/dexs-starter-kit/core/Farming.ts)
 - [Staking](/packages/dexs-starter-kit/core/Staking.ts)
-- [Multisig Wallet](/packages/
-
-<br/>
-
-### Wormhole Bridge
-Implementations:
-- [Token Attestation](/packages/bridges-starter-kit/wormhole/README.md#1token-attestation)
-- [Transfer Tokens](/packages/bridges-starter-kit/wormhole/README.md#2transfer-tokens)
-<br/>
 
 # Getting started
 ### Requirement
