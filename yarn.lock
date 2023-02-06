@@ -2683,7 +2683,17 @@
     "mocha" "^10.1.0"
     "ts-node" "^8.6.2"
 
-"@klaytn-developer-sdk/oracles@file:G:\\WorkProfile\\klaytn\\workspace\\DEV\\klaytn-developer-sdk\\packages\\oracles-starter-kit":
+"@klaytn-developer-sdk/kds-cli@file:G:\\WorkProfile\\klaytn\\workspace\\DEV\\klaytn-developer-sdk\\packages\\kds-cli":
+  "resolved" "file:packages/kds-cli"
+  "version" "0.0.1"
+  dependencies:
+    "@klaytn-developer-sdk/oracles" "^0.0.1"
+    "chalk" "^4.1.1"
+    "commander" "^10.0.0"
+    "figlet" "^1.5.2"
+    "fs-extra" "^11.1.0"
+
+"@klaytn-developer-sdk/oracles@^0.0.1", "@klaytn-developer-sdk/oracles@file:G:\\WorkProfile\\klaytn\\workspace\\DEV\\klaytn-developer-sdk\\packages\\oracles-starter-kit":
   "resolved" "file:packages/oracles-starter-kit"
   "version" "0.0.1"
   dependencies:
@@ -2695,7 +2705,6 @@
     "@nomiclabs/hardhat-ethers" "npm:hardhat-deploy-ethers@^0.3.0-beta.13"
     "@nomiclabs/hardhat-etherscan" "^3.0.0"
     "@nomiclabs/hardhat-waffle" "^2.0.1"
-    "boxen" "^4.2.0"
     "chai" "^4.3.4"
     "chalk" "^4.1.1"
     "commander" "^10.0.0"
@@ -2709,7 +2718,6 @@
     "hardhat-deploy" "^0.9.29"
     "witnet-requests" "0.9.4"
     "witnet-solidity-bridge" "^0.5.7"
-    "yargs" "^16.1.1"
 
 "@krebernisak/ovm-plugins@^0.0.15":
   "integrity" "sha512-IuvB1JHbCCQP+8nuNCfomxwgIPCuYrWCcSHEPKr0X3dkdZXV4jVyu2EmnoffeFWiLgsqUXSnCH+DvB4gMn/bvg=="
@@ -6578,10 +6586,10 @@
     "find-replace" "^1.0.3"
     "typical" "^2.6.1"
 
-"commander@^10.0.0":
-  "integrity" "sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA=="
-  "resolved" "https://registry.npmjs.org/commander/-/commander-10.0.0.tgz"
-  "version" "10.0.0"
+"commander@^10.0.0", "commander@3.0.2":
+  "integrity" "sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow=="
+  "resolved" "https://registry.npmjs.org/commander/-/commander-3.0.2.tgz"
+  "version" "3.0.2"
 
 "commander@^2.20.3":
   "integrity" "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
@@ -6597,11 +6605,6 @@
   "integrity" "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="
   "resolved" "https://registry.npmjs.org/commander/-/commander-8.3.0.tgz"
   "version" "8.3.0"
-
-"commander@3.0.2":
-  "integrity" "sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow=="
-  "resolved" "https://registry.npmjs.org/commander/-/commander-3.0.2.tgz"
-  "version" "3.0.2"
 
 "complex.js@^2.1.1":
   "integrity" "sha512-8njCHOTtFFLtegk6zQo0kkVX1rngygb/KQI6z1qZxlFI3scluC+LVTCFbrkWjBv4vvLlbQ9t88IPMC6k95VTTg=="
@@ -9138,7 +9141,7 @@
   "resolved" "https://registry.npmjs.org/fs-constants/-/fs-constants-1.0.0.tgz"
   "version" "1.0.0"
 
-"fs-extra@^0.30.0":
+"fs-extra@^0.30.0", "fs-extra@^11.1.0":
   "integrity" "sha512-UvSPKyhMn6LEd/WpUaV9C9t3zATuqoqfWc3QdPhPLb58prN9tqYPlPWi8Krxi44loBoUzlobqZ3+8tGpxxSzwA=="
   "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-0.30.0.tgz"
   "version" "0.30.0"
@@ -9153,15 +9156,6 @@
   "integrity" "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ=="
   "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz"
   "version" "10.1.0"
-  dependencies:
-    "graceful-fs" "^4.2.0"
-    "jsonfile" "^6.0.1"
-    "universalify" "^2.0.0"
-
-"fs-extra@^11.1.0":
-  "integrity" "sha512-0rcTq621PD5jM/e0a3EJoGC/1TC5ZBCERW82LQuwfGnCa1V8w7dpYH1yNu+SLb6E5dkeCBzKEyLGlFrnr+dUyw=="
-  "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-11.1.0.tgz"
-  "version" "11.1.0"
   dependencies:
     "graceful-fs" "^4.2.0"
     "jsonfile" "^6.0.1"
@@ -16891,17 +16885,7 @@
     "witnet-radon-js" "^0.8.4"
     "witnet-solidity-bridge" "^0.5.1"
 
-"witnet-solidity-bridge@^0.5.1":
-  "integrity" "sha512-5XdrSmSWYH+tKPUo9j3H84uimU2oXquutx2Da4o98CA6ygloKJRCnFgtYT5CepDyOlWADP72wVqrbrAp1SSxYw=="
-  "resolved" "https://registry.npmjs.org/witnet-solidity-bridge/-/witnet-solidity-bridge-0.5.7.tgz"
-  "version" "0.5.7"
-  dependencies:
-    "@eth-optimism/solc" "0.7.6-alpha.1"
-    "@openzeppelin/contracts" "^4.1.0"
-    "ado-contracts" "1.0.0"
-    "lodash" "^4.17.21"
-
-"witnet-solidity-bridge@^0.5.7":
+"witnet-solidity-bridge@^0.5.1", "witnet-solidity-bridge@^0.5.7":
   "integrity" "sha512-5XdrSmSWYH+tKPUo9j3H84uimU2oXquutx2Da4o98CA6ygloKJRCnFgtYT5CepDyOlWADP72wVqrbrAp1SSxYw=="
   "resolved" "https://registry.npmjs.org/witnet-solidity-bridge/-/witnet-solidity-bridge-0.5.7.tgz"
   "version" "0.5.7"

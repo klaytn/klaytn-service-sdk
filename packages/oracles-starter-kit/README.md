@@ -74,18 +74,21 @@ This is a hardhat project containing contracts and scripts for Chainlink and Wit
 ## Install
 
 ```typescript
-npm install -g @klaytn-developer-sdk/oracles
+npm install -g @klaytn-developer-sdk/kds-cli --force
 ```
 
 ## Quick Usage
 For a default set of contracts and tests, run the following within the required project directory:
 
 ```typescript
-kds-cli oracle init
+> kds-cli oracle init
+
+> cd oracle-starter-kit
+> npm install --force
 ```
 
-Above command downloads the `oracle-starter-kit` folder in the current project directory. 
-Enter inside and run `npm install`
+Above commands downloads the `oracle-starter-kit` folder structure in the current project directory. 
+Enter inside the generated folder and install the packages as mentioned
 
 From there you can run hardhat commands to compile your contracts, deploy those contracts to 
 the network and run their associated unit tests.

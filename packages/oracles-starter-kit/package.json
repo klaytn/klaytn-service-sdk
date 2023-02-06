@@ -2,10 +2,6 @@
   "name": "@klaytn-developer-sdk/oracles",
   "version": "0.0.1",
   "description": "",
-  "bin": {
-    "kds-oracle-cli": "./bin/kds-oracle-cli.js"
-  },
-  "preferGlobal": true,
   "scripts": {
     "help": "hardhat --help",
     "compile": "hardhat compile",
