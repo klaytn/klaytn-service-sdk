@@ -2695,16 +2695,21 @@
     "@nomiclabs/hardhat-ethers" "npm:hardhat-deploy-ethers@^0.3.0-beta.13"
     "@nomiclabs/hardhat-etherscan" "^3.0.0"
     "@nomiclabs/hardhat-waffle" "^2.0.1"
+    "boxen" "^4.2.0"
     "chai" "^4.3.4"
+    "chalk" "^4.1.1"
+    "commander" "^10.0.0"
     "dotenv" "^10.0.0"
     "envfile" "^6.18.0"
     "ethereum-waffle" "^3.4.0"
     "ethers" "^5.5.1"
+    "figlet" "^1.5.2"
     "fs-extra" "^11.1.0"
     "hardhat" "^2.11.2"
     "hardhat-deploy" "^0.9.29"
     "witnet-requests" "0.9.4"
     "witnet-solidity-bridge" "^0.5.7"
+    "yargs" "^16.1.1"
 
 "@krebernisak/ovm-plugins@^0.0.15":
   "integrity" "sha512-IuvB1JHbCCQP+8nuNCfomxwgIPCuYrWCcSHEPKr0X3dkdZXV4jVyu2EmnoffeFWiLgsqUXSnCH+DvB4gMn/bvg=="
@@ -6285,7 +6290,7 @@
     "escape-string-regexp" "^1.0.5"
     "supports-color" "^5.3.0"
 
-"chalk@^4.0.0", "chalk@^4.1.0", "chalk@^4.1.2":
+"chalk@^4.0.0", "chalk@^4.1.0", "chalk@^4.1.1", "chalk@^4.1.2":
   "integrity" "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="
   "resolved" "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz"
   "version" "4.1.2"
@@ -6572,6 +6577,11 @@
     "array-back" "^2.0.0"
     "find-replace" "^1.0.3"
     "typical" "^2.6.1"
+
+"commander@^10.0.0":
+  "integrity" "sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA=="
+  "resolved" "https://registry.npmjs.org/commander/-/commander-10.0.0.tgz"
+  "version" "10.0.0"
 
 "commander@^2.20.3":
   "integrity" "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
@@ -8890,6 +8900,11 @@
   "version" "4.1.0"
   dependencies:
     "node-fetch" "~1.7.1"
+
+"figlet@^1.5.2":
+  "integrity" "sha512-WOn21V8AhyE1QqVfPIVxe3tupJacq1xGkPTB4iagT6o+P2cAgEOOwIxMftr4+ZCTI6d551ij9j61DFr0nsP2uQ=="
+  "resolved" "https://registry.npmjs.org/figlet/-/figlet-1.5.2.tgz"
+  "version" "1.5.2"
 
 "file-entry-cache@^6.0.1":
   "integrity" "sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg=="

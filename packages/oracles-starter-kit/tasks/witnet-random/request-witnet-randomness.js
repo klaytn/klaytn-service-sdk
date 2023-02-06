@@ -32,9 +32,9 @@ task('request-witnet-randomness', 'Requests a random number for a Witnet enabled
     console.log('Transaction Hash: ' + transaction.hash)
     console.log('Run the following to fetch the random number:')
     console.log(
-      'await OracleSDK.fetchWitnetRandomNumber()'
+      'yarn hardhat fetch-witnet-random-number --contract <deployedContractAddress> --network baobab'
     )
-    console.warn('Calling fetchWitnetRandomNumber right after requestWitnetRandomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete.')
+    console.warn('Calling fetch-witnet-random-number right after request-wietnet-randomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete.')
   })
 
 module.exports = {}

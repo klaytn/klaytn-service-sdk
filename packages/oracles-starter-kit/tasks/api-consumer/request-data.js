@@ -24,7 +24,5 @@ task('request-data', 'Calls an API Consumer Contract to request external data')
       ' external data request successfully called.  '
     )
     console.log('Transaction Hash: ' + result.hash)
-    // console.log('Run the following to read the returned result:')
-    // console.log('yarn hardhat read-data --contract ' + contractAddr + ' --network ' + network.name)
   })
 module.exports = {}

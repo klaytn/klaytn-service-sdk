@@ -8,7 +8,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
  * @notice Acontract that returns latest price from Chainlink Price Feeds
  */
 contract PriceConsumerV3 {
-    AggregatorV3Interface internal priceFeed;
+    
 
     /**
      * @notice Executes once when a contract is created to initialize state variables
@@ -20,7 +20,7 @@ contract PriceConsumerV3 {
      * Address: 0xf49f81b3d2F2a79b706621FA2D5934136352140c
      */
     constructor(address _priceFeed) {
-        priceFeed = AggregatorV3Interface(_priceFeed);
+        
     }
 
     /**
@@ -39,7 +39,8 @@ contract PriceConsumerV3 {
      *
      * @return latest price
      */
-    function getLatestPrice() public view returns (int256) {
+    function getLatestPrice(address _priceFeed) public view returns (int256) {
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(_priceFeed);
         (
             uint80 roundID,
             int256 price,
@@ -48,14 +49,5 @@ contract PriceConsumerV3 {
             uint80 answeredInRound
         ) = priceFeed.latestRoundData();
         return price;
-    }
-
-    /**
-     * @notice Returns the Price Feed address
-     *
-     * @return Price Feed address
-     */
-    function getPriceFeed() public view returns (AggregatorV3Interface) {
-        return priceFeed;
     }
 }
