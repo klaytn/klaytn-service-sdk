@@ -135,12 +135,12 @@ You should now be all setup! You can run any method now! Since we configured the
 
 To comple contracts
 ```
-yarn hardhat compile
+npx hardhat compile
 ```
 
 To deploy all contracts
 ```
-yarn hardhat deploy --network baobab
+npx hardhat deploy --network baobab
 ```
 
 To run tests
@@ -156,7 +156,7 @@ After deploying your contracts, the deployment output will give you the contract
 The Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
 
 ```bash
-yarn hardhat read-price-feed --contract <deployedContractAddress> --network baobab
+npx hardhat read-price-feed --contract <deployedContractAddress> --network baobab
 ```
 
 #### Parameters
@@ -167,7 +167,7 @@ yarn hardhat read-price-feed --contract <deployedContractAddress> --network baob
 
 #### Example
 ```
-  yarn hardhat read-price-feed --contract 0x6883956A235f8b823d547575812B08F4a720D76A --network baobab
+  npx hardhat read-price-feed --contract 0x6883956A235f8b823d547575812B08F4a720D76A --network baobab
 
   // By default it returns LINK/KLAY price feed value. 1 LINK = 32.9 KLAY
   /*
@@ -179,7 +179,7 @@ yarn hardhat read-price-feed --contract <deployedContractAddress> --network baob
 The price feed address used while deployment can be changed using below method. 
 
 ```bash
-yarn hardhat change-price-feed --contract <deployedContractAddress> --pricefeedaddress <pricefeedAddress> --network baobab
+npx hardhat change-price-feed --contract <deployedContractAddress> --pricefeedaddress <pricefeedAddress> --network baobab
 ```
 
 #### Parameters
@@ -192,12 +192,12 @@ yarn hardhat change-price-feed --contract <deployedContractAddress> --pricefeeda
 #### Example
 ```typescript
   // Change pricefeedaddress to WEMIX/USD 0x76Aa17dCda9E8529149E76e9ffaE4aD1C4AD701B price feed contract. 1 WEMIX = 0.8 USD
-  yarn hardhat change-price-feed --contract 0x6883956A235f8b823d547575812B08F4a720D76A --pricefeedaddress 0x76Aa17dCda9E8529149E76e9ffaE4aD1C4AD701B --network baobab
+  npx hardhat change-price-feed --contract 0x6883956A235f8b823d547575812B08F4a720D76A --pricefeedaddress 0x76Aa17dCda9E8529149E76e9ffaE4aD1C4AD701B --network baobab
   /*
     Transaction Hash: 0x0741df94b257a29f73ff4b94d2f0d5cd91dae20f2bc9946dd00a954905d85936
   */
 
-  yarn hardhat read-price-feed --contract 0x6883956A235f8b823d547575812B08F4a720D76A --network baobab
+  npx hardhat read-price-feed --contract 0x6883956A235f8b823d547575812B08F4a720D76A --network baobab
   /*
     Price is: 800625678041836600
   */
@@ -211,7 +211,7 @@ Currently fetches the volume24hour data from https://min-api.cryptocompare.com/d
 This chainLinkApiData contract needs to be funded with `link` tokens first.
 
 ```bash
-yarn hardhat fund-link --contract <deployedContractAddress> --network baobab
+npx hardhat fund-link --contract <deployedContractAddress> --network baobab
 ```
 
 #### Parameters
@@ -226,7 +226,7 @@ yarn hardhat fund-link --contract <deployedContractAddress> --network baobab
 Once the deployed chainlinkAPI contract it's funded with `link` tokens, you can request external data by passing in a number of parameters to the request-data task. 
 
 ```bash
-yarn hardhat request-data --contract <deployedContractAddress> --coinsymbol <coinsymbol> --coindecimals <coindecimals> --network baobab
+npx hardhat request-data --contract <deployedContractAddress> --coinsymbol <coinsymbol> --coindecimals <coindecimals> --network baobab
 ```
 ##### Parameters
 1. `deployedContractAddress` - Deployed Price feed consumer contract.
@@ -238,7 +238,7 @@ yarn hardhat request-data --contract <deployedContractAddress> --coinsymbol <coi
 
 ##### Example
 ```typescript
-  yarn hardhat request-data --contract 0xddDC43f1ae46757C94Ec6dCDAa7E9b6738e0db0b --coinsymbol KLAY --coindecimals 18 --network baobab
+  npx hardhat request-data --contract 0xddDC43f1ae46757C94Ec6dCDAa7E9b6738e0db0b --coinsymbol KLAY --coindecimals 18 --network baobab
 
   /*
     Transaction Hash: 0xe8f3d600a4789d16b0a0a9a739d67bbefcb088aebbc038687c4c9e7b1d56373a
@@ -248,7 +248,7 @@ yarn hardhat request-data --contract <deployedContractAddress> --coinsymbol <coi
 Once you have successfully made a request for external data, you can see the result via the read-data task. it retrives VOLUME24 from https://min-api.cryptocompare.com/data/pricemultifull?fsyms=KLAY&tsyms=USD from the contract
 
 ```bash
-yarn hardhat read-data --contract <deployedContractAddress> --network baobab
+npx hardhat read-data --contract <deployedContractAddress> --network baobab
 ```
 
 ##### Parameters
@@ -260,7 +260,7 @@ yarn hardhat read-data --contract <deployedContractAddress> --network baobab
 ##### Example
 ```typescript
   // Receives volume24 from RAW.KLAY.USD.VOLUME24HOUR in "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=KLAY&tsyms=USD" result without decimals
-  yarn hardhat read-data --contract 0xddDC43f1ae46757C94Ec6dCDAa7E9b6738e0db0b  --network baobab
+  npx hardhat read-data --contract 0xddDC43f1ae46757C94Ec6dCDAa7E9b6738e0db0b  --network baobab
 
   /*
     Data is: 76993244391264860000000000
@@ -280,7 +280,7 @@ To start, go to [VRF Subscription Page](https://vrf.chain.link/klaytn-testnet) a
 Then, deploy your VRF V2 contract consumer(if its not deployed already with the subscription id) to the network with your recent subscription using subscription id as constructor argument.
 
 ```bash
-yarn hardhat deploy --network baobab
+npx hardhat deploy --network baobab
 ```
 
 Finally, you need to go to your subscription page one more time and add the address of deployed contract as a new consumer (https://vrf.chain.link/klaytn-testnet/<subscriptionid>). Once that's done, you can perform a VRF request with the request-random-number task.
@@ -289,7 +289,7 @@ Finally, you need to go to your subscription page one more time and add the addr
 #### Request Chainlink Random number
 
 ```bash
-yarn hardhat request-random-number --contract <deployedContractAddress> --numwords <randomNumbersCount> --network baobab
+npx hardhat request-random-number --contract <deployedContractAddress> --numwords <randomNumbersCount> --network baobab
 ```
 
 ##### Parameters
@@ -301,7 +301,7 @@ yarn hardhat request-random-number --contract <deployedContractAddress> --numwor
 
 ##### Example
 ```typescript
-  yarn hardhat request-random-number --contract 0x3AFb1Ce6B16EcB1e367cCC23d99Ea4D9Ef497BE3 --numwords 3 --network baobab
+  npx hardhat request-random-number --contract 0x3AFb1Ce6B16EcB1e367cCC23d99Ea4D9Ef497BE3 --numwords 3 --network baobab
   /*
     Transaction Hash: 0x770892fb09f00fbc25aa4118c4e59bae8f106e550d9295ddab62db79d708821a
   */
@@ -311,7 +311,7 @@ yarn hardhat request-random-number --contract <deployedContractAddress> --numwor
 Once you have successfully made a request for a random number, you can see the result via the read-random-number task:
 
 ```bash
-  yarn hardhat read-random-number --contract <deployedContactAddress> --network baobab
+  npx hardhat read-random-number --contract <deployedContactAddress> --network baobab
 ```
 
 ##### Parameters
@@ -322,7 +322,7 @@ Once you have successfully made a request for a random number, you can see the r
 
 ##### Example
 ```typescript
-  yarn hardhat read-random-number --contract 0x3AFb1Ce6B16EcB1e367cCC23d99Ea4D9Ef497BE3 --network baobab
+  npx hardhat read-random-number --contract 0x3AFb1Ce6B16EcB1e367cCC23d99Ea4D9Ef497BE3 --network baobab
   /*
     Random Numbers are: 25039093979060057973217505519617231457599792522931877947740225763662111327605,66221833599132925893563674221180186695699650058371972286077266023247996014608,62169596737219453842215058746401741770368274717351892705020984286494216685598
   */
@@ -333,7 +333,7 @@ Once you have successfully made a request for a random number, you can see the r
 
 
 ```bash
-  yarn hardhat read-keepers-counter --contract <deployedContractAddress>
+  npx hardhat read-keepers-counter --contract <deployedContractAddress>
 ``` 
 
 ##### Parameters
@@ -349,7 +349,7 @@ The Baobab network is not supported by Chainlink Automation (aka Chainlink Keepe
 The Witnet Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
 
 ```bash
-  yarn hardhat read-witnet-price-feed --contract <deployedContractAddress> --id <id> --network baobab
+  npx hardhat read-witnet-price-feed --contract <deployedContractAddress> --id <id> --network baobab
 ```
 
 #### Parameters
@@ -362,7 +362,7 @@ The Witnet Price Feeds consumer contract has one task, to read the latest price 
 #### Example
 ```typescript
   // 1 KLAY = 0.20 USD
-  yarn hardhat read-witnet-price-feed --contract 0x37291E5036db32DFe714823dE7A96253676e6487 --id 0x6cc828d1 --network baobab
+  npx hardhat read-witnet-price-feed --contract 0x37291E5036db32DFe714823dE7A96253676e6487 --id 0x6cc828d1 --network baobab
 
   /*
     Last price is: 209744
@@ -382,7 +382,7 @@ Requesting the new randomness.
 Once the the request to new randomness is performed successfully. The other tasks can be performed after transaction submission.
 
 ```bash
-  yarn hardhat request-witnet-randomness --contract <deployedContractAddress> --network baobab
+  npx hardhat request-witnet-randomness --contract <deployedContractAddress> --network baobab
 ```
 
 #### Parameters
@@ -393,7 +393,7 @@ Once the the request to new randomness is performed successfully. The other task
 
 ##### Example
 ```typescript
-  yarn hardhat request-witnet-randomness --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
+  npx hardhat request-witnet-randomness --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
   /*
     Transaction Hash: 0x809addb235dc953c90a563c396c11978a359b574336564c7ec890514c961e050
   */
@@ -406,7 +406,7 @@ Initiate fetch witnet random number transaction.
 Calling `fetch-witnet-random-number` right after `request-witnet-randomness` will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete
 
 ```bash
-  yarn hardhat fetch-witnet-random-number --contract <deployedContractAddress> --network baobab
+  npx hardhat fetch-witnet-random-number --contract <deployedContractAddress> --network baobab
 ```
 
 #### Parameters
@@ -417,7 +417,7 @@ Calling `fetch-witnet-random-number` right after `request-witnet-randomness` wil
 
 ##### Example
 ```typescript
-  yarn hardhat fetch-witnet-random-number --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
+  npx hardhat fetch-witnet-random-number --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
   /*
     Transaction Hash: 0x0eb8fe1217ecdc3860009bc49f5319cab6ffdedd80877c39df02899a3542db24'
   */
@@ -425,7 +425,7 @@ Calling `fetch-witnet-random-number` right after `request-witnet-randomness` wil
 
 #### 3. Get the latest randomizing block
 ```bash
-  yarn hardhat read-latest-randomizing-block --contract <deployedContractAddress> --network baobab
+  npx hardhat read-latest-randomizing-block --contract <deployedContractAddress> --network baobab
 ```
 
 ##### Returns
@@ -433,7 +433,7 @@ Calling `fetch-witnet-random-number` right after `request-witnet-randomness` wil
 
 ##### Example
 ```typescript
-  yarn hardhat read-latest-randomizing-block --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
+  npx hardhat read-latest-randomizing-block --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
   /*
     The latest randomizing block is: 113690138
   */
@@ -446,7 +446,7 @@ fetches the generated random number
 > **_NOTE:_** Make sure first 2 steps are executed sequentially.
 
 ```bash
-  yarn hardhat read-witnet-random-number --contract <deployedContractAddress> --network baobab
+  npx hardhat read-witnet-random-number --contract <deployedContractAddress> --network baobab
 ```
 
 ##### Returns
@@ -454,7 +454,7 @@ fetches the generated random number
 
 ##### Example
 ```typescript
-  yarn hardhat read-witnet-random-number --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
+  npx hardhat read-witnet-random-number --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
   /*
     Random Number is: 1392104028
   */
