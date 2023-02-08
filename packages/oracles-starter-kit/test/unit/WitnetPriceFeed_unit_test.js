@@ -16,10 +16,10 @@ const { deployMockContract, provider } = waffle
       witnetPriceFeed = await deployMockContract(deployerOfContract, WitnetPriceFeedABI.abi)
     })
 
-    describe('getKlayUsdPrice', () => {
+    describe('getPrice', () => {
       it('should return the same value as the mock', async () => {
-        await witnetPriceFeed.mock.getKlayUsdPrice.returns(10, 10)
-        const priceConsumerResult = (await witnetPriceFeed.getKlayUsdPrice()).toString()
+        await witnetPriceFeed.mock.getPrice.withArgs('0x6cc828d1').returns(10, 10)
+        const priceConsumerResult = (await witnetPriceFeed.getPrice('0x6cc828d1')).toString()
         console.log(priceConsumerResult)
         assert.equal(priceConsumerResult.toString(), '10,10')
       })

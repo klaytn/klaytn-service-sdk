@@ -29,6 +29,7 @@ contract APIConsumer is ChainlinkClient {
      * Oracle: 0xfC3BdAbD8a6A73B40010350E2a61716a21c87610
      * Job ID: ca98366cc7314957b8c012c72f05aeeb
      * Fee: 0.1 LINK
+     * Link: 0x04c5046A1f4E3fFf094c26dFCAA75eF293932f18
      */
     constructor(
         address _oracle,
@@ -48,11 +49,11 @@ contract APIConsumer is ChainlinkClient {
 
     /**
      * @notice Creates a Chainlink request to retrieve API response, find the target
-     * data, then multiply by 1000000000000000000 (to remove decimal places from data).
+     * data, then multiply by 10*_coinDecimals (to remove decimal places from data).
      *
      * @return requestId - id of the request
      */
-    function requestVolumeData() public returns (bytes32 requestId) {
+    function requestVolumeData(string memory _coinSymbol, uint8 _coinDecimals) public returns (bytes32 requestId) {
         Chainlink.Request memory request = buildChainlinkRequest(
             jobId,
             address(this),
@@ -62,7 +63,7 @@ contract APIConsumer is ChainlinkClient {
         // Set the URL to perform the GET request on
         request.add(
             "get",
-            "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=KLAY&tsyms=USD"
+            string(abi.encodePacked("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=", _coinSymbol, "&tsyms=USD"))
         );
 
         // Set the path to find the desired data in the API response, where the response format is:
@@ -75,11 +76,11 @@ contract APIConsumer is ChainlinkClient {
         //    }
         //   }
         //  }
-        // request.add("path", "RAW.WEMIX.USD.VOLUME24HOUR"); // Chainlink nodes prior to 1.0.0 support this format
+        // request.add("path", "RAW.KLAY.USD.VOLUME24HOUR"); // Chainlink nodes prior to 1.0.0 support this format
         request.add("path", "RAW,KLAY,USD,VOLUME24HOUR"); // Chainlink nodes 1.0.0 and later support this format
 
-        // Multiply the result by 1000000000000000000 to remove decimals
-        int256 timesAmount = 10**18;
+        // Multiply the result by 10**_coinDecimals to remove decimals
+        int256 timesAmount = int256(10**_coinDecimals);
         request.addInt("times", timesAmount);
 
         // Sends the request

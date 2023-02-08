@@ -1,8 +1,7 @@
 {
-  "name": "oracles-starter-kit",
-  "version": "1.0.0",
+  "name": "@klaytn-developer-sdk/oracles",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "help": "hardhat --help",
     "compile": "hardhat compile",
@@ -12,6 +11,7 @@
     "lint": "eslint . --ext .js",
     "lint-fix": "eslint . --fix --ext .js"
   },
+  "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
   "dependencies": {
     "@appliedblockchain/chainlink-contracts": "0.0.4",
@@ -27,7 +27,6 @@
     "envfile": "^6.18.0",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.5.1",
-    "fs-extra": "^11.1.0",
     "hardhat": "^2.11.2",
     "hardhat-deploy": "^0.9.29",
     "witnet-requests": "0.9.4",

@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-task('request-witnet-random-number', 'Requests a random number for a Witnet enabled smart contract')
+task('request-witnet-randomness', 'Requests a random number for a Witnet enabled smart contract')
   .addParam('contract', 'The address of the Witnet Random contract that you want to call')
   .addParam('value', 'The value')
   .setAction(async (taskArgs) => {
@@ -23,7 +23,7 @@ task('request-witnet-random-number', 'Requests a random number for a Witnet enab
       WitnetRandom.interface,
       signer
     )
-    const transaction = await witnetRandomContract.requestRandomness({ value, gasLimit: 200000 })
+    const transaction = await witnetRandomContract.requestRandomness({ value, gasLimit: 3000000 })
     console.log(
       'Contract ',
       contractAddr,
@@ -32,9 +32,9 @@ task('request-witnet-random-number', 'Requests a random number for a Witnet enab
     console.log('Transaction Hash: ' + transaction.hash)
     console.log('Run the following to fetch the random number:')
     console.log(
-      'yarn hardhat fetch-witnet-random-number --contract ' + contractAddr + ' --network ' + network.name
+      'yarn hardhat fetch-witnet-random-number --contract <deployedContractAddress> --network baobab'
     )
-    console.warn('Calling fetch-witnet-random-number right after request-witnet-randomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete.')
+    console.warn('Calling fetch-witnet-random-number right after request-wietnet-randomness will most likely cause the transaction to revert. Please allow 5-10 minutes for the randomization request to complete.')
   })
 
 module.exports = {}

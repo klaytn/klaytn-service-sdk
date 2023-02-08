@@ -16,7 +16,7 @@ import Erc20ABI from '../core/abi/erc20.json';
 // Attest the token before performing a transfer
 
 export async function transferBasic(
-    config: { wormhole: { restAddress: string } },
+    config: { restAddress: string },
     source: {
       token: string, // source token
       privatekey: string,
@@ -112,7 +112,7 @@ export async function transferBasic(
   console.log("EmitterAddress: "+ emitterAddr);
   console.log("Sequence: "+ seq);
 
-  const vaaURL = `${config.wormhole.restAddress}/v1/signed_vaa/${source.wormholeChainId}/${emitterAddr}/${seq}`;
+  const vaaURL = `${config.restAddress}/v1/signed_vaa/${source.wormholeChainId}/${emitterAddr}/${seq}`;
 
   console.log("Searching for: ", vaaURL);
   await new Promise((r) => setTimeout(r, 2000));
