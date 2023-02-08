@@ -34,7 +34,6 @@ export async function poolTransfer(
     const transferConfigs = await getTransferConfigs(CBRIDGE_GATEWAY_URL);
 
     const bridgeAddress = getBridgeContractAddress(transferConfigs, SRC_CHAIN_ID)
-    
     const bridgeContract = getContract(bridgeAddress || '', BridgeABI.abi, SRC_CHAIN_RPC, PRIVATE_KEY)
 
     // check if TOKEN_SYMBOL is present in both chain tokens list
@@ -46,8 +45,7 @@ export async function poolTransfer(
     }
 
     const { transferToken, value, toChain, nonce, fromChain } = getTransferObject(transferConfigs, SRC_CHAIN_ID, DST_CHAIN_ID, TOKEN_SYMBOL, AMOUNT)
-    console.log(bridgeAddress)
-    console.log(transferToken?.token?.address)
+
     /**Check user's on-chain token allowance for cBridge contract.
      * If the allowance is not enough for user token transfer, trigger the corresponding on-chain approve flow */
     console.log("1. Checking Allowance of tokens to cBridge contract");
