@@ -356,7 +356,7 @@ The Witnet Price Feeds consumer contract has one task, to read the latest price 
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed KeepersCounter contract address
+`deployedContractAddress` - Deployed WitnetPriceFeed contract address
 `id` - `string` id4 is the witnet pricefeed ID. Ex: `0x6cc828d1` for Price-KLAY/USD-6. See [Klaytn Witnet PriceFeeds](https://docs.witnet.io/smart-contracts/witnet-data-feeds/addresses/klaytn-price-feeds#klaytn-baobab) for reference.
 
 #### Returns
