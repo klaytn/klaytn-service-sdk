@@ -52,16 +52,18 @@
         - [Returns](#returns-9)
         - [Example](#example-8)
       - [3. Get the latest randomizing block](#3-get-the-latest-randomizing-block)
+      - [Parameters](#parameters-10)
         - [Returns](#returns-10)
         - [Example](#example-9)
       - [4. Get the generated random number](#4-get-the-generated-random-number)
+      - [Parameters](#parameters-11)
         - [Returns](#returns-11)
         - [Example](#example-10)
     - [Witnet Web Oracle Request](#witnet-web-oracle-request)
       - [Compile the Witnet queries into Solidity contracts](#compile-the-witnet-queries-into-solidity-contracts)
         - [Example](#example-11)
       - [Execute Witnet Queries](#execute-witnet-queries)
-        - [Parameters](#parameters-10)
+        - [Parameters](#parameters-12)
         - [Returns](#returns-12)
         - [Example 1 - Fetch Coinprice](#example-1---fetch-coinprice)
         - [Example 2 - Post Request](#example-2---post-request)
@@ -216,7 +218,7 @@ npx hardhat fund-link --contract <deployedContractAddress> --network baobab
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed Price feed consumer contract.
+`deployedContractAddress` - Deployed API consumer contract.
 
 ##### Returns
   * `transaction hash` - `String` transaction hash
@@ -230,7 +232,7 @@ Once the deployed chainlinkAPI contract it's funded with `link` tokens, you can 
 npx hardhat request-data --contract <deployedContractAddress> --coinsymbol <coinsymbol> --coindecimals <coindecimals> --network baobab
 ```
 ##### Parameters
-1. `deployedContractAddress` - Deployed Price feed consumer contract.
+1. `deployedContractAddress` - Deployed API consumer contract.
 2. `coinsymbol` - coinsymbol. see [Coin Symbols](https://min-api.cryptocompare.com) for reference.
 3. `coindecimals` - coin supported decimals. Ex: 18 for KLAY
 
@@ -253,7 +255,7 @@ npx hardhat read-data --contract <deployedContractAddress> --network baobab
 ```
 
 ##### Parameters
-1. `deployedContractAddress` - Deployed Price feed consumer contract.
+1. `deployedContractAddress` - Deployed API consumer contract.
 
 ##### Returns
   * `data` - `String` Receives `volume24` data without decimals
@@ -429,6 +431,9 @@ Calling `fetch-witnet-random-number` right after `request-witnet-randomness` wil
   npx hardhat read-latest-randomizing-block --contract <deployedContractAddress> --network baobab
 ```
 
+#### Parameters
+`deployedContractAddress` - Deployed Witnet RandomNumber contract address
+
 ##### Returns
   * `randomizingBlock` - randomized block value
 
@@ -449,6 +454,9 @@ fetches the generated random number
 ```bash
   npx hardhat read-witnet-random-number --contract <deployedContractAddress> --network baobab
 ```
+
+#### Parameters
+`deployedContractAddress` - Deployed Witnet RandomNumber contract address
 
 ##### Returns
   * `randomNumber` - generated random number
