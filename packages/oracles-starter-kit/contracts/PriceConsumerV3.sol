@@ -49,4 +49,14 @@ contract PriceConsumerV3 {
         ) = priceFeed.latestRoundData();
         return price;
     }
+
+    
+    /**
+     * @notice Returns the Price Feed address
+     *
+     * @return Price Feed address
+     */
+    function getPriceFeed() public view returns (AggregatorV3Interface) {
+        return priceFeed;
+    }
 }

@@ -26,7 +26,7 @@ Wormhole is a communication bridge between Klaytn and other top decentralized fi
 `npm install @klaytn-developer-sdk/bridges-wormhole --save`
 
 ## Quick Start
-BridgeSDK is the package containing the readymade use-cases.
+BridgeSDK contains the implementation of the bridge use-cases. 
 CoreBridgeSDK exposes methods of `@certusone/wormhole-sdk` to write custom methods.
 
 ```typescript

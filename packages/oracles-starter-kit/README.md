@@ -69,7 +69,8 @@
 
 <br/>
 
-This is a hardhat project containing contracts and scripts for Chainlink and Witnet integrations.
+Oracles take data from the outside world and put it into the blockchain for other smart contracts to consume.
+This is a hardhat project containing contracts and scripts for `Chainlink` and `Witnet` integrations.
 
 ## Install
 
