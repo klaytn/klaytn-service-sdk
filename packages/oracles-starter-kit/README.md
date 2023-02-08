@@ -119,10 +119,10 @@ Hardhat configuration variables can be found in `helper-hardhat-config.json` in 
 We will need to set environment variables by following below steps 
 1. copy `.env.example` file and rename to `.env`
 2. Modify environment variables. Below is the explaination of each variable
-  * `BAOBAB_RPC_URL` - `String` https://api.baobab.klaytn.net:8651/ can be used. its the rpc url of blockchain.
-  * `PRIVATE_KEY` - `String` This is private key from wallet, ie [MetaMask](https://metamask.io/). This is required for deploying contracts to public networks. 
-  * `AUTO_FUND` - `Boolean` provide true, if needs to autofund
-  * `VRF_SUBSCRIPTION_ID` - `integer` VRF Subscription id. Head over to [VRF Subscription Page](https://vrf.chain.link/klaytn-testnet) and create the new subscription.
+  * `BAOBAB_RPC_URL` - `string` https://api.baobab.klaytn.net:8651/ can be used. its the rpc url of blockchain.
+  * `PRIVATE_KEY` - `string` This is private key from wallet, ie [MetaMask](https://metamask.io/). This is required for deploying contracts to public networks. 
+  * `AUTO_FUND` - `boolean` provide true, if needs to autofund
+  * `VRF_SUBSCRIPTION_ID` - `number` VRF Subscription id. Head over to [VRF Subscription Page](https://vrf.chain.link/klaytn-testnet) and create the new subscription.
 
 > IMPORTANT: MAKE SURE YOU DON'T EXPOSE THE KEYS YOU PUT IN THIS `.env` FILE saved in the package node_modules. By that, I mean don't push them to a public repo, and please try to keep them keys you use in development not associated with any real funds. 
 
@@ -163,7 +163,7 @@ npx hardhat read-price-feed --contract <deployedContractAddress> --network baoba
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed Price feed consumer contract.
+`deployedContractAddress` - `string` Deployed Price feed consumer contract.
 
 #### Returns
   * `price` - price
@@ -186,11 +186,11 @@ npx hardhat change-price-feed --contract <deployedContractAddress> --pricefeedad
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed Price feed consumer contract.
-`pricefeedAddress` - pricefeed address. see [Klaytn Pricefeed Addresses](https://docs.chain.link/data-feeds/price-feeds/addresses/?network=klaytn) for reference.
+`deployedContractAddress` - `string` Deployed Price feed consumer contract.
+`pricefeedAddress` - `string` pricefeed address. see [Klaytn Pricefeed Addresses](https://docs.chain.link/data-feeds/price-feeds/addresses/?network=klaytn) for reference.
 
 #### Returns
-  * `transaction hash` - `String` transaction hash
+  * `transaction hash` - `string` transaction hash
 
 #### Example
 ```typescript
@@ -218,10 +218,10 @@ npx hardhat fund-link --contract <deployedContractAddress> --network baobab
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed API consumer contract.
+`deployedContractAddress` - `string` Deployed API consumer contract.
 
 ##### Returns
-  * `transaction hash` - `String` transaction hash
+  * `transaction hash` - `string` transaction hash
 
 > **WARNING**: `chainlink-plugin-fund-link` have not supported `baobab network`. You have to fund `link` tokens manually to the deployed chainLinkApiData contract. Get deployed contracts list using `console.log(OracleSDK.readDeployedContracts())` method.
 
@@ -232,12 +232,12 @@ Once the deployed chainlinkAPI contract it's funded with `link` tokens, you can 
 npx hardhat request-data --contract <deployedContractAddress> --coinsymbol <coinsymbol> --coindecimals <coindecimals> --network baobab
 ```
 ##### Parameters
-1. `deployedContractAddress` - Deployed API consumer contract.
-2. `coinsymbol` - coinsymbol. see [Coin Symbols](https://min-api.cryptocompare.com) for reference.
-3. `coindecimals` - coin supported decimals. Ex: 18 for KLAY
+1. `deployedContractAddress` - `string` Deployed API consumer contract.
+2. `coinsymbol` - `string` coinsymbol. see [Coin Symbols](https://min-api.cryptocompare.com) for reference.
+3. `coindecimals` - `number` coin supported decimals. Ex: 18 for KLAY
 
 ##### Returns
-  * `transaction hash` - `String` transaction hash
+  * `transaction hash` - `string` transaction hash
 
 ##### Example
 ```typescript
@@ -255,10 +255,10 @@ npx hardhat read-data --contract <deployedContractAddress> --network baobab
 ```
 
 ##### Parameters
-1. `deployedContractAddress` - Deployed API consumer contract.
+1. `deployedContractAddress` - `string` Deployed API consumer contract.
 
 ##### Returns
-  * `data` - `String` Receives `volume24` data without decimals
+  * `data` - `string` Receives `volume24` data without decimals
 
 ##### Example
 ```typescript
@@ -296,11 +296,11 @@ npx hardhat request-random-number --contract <deployedContractAddress> --numword
 ```
 
 ##### Parameters
-`deployedContractAddress` - Deployed RandomNumberConsumer contract address
-`randomNumbersCount` - `integer` No of random numbers to be generated
+`deployedContractAddress` - `string` Deployed RandomNumberConsumer contract address
+`randomNumbersCount` - `number` No of random numbers to be generated
 
 ##### Returns
-  * `transaction hash` - `String` Transaction hash
+  * `transaction hash` - `string` Transaction hash
 
 ##### Example
 ```typescript
@@ -318,7 +318,7 @@ Once you have successfully made a request for a random number, you can see the r
 ```
 
 ##### Parameters
-`deployedContractAddress` - Deployed RandomNumberConsumer contract address
+`deployedContractAddress` - `string` Deployed RandomNumberConsumer contract address
 
 ##### Returns
   * `randomNumbers` - random numbers
@@ -356,7 +356,7 @@ The Witnet Price Feeds consumer contract has one task, to read the latest price 
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed WitnetPriceFeed contract address
+`deployedContractAddress` - `string` Deployed WitnetPriceFeed contract address
 `id` - `string` id4 is the witnet pricefeed ID. Ex: `0x6cc828d1` for Price-KLAY/USD-6. See [Klaytn Witnet PriceFeeds](https://docs.witnet.io/smart-contracts/witnet-data-feeds/addresses/klaytn-price-feeds#klaytn-baobab) for reference.
 
 #### Returns
@@ -389,7 +389,7 @@ Once the the request to new randomness is performed successfully. The other task
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed Deployed Witnet RandomNumber contract address
+`deployedContractAddress` - `string` Deployed Deployed Witnet RandomNumber contract address
 
 ##### Returns
   * `transaction hash` - Transaction hash
@@ -413,7 +413,7 @@ Calling `fetch-witnet-random-number` right after `request-witnet-randomness` wil
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed Witnet RandomNumber contract address
+`deployedContractAddress` - `string` Deployed Witnet RandomNumber contract address
 
 ##### Returns
   * `transaction hash` - Transaction hash
@@ -432,7 +432,7 @@ Calling `fetch-witnet-random-number` right after `request-witnet-randomness` wil
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed Witnet RandomNumber contract address
+`deployedContractAddress` - `string` Deployed Witnet RandomNumber contract address
 
 ##### Returns
   * `randomizingBlock` - randomized block value
@@ -456,7 +456,7 @@ fetches the generated random number
 ```
 
 #### Parameters
-`deployedContractAddress` - Deployed Witnet RandomNumber contract address
+`deployedContractAddress` - `string` Deployed Witnet RandomNumber contract address
 
 ##### Returns
   * `randomNumber` - generated random number
@@ -495,7 +495,7 @@ npx witnet-toolkit try-query --from-solidity ./contracts/witnet-requests/<contra
 ```
 
 ##### Parameters
-`contractFileName` - `String` generatedSolFileName
+`contractFileName` - `string` generatedSolFileName
 
 ##### Returns
   * `Result` - `string`

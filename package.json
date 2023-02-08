@@ -32,6 +32,7 @@
     ]
   },
   "devDependencies": {
-    "wsrun": "^5.2.4"
+    "wsrun": "^5.2.4",
+    "yarn": "^1.22.19"
   }
 }

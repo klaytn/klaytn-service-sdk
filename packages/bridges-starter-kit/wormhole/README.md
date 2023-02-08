@@ -51,19 +51,19 @@ BridgeSDK.attest(config, source, destination)
 
 ### Parameters
 1. `Object` - `config`
-   * `restAddress` - wormhole api url. See [Wormhole Rpc Nodes](https://book.wormhole.com/reference/rpcnodes.html) for reference.
+   * `restAddress` - `string` wormhole api url. See [Wormhole Rpc Nodes](https://book.wormhole.com/reference/rpcnodes.html) for reference.
 2. `Object` - `source`
-   * `token` - token contract address to be attested
-   * `privatekey` - privatekey to perform transactions
-   * `rpcUrl` - blockchain rpc url
-   * `coreBridge` - core bridge contract address. see [Testnet CoreBridge](https://book.wormhole.com/reference/contracts.html#core-bridge-1) for reference.
-   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
-   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `token` - `string` token contract address to be attested
+   * `privatekey` - `string` privatekey to perform transactions
+   * `rpcUrl` - `string` blockchain rpc url
+   * `coreBridge` - `string` core bridge contract address. see [Testnet CoreBridge](https://book.wormhole.com/reference/contracts.html#core-bridge-1) for reference.
+   * `tokenBridge` - `string` token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - `string` wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
 3. `Object` - `destination`
-   * `privatekey` - privatekey to perform transactions
-   * `rpcUrl` -  blockchain rpc url
-   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
-   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `privatekey` - `string` privatekey to perform transactions
+   * `rpcUrl` -  `string` blockchain rpc url
+   * `tokenBridge` - `string` token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - `string` wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
 
 ### Returns
 `String` - Deployed contract address on Destination chain
@@ -108,21 +108,21 @@ BridgeSDK.transferBasic(config, source, destination, AMOUNT, IS_NATIVE)
 
 ### Parameters
 1. `Object` - `config`
-   * `restAddress` - wormhole api url. See [Wormhole Rpc Nodes](https://book.wormhole.com/reference/rpcnodes.html) for reference.
+   * `restAddress` - `string` wormhole api url. See [Wormhole Rpc Nodes](https://book.wormhole.com/reference/rpcnodes.html) for reference.
 2. `Object` - `source`
-   * `token` - token contract address. Provide if `IS_NATIVE` is false.
-   * `privatekey` - privatekey to perform transactions
-   * `rpcUrl` - blockchain rpc url
-   * `coreBridge` - core bridge contract address. see [Testnet CoreBridge](https://book.wormhole.com/reference/contracts.html#core-bridge-1) for reference.
-   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
-   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `token` - `string` token contract address. Provide if `IS_NATIVE` is false.
+   * `privatekey` - `string` privatekey to perform transactions
+   * `rpcUrl` - `string` blockchain rpc url
+   * `coreBridge` - `string` core bridge contract address. see [Testnet CoreBridge](https://book.wormhole.com/reference/contracts.html#core-bridge-1) for reference.
+   * `tokenBridge` - `string` token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - `string` wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
 3. `Object` - `destination`
-   * `privatekey` - privatekey to perform transactions
-   * `rpcUrl` -  blockchain rpc url
-   * `tokenBridge` - token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
-   * `wormholeChainId` - wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
-4. `String` - `AMOUNT` - Amount to be transferred.
-5. `Boolean` - `IS_NATIVE` - Provide `true` if its a native coin transfer from source and `false` if its a token transfer.
+   * `privatekey` - `string` privatekey to perform transactions
+   * `rpcUrl` -  `string` blockchain rpc url
+   * `tokenBridge` - `string` token bridge contract address. see [Testnet TokenBridge](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+   * `wormholeChainId` - `string` wormhole chainID. see [Testnet WormholeChainID](https://book.wormhole.com/reference/contracts.html#token-bridge-1) for reference.
+4. `Amount` - `string` - Amount to be transferred.
+5. `IS_NATIVE` - `boolean` - Provide `true` if its a native coin transfer from source and `false` if its a token transfer.
 
 ### Returns
 `Object` - Transaction Object
