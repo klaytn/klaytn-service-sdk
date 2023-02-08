@@ -128,7 +128,7 @@ export async function burnCanonicalToken(
             console.log("burnId:", burnId)
             console.log("3. submit an on-chain send transaction");
             const burnTx =  await transactor(
-                    peggedTokenBridgeV2!.burn(
+                    peggedTokenBridgeV2.burn(
                         transferToken?.token?.address,
                         value,
                         DST_CHAIN_ID,
@@ -165,7 +165,7 @@ export async function burnCanonicalToken(
             console.log("burnId:", burnId)
             console.log("3. submit an on-chain send transaction");
             const burnTx = await transactor(
-                            peggedTokenBridge!.burn(transferToken?.token?.address,
+                            peggedTokenBridge.burn(transferToken?.token?.address,
                                 value,
                                 WALLET_ADDRESS,
                                 nonce,

@@ -6,7 +6,6 @@ import { ITransferConfigs, ITransferObject } from "../constants/type"
 import { getSigner } from "./constant"
 import ERC20ABI from "../contract/abi/pegged/tokens/ERC20Permit/SingleBridgeTokenPermit.sol/SingleBridgeTokenPermit.json"
 import { Token } from "../constants/type"
-import { MaxUint256 } from "@ethersproject/constants"
 const tokenInterface = new utils.Interface(ERC20ABI.abi)
 
 export const getBridgeContractAddress = (transferConfigs: ITransferConfigs, chainId: number) => {
@@ -48,7 +47,7 @@ export const transactor = async (tx: any, rpcURL: string, privateKey: string): P
         }
         result = await getSigner(rpcURL, privateKey).sendTransaction(tx);
     }
-    return result!;
+    return result;
 }
 
 export const getTransferObject = (

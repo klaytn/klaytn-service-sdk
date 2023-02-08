@@ -5,7 +5,7 @@ global.XMLHttpRequest = window.XMLHttpRequest
 import { config } from "dotenv"
 config()
 
-import { estimateAmt, getTransferConfigs, getTransferStatus, poolBasedTransfer } from "../core"
+import { estimateAmt, getTransferConfigs, poolBasedTransfer } from "../core"
 import {
     getAllowance,
     getTransferId,

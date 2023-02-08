@@ -126,7 +126,7 @@ export async function mintCanonicalToken(
             console.log("depositId:", depositId)
             console.log("3. submit an on-chain deposit transaction");
             const depositTx = await transactor(
-                originalTokenVaultV2!.deposit(
+                originalTokenVaultV2.deposit(
                     transferToken?.token?.address, //token address on original chain
                     value,
                     pegConfig?.pegged_chain_id,
@@ -161,7 +161,7 @@ export async function mintCanonicalToken(
             console.log("depositId:", depositId)
             console.log("3. submit an on-chain send transaction");
             const depositTx = await transactor(
-                originalTokenVault!.deposit(
+                originalTokenVault.deposit(
                     transferToken?.token?.address, //token address on original chain
                     value,
                     pegConfig?.pegged_chain_id,

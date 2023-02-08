@@ -13,15 +13,15 @@ describe("burnCanonicalToken", async () => {
 
     it("should init the params", async () => {
 
-        CBRIDGE_GATEWAY_URL = process.env.CBRIDGE_GATEWAY_URL! as string
-        WALLET_ADDRESS= process.env.WALLET_ADDRESS! as string
-        PRIVATE_KEY= process.env.PRIVATE_KEY! as string
-        SRC_CHAIN_ID= process.env.SRC_CHAIN_ID! as unknown as number
-        DST_CHAIN_ID= process.env.DST_CHAIN_ID! as unknown as number
-        SRC_CHAIN_RPC= process.env.SRC_CHAIN_RPC! as string
-        TOKEN_SYMBOL= process.env.TOKEN_SYMBOL! as string
-        AMOUNT= process.env.AMOUNT! as string
-        CONFIRMATIONS= process.env.CONFIRMATIONS! as unknown as number
+        CBRIDGE_GATEWAY_URL = process.env.CBRIDGE_GATEWAY_URL as string
+        WALLET_ADDRESS= process.env.WALLET_ADDRESS as string
+        PRIVATE_KEY= process.env.PRIVATE_KEY as string
+        SRC_CHAIN_ID= process.env.SRC_CHAIN_ID as unknown as number
+        DST_CHAIN_ID= process.env.DST_CHAIN_ID as unknown as number
+        SRC_CHAIN_RPC= process.env.SRC_CHAIN_RPC as string
+        TOKEN_SYMBOL= process.env.TOKEN_SYMBOL as string
+        AMOUNT= process.env.AMOUNT as string
+        CONFIRMATIONS= process.env.CONFIRMATIONS as unknown as number
 
         expect(CBRIDGE_GATEWAY_URL, 'CBRIDGE_GATEWAY_URL is required').to.not.be.empty;
         expect(WALLET_ADDRESS, 'WALLET_ADDRESS is required').to.not.be.empty
