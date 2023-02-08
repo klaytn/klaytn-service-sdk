@@ -1,5 +1,5 @@
 # Overview
-This @klaytn-sdk module contains scripts to help you interact / integrate cBridge into your applications robustly
+This module contains scripts to help you interact / integrate cBridge into your applications robustly
 without explicitly digging into cBridge technical documentation or scratching your head ;)
 
 # What is a cBridge
