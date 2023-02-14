@@ -6,7 +6,11 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": ["es5", "es6", "dom"],
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": false,
@@ -24,7 +28,9 @@
   "ts-node": {
     "esm": true
   },
-  "exclude": ["node_modules/**/*"],
+  "exclude": [
+    "node_modules/**/*"
+  ],
   "include": [
     "core/*.ts",
     "use-cases/**/*.ts",
@@ -36,7 +42,10 @@
     "contracts/**/**/**/**/*.ts"
   ],
   "typedocOptions": {
-    "entryPoints": ["core", "use-cases"],
+    "entryPoints": [
+      "core",
+      "use-cases"
+    ],
     "out": "docs/typedoc"
   }
 }
