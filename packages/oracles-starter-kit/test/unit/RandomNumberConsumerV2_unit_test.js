@@ -19,12 +19,12 @@ const { deployMockContract, provider } = waffle
     })
 
     it('Should successfully request a random number and get a result', async () => {
-      await randomNumberConsumerV2.mock.requestRandomWords.returns()
+      await randomNumberConsumerV2.mock.requestRandomWords.withArgs(2).returns()
       await randomNumberConsumerV2.mock.s_requestId.returns(123)
       await randomNumberConsumerV2.mock.s_randomWords.returns([1, 1])
       await vrfCoordinatorV2Mock.mock.fulfillRandomWords.withArgs(123, randomNumberConsumerV2.address).returns()
 
-      await randomNumberConsumerV2.requestRandomWords()
+      await randomNumberConsumerV2.requestRandomWords(2)
       const requestId = await randomNumberConsumerV2.s_requestId()
 
       await vrfCoordinatorV2Mock.fulfillRandomWords(requestId, randomNumberConsumerV2.address)
@@ -47,10 +47,10 @@ const { deployMockContract, provider } = waffle
         b()
       }
       await randomNumberConsumerV2.mock.s_randomWords.returns([1, 1])
-      await randomNumberConsumerV2.mock.requestRandomWords.returns()
+      await randomNumberConsumerV2.mock.requestRandomWords.withArgs(2).returns()
       await randomNumberConsumerV2.mock.s_requestId.returns(123)
 
-      await randomNumberConsumerV2.requestRandomWords()
+      await randomNumberConsumerV2.requestRandomWords(2)
       const requestId = await randomNumberConsumerV2.s_requestId()
       vrfCoordinatorV2Mock.fulfillRandomWords(requestId, randomNumberConsumerV2.address)
 

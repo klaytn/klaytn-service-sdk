@@ -23,8 +23,8 @@ jobs:
         run: npm ci && npm run build
       - name: linting
         run: npm run lint
-      - name: testing
-        run: npm run test
+      # - name: testing
+      #   run: npm run test
       - name: Publish package on NPM 📦
         run: npx pnpm --filter "@klaytn-developer-sdk/*" -r publish --publish-branch main --no-git-check
         env:

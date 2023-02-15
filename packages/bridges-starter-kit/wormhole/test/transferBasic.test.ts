@@ -3,7 +3,7 @@ import { transferBasic } from "../use-cases"
 
 describe("transfer", () => {
     test("Token basic transfer", async () => {
-        const config = { wormhole: { restAddress: "https://wormhole-v2-testnet-api.certus.one" }};
+        const config = { restAddress: "https://wormhole-v2-testnet-api.certus.one" };
         const source = {
           token: "0x0FD3f122A9B6471928B60eeE73bF35D895C4Ee01",
           privatekey: "",

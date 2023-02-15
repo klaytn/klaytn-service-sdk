@@ -19,7 +19,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   } else if (chainId === networks.baobab.chainId) {
     priceFeedAddress = networkConfig[chainId].chainLinkPriceFeed
   } else {
-    priceFeedAddress = networkConfig[chainId].ethUsdPriceFeed
+    priceFeedAddress = networkConfig[chainId].klayUsdPriceFeed
   }
   // Price Feed Address, values can be obtained at https://docs.chain.link/docs/reference-contracts
   // Default one below is ETH/USD contract on Goerli

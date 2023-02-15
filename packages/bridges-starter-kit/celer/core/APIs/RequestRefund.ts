@@ -1,7 +1,6 @@
 import { WebClient } from "../ts-proto/gateway/GatewayServiceClientPb"
 import { GetTransferStatusResponse, WithdrawLiquidityRequest, WithdrawMethodType } from "../ts-proto/gateway/gateway_pb"
 import { WithdrawReq, WithdrawType } from "../ts-proto/sgn/cbridge/v1/tx_pb"
-import { getTransferStatus } from "./GetData"
 import { parseRefundTxResponse } from "./withdraw"
 import { Contract, ContractReceipt, ContractTransaction } from "ethers"
 import { transactor } from "../helper"
@@ -33,7 +32,6 @@ export const requestRefund = async (
     console.log("2. Submitting withdrawal request to cBRIDGE network...");
     const wres = await client.withdrawLiquidity(req, null)
     let refundTx: ContractTransaction;
-    const statusTx = (status:number) => { return status}
     let resolver;
     const refund = new Promise( (r) => { resolver = r;} )
     if (!wres.getErr() || wres.getErr()?.getCode() == 500) {

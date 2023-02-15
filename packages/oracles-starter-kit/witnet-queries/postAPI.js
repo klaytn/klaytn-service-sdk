@@ -1,14 +1,23 @@
 const Witnet = require('witnet-requests')
 
+const url = 'https://httpbin.org/post'
+const body = 'This is the request body'
+const headers = { 'Header-Name': 'Header-Value' }
+const jsonPath = ['headers', 'Header-Name']
+
 const testPostSource = new Witnet.HttpPostSource(
-  'https://httpbin.org/post',
-  'This is the request body',
-  {
-    'Header-Name': 'Header-Value'
-  }
+  url,
+  body,
+  headers
 ).parseJSONMap()
-  .getMap('headers')
-  .getString('Header-Name')
+
+jsonPath.forEach((item, index) => {
+  if (index === jsonPath.length - 1) {
+    testPostSource.getString(item)
+  } else {
+    testPostSource.getMap(item)
+  }
+})
 
 const aggregator = Witnet.Aggregator.mode()
 

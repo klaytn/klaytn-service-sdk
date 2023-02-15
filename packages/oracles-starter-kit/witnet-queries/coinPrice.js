@@ -1,7 +1,9 @@
 import * as Witnet from 'witnet-requests'
 
+const coinSymbol = 'KLAY'
+
 const cryptoCompare = new Witnet.Source(
-  'https://min-api.cryptocompare.com/data/price?fsym=KLAY&tsyms=USD'
+  `https://min-api.cryptocompare.com/data/price?fsym=${coinSymbol}&tsyms=USD`
 )
   .parseJSONMap()
   .getFloat('USD')
@@ -9,7 +11,7 @@ const cryptoCompare = new Witnet.Source(
   .round()
 
 const coinbase = new Witnet.Source(
-  'https://api.coinbase.com/v2/exchange-rates?currency=KLAY'
+  `https://api.coinbase.com/v2/exchange-rates?currency=${coinSymbol}`
 )
   .parseJSONMap()
   .getMap('data')

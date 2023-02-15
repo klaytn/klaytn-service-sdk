@@ -1,8 +1,11 @@
 {
-  "name": "@klaytn-developer-sdk/bridge-wormhole",
-  "version": "1.0.0",
+  "name": "@klaytn-developer-sdk/bridges-wormhole",
+  "version": "0.0.1",
   "description": "Typescript and Javascript client and use-cases for wormhole",
-  "main": "dist/use-cases/index.js",
+  "exports": {
+    ".": "./dist/use-cases/index.js",
+    "./core": "./dist/core/index.js"
+  },
   "scripts": {
     "test-attest": "ts-node use-cases/attest.ts",
     "test-transfer-basic": "ts-node use-cases/transferBasic.ts",
@@ -11,7 +14,7 @@
     "lint": "npx eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts --fix ."
   },
-  "author": "",
+  "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "GPL-3.0",
   "dependencies": {
     "@certusone/wormhole-sdk": "^0.9.0",

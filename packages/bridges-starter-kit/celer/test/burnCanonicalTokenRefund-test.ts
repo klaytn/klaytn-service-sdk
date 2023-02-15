@@ -39,7 +39,7 @@ describe("burnCanonicalTokenRefund", async () => {
         expect(CONFIRMATIONS, 'CONFIRMATIONS is required').to.not.be.NaN
     })
     it("should throw error for invalid SRC_CHAIN_ID", async function() {
-        let invalidSrcChainId = 2
+        const invalidSrcChainId = 2
         try {
             await burnCanonicalTokenRefund(
                 CBRIDGE_GATEWAY_URL,
@@ -60,7 +60,7 @@ describe("burnCanonicalTokenRefund", async () => {
         }
     })
     it("should throw error if BURN_ID is of status 'UNKNOWN'", async function() {
-        let invalidBurnId = '0x0963539b3ef3f0c4033e3e93ac733a7f6484345f6db8d3d85b389033ab466300'
+        const invalidBurnId = '0x0963539b3ef3f0c4033e3e93ac733a7f6484345f6db8d3d85b389033ab466300'
         try {
             await burnCanonicalTokenRefund(
                 CBRIDGE_GATEWAY_URL,
@@ -81,7 +81,7 @@ describe("burnCanonicalTokenRefund", async () => {
         }
     })
     it("should throw error if BURN_ID is of status 'TRANSFER_ALREADY_COMPLETED'", async function() {
-        let alreadyRefundedBurnId = '0x0abae3baaedb7deab855ade410118b740f2c55fe216e06bf782a71e453006d61'
+        const alreadyRefundedBurnId = '0x0abae3baaedb7deab855ade410118b740f2c55fe216e06bf782a71e453006d61'
         try {
             await burnCanonicalTokenRefund(
                 CBRIDGE_GATEWAY_URL,
