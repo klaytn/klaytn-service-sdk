@@ -30,9 +30,9 @@ jest.mock('../contracts', () => {
 
 describe('MultiSig', () => {
   let multiSig: MultiSig;
-  const multiSigAddress = process.env.MULTISIG_ADDRESS!;
-  const privKey = process.env.PRIVATE_KEY!;
-  const rpcURL = process.env.RPC_URL!;
+  const multiSigAddress = "0x1234";
+  const privKey = 'someprivkey';
+  const rpcURL = 'http://localhost:8545';
 
     beforeEach(() => {
         multiSig = new MultiSig(multiSigAddress, privKey, rpcURL);

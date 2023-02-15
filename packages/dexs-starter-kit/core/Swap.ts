@@ -26,7 +26,7 @@ export class Swap {
         // check if input token's allowance sufficient
         if (allowance.lt(BigNumber.from(amountIn))) throw new Error(`exactTokensForTokens => inputToken insufficient allowance`)
 
-        /*const tx: ContractTransaction = await*/ return this.router.swapExactTokensForTokens(amountIn, amountDesiredOut, path, signerAddress, deadline);
+        return this.router.swapExactTokensForTokens(amountIn, amountDesiredOut, path, signerAddress, deadline);
     }
 
     /**
@@ -45,7 +45,7 @@ export class Swap {
         // check if input token's allowance sufficient
         if (allowance.lt(BigNumber.from(amountDesiredMaxIn))) throw new Error(`tokensForExactTokens => inputToken insufficient allowance`)
 
-        /*const tx: ContractTransaction = await*/ return this.router.swapTokensForExactTokens(amountOut, amountDesiredMaxIn, path, signerAddress, deadline);
+        return this.router.swapTokensForExactTokens(amountOut, amountDesiredMaxIn, path, signerAddress, deadline);
     }
 
     /**
@@ -64,7 +64,7 @@ export class Swap {
         // check if input token's allowance sufficient
         if (klayBalance.lt(BigNumber.from(amountKlayIn))) throw new Error(`func#tokensForExactTokens: KLAY insufficient balance`)
 
-        /*const tx: ContractTransaction = await*/ return this.router.swapExactKLAYForTokens(amountDesiredOutMin, path, signerAddress, deadline, {value: amountKlayIn});
+        return this.router.swapExactKLAYForTokens(amountDesiredOutMin, path, signerAddress, deadline, {value: amountKlayIn});
     }
 
     /**
@@ -83,7 +83,7 @@ export class Swap {
         // check if input token's allowance sufficient
         if (allowance.lt(BigNumber.from(amountDesiredTokenMaxIn))) throw new Error(`tokensForExactTokens => inputToken insufficient allowance`)
 
-        /*const tx: ContractTransaction = await*/ return this.router.swapTokensForExactKLAY(amountKlayOut, amountDesiredTokenMaxIn, path, signerAddress, deadline);
+        return this.router.swapTokensForExactKLAY(amountKlayOut, amountDesiredTokenMaxIn, path, signerAddress, deadline);
     }
 
 
@@ -103,7 +103,7 @@ export class Swap {
         // check if input token's allowance sufficient
         if (allowance.lt(BigNumber.from(amountIn))) throw new Error(`exactTokensForTokens => inputToken insufficient allowance`)
 
-        /*const tx: ContractTransaction = await*/ return this.router.swapExactTokensForTokens(amountIn, amountDesiredKlayOut, path, signerAddress, deadline);
+        return this.router.swapExactTokensForTokens(amountIn, amountDesiredKlayOut, path, signerAddress, deadline);
     }
 
     /**
@@ -122,7 +122,7 @@ export class Swap {
         // check if input token's allowance sufficient
         if (klayBalance.lt(BigNumber.from(amountKlayIn))) throw new Error(`klayForExactTokens => KLAY insufficient balance`)
 
-        /*const tx: ContractTransaction = await*/ return this.router.swapKLAYForExactTokens(amountDesiredOut, path, signerAddress, deadline, {value: amountKlayIn});
+        return this.router.swapKLAYForExactTokens(amountDesiredOut, path, signerAddress, deadline, {value: amountKlayIn});
     }
 
     // Getters
