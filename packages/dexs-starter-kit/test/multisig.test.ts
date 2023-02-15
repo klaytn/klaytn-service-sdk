@@ -1,5 +1,3 @@
-import { MultiSigWallet, MultiSigWallet__factory } from '../contracts';
-import { Wallet, providers, ContractTransaction } from 'ethers';
 import { MultiSig } from '../core/MultiSig';
 
 

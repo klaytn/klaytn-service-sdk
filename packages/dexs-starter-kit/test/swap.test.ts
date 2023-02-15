@@ -1,5 +1,3 @@
-import { Wallet, providers, BigNumber, ContractTransaction } from 'ethers'
-import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '../contracts';
 import { Swap } from '../core/Swap';
 
 jest.mock('ethers', () => ({

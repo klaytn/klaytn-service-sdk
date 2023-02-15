@@ -1,7 +1,4 @@
 import { Farming } from '../core/Farming';
-import { Farming as Farm, Farming__factory, DexPair, DexPair__factory, PlatformToken, PlatformToken__factory } from '../contracts';
-import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers';
-
 
 jest.mock('../core/Farming', () => {
   return {
@@ -55,7 +52,7 @@ describe('Farming', () => {
     });
 
     it('should return DexPair with pairAddress', async () => {
-      const result = await farming.getPair("0x123", privKey, rpcURL);;
+      const result = await farming.getPair("0x123", privKey, rpcURL);
 
       expect(result).toBeDefined();
       expect(farming.getPair).toHaveBeenCalledWith("0x123", privKey, rpcURL);

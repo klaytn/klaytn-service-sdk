@@ -1,5 +1,3 @@
-import { StakingInitializable, StakingInitializable__factory, KIP7__factory, StakingFactory, StakingFactory__factory } from '../contracts';
-import { Wallet, providers, ContractTransaction, BigNumber } from 'ethers'
 import { Staking } from '../core/Staking';
 
 

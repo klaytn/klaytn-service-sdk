@@ -1,5 +1,3 @@
-import { DexRouter, DexRouter__factory, DexFactory, DexFactory__factory, KIP7, KIP7__factory, DexPair, DexPair__factory } from '../contracts';
-import { Wallet, providers, BigNumber, ContractTransaction } from 'ethers'
 import { Liquidity } from '../core/Liquidity';
 
 jest.mock('ethers', () => ({
@@ -34,7 +32,6 @@ describe('Liquidity', () => {
   const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
   const token0 = '0xB8102d1eA3b3D3eCeC23A3A3c12f99B71A9006b0';
   const token1 = '0x409A221A2848a5e5eC0A1A2F70C8dC5B5C5c8684';
-  const klay = '0x73365f8f27de98d7634be67a167f229b32e7bf6c';
   const privKey = 'someprivkey';
   const rpcURL = 'http://localhost:8545';
   
@@ -44,7 +41,7 @@ describe('Liquidity', () => {
 
   describe('getRouter', () => {
     it('should return router instance', async () => {
-      const router = await liquidity.getRouter();
+      await liquidity.getRouter();
       expect(liquidity.getRouter).toHaveBeenCalledWith();
     });
   });
@@ -78,8 +75,7 @@ describe('Liquidity', () => {
 
   describe('remove', () => {
     it('should remove liquidity from a given pair successfully', async () => {
-      let pair : DexPair;
-      pair = await liquidity.getPair(token0,token1,privKey,rpcURL);
+      const pair = await liquidity.getPair(token0,token1,privKey,rpcURL);
       const amount0Min = '100000000000000000';
       const amount1Min = '100000000000000000';
       const deadline = Math.floor(Date.now() / 1000) + 60 * 10;
@@ -89,8 +85,7 @@ describe('Liquidity', () => {
     });
 
     it('should remove liquidity from a given token and klay successfully', async () => {
-      let pair : DexPair;
-      pair = await liquidity.getPair(token0,token1,privKey,rpcURL);
+      const pair = await liquidity.getPair(token0,token1,privKey,rpcURL);
       const amount0Min = '100000000000000000';
       const amount1Min = '100000000000000000';
       const deadline = Math.floor(Date.now() / 1000) + 60 * 10;
