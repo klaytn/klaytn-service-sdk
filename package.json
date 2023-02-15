@@ -1,7 +1,6 @@
 {
-  "name": "@klaytn/klaytn-developer-sdk",
+  "name": "@klaytn-developer-sdk",
   "version": "0.0.1",
-  "main": "index.js",
   "repository": "https://github.com/klaytn/klaytn-developer-sdk",
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
