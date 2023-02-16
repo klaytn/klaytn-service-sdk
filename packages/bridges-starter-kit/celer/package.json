@@ -6,10 +6,9 @@
     ".": "./dist/use-cases/index.js",
     "./core": "./dist/core/index.js"
   },
-  "author": "Klaytn Community <developer@klaytn.foundation>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/klaytn/klaytn-developer-sdk.git"
+    "url": "https://github.com/klaytn/klaytn-developer-sdk.git"
   },
   "scripts": {
     "test-transfer": "mocha -r ts-node/register test/poolTransfer-test.ts -t 2400000",
@@ -24,6 +23,14 @@
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts --fix ."
   },
+  "keywords": [
+    "klaytn",
+    "celer",
+    "bridge",
+    "pooltransfer",
+    "mintcanonicaltoken"
+  ],
+  "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/klaytn/klaytn-developer-sdk/issues"

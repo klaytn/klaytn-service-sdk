@@ -1,9 +1,12 @@
 {
   "name": "@klaytn/kds",
   "version": "0.0.1",
-  "repository": "https://github.com/klaytn/klaytn-developer-sdk",
   "author": "Klaytn Community <developer@klaytn.foundation>",
-  "license": "MIT",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klaytn/klaytn-developer-sdk.git"
+  },
   "private": true,
   "scripts": {
     "build": "wsrun -m build",
@@ -33,5 +36,9 @@
   "devDependencies": {
     "wsrun": "^5.2.4",
     "yarn": "^1.22.19"
-  }
+  },
+  "keywords": [
+    "klaytn",
+    "klaytn-developer-sdk"
+  ]
 }

@@ -19,7 +19,7 @@ method. It's a liquidity based transfer in which your assets are locked at sourc
 destination_chain (receiving chain) from a pool of liquidity available on the destination chain.
 Thanos snap 🫰 for this is: 
 ```
-import { poolTransfer } from "@klaytn-developer-sdk/bridges-celer"
+import { poolTransfer } from "@klaytn/kds-bridges-celer"
 
 poolTransfer(transferObj)
 ```
@@ -43,7 +43,7 @@ Promise `transferId` - `string` Transfer ID for tracking the transaction. To tra
 
 #### Example
 ```typescript
-const BridgeSDK = require('@klaytn-developer-sdk/bridges-celer')
+const BridgeSDK = require('@klaytn/kds-bridges-celer')
 
 let CBRIDGE_GATEWAY_URL = "https://cbridge-v2-test.celer.network"
 let WALLET_ADDRESS = "0x5Bc0635a264B94A8662e0F2887d76F8E5925F837"
@@ -108,7 +108,7 @@ source_chain by submitting refund request.
 🫰 of it:
 
 ``` 
-import{ poolTransferRefund } from "@klaytn-developer-sdk/bridges-celer"
+import{ poolTransferRefund } from "@klaytn/kds-bridges-celer"
 
 poolTransferRefund(transferObj)
 ```
@@ -132,7 +132,7 @@ Promise `transactionReceipt` - `object` blockchain transaction receipt
 
 #### Example
 ```typescript
-let BridgeSDK = require("@klaytn-developer-sdk/bridges-celer");
+let BridgeSDK = require("@klaytn/kds-bridges-celer");
 
 let CBRIDGE_GATEWAY_URL = "https://cbridge-v2-test.celer.network"
 let WALLET_ADDRESS = "0x5Bc0635a264B94A8662e0F2887d76F8E5925F837"
@@ -167,7 +167,7 @@ method. It's a traditional method in which your assets are locked at source_chai
 destination_chain (receiving chain).
 Thanos snap 🫰 for this is:
 ```
-import { mintCanonicalToken } from "@klaytn-developer-sdk/bridges-celer"
+import { mintCanonicalToken } from "@klaytn/kds-bridges-celer"
 
 mintCanonicalToken(transferObj)
 ```
@@ -189,7 +189,7 @@ Promise `depositId` - `string` deposit id
 
 #### Example
 ```typescript
-let BridgeSDK = require("@klaytn-developer-sdk/bridges-celer");
+let BridgeSDK = require("@klaytn/kds-bridges-celer");
 
 let CBRIDGE_GATEWAY_URL = "https://cbridge-v2-test.celer.network"
 let WALLET_ADDRESS = "0x5Bc0635a264B94A8662e0F2887d76F8E5925F837"
@@ -252,7 +252,7 @@ source_chain by submitting refund request.
 🫰 of it:
 
 ``` 
-import{ mintCanonicalTokenRefund } from "@klaytn-developer-sdk/bridges-celer"
+import{ mintCanonicalTokenRefund } from "@klaytn/kds-bridges-celer"
 
 mintCanonicalTokenRefund(transferObj)
 ```
@@ -278,7 +278,7 @@ Promise `transactionReceipt` - `object` blockchain transaction receipt
 
 #### Example
 ```typescript
-let BridgeSDK = require("@klaytn-developer-sdk/bridges-celer");
+let BridgeSDK = require("@klaytn/kds-bridges-celer");
 
 let CBRIDGE_GATEWAY_URL = "https://cbridge-v2-test.celer.network"
 let WALLET_ADDRESS = "0x5Bc0635a264B94A8662e0F2887d76F8E5925F837"
@@ -316,7 +316,7 @@ destination_chain (the chain on which you want to receive you withdrawn assets).
 Thanos snap 🫰 for this is:
 
 ```
-import { burnCanonicalToken } from "@klaytn-developer-sdk/bridges-celer"
+import { burnCanonicalToken } from "@klaytn/kds-bridges-celer"
 
 burnCanonicalToken(transferObj)
 ```
@@ -344,7 +344,7 @@ Promise `burnId` - `string` burn id to track the status or refund transaction if
 
 #### Example
 ```typescript
-let BridgeSDK = require("@klaytn-developer-sdk/bridges-celer");
+let BridgeSDK = require("@klaytn/kds-bridges-celer");
 
 let CBRIDGE_GATEWAY_URL = "https://cbridge-v2-test.celer.network"
 let SRC_CHAIN_RPC= "https://godwoken-testnet-v1.ckbapp.dev"
@@ -406,7 +406,7 @@ source_chain by submitting refund request.
 🫰 of it:
 
 ``` 
-import{ burnCanonicalTokenRefund } from "@klaytn-developer-sdk/bridges-celer"
+import{ burnCanonicalTokenRefund } from "@klaytn/kds-bridges-celer"
 
 burnCanonicalTokenRefund(transferObj)
 ```
@@ -431,7 +431,7 @@ Promise `transactionReceipt` - `object` blockchain transaction receipt
 
 #### Example
 ```typescript
-let BridgeSDK = require("@klaytn-developer-sdk/bridges-celer");
+let BridgeSDK = require("@klaytn/kds-bridges-celer");
 
 let CBRIDGE_GATEWAY_URL = "https://cbridge-v2-test.celer.network"
 let WALLET_ADDRESS = "0x5Bc0635a264B94A8662e0F2887d76F8E5925F837"

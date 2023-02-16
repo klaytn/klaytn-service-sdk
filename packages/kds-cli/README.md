@@ -7,7 +7,7 @@ kds-cli supports below features.
 ## Install
 
 ```typescript
-npm install -g @klaytn-developer-sdk/kds-cli --force
+npm install -g @klaytn/kds-cli --force
 ```
 
 ## Quick Usage

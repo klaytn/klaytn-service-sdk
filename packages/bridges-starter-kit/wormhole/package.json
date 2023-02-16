@@ -6,6 +6,10 @@
     ".": "./dist/use-cases/index.js",
     "./core": "./dist/core/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klaytn/klaytn-developer-sdk.git"
+  },
   "scripts": {
     "test-attest": "ts-node use-cases/attest.ts",
     "test-transfer-basic": "ts-node use-cases/transferBasic.ts",
@@ -14,6 +18,13 @@
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts --fix ."
   },
+  "keywords": [
+    "klaytn",
+    "wormhole",
+    "bridge",
+    "attest",
+    "transfer"
+  ],
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "GPL-3.0",
   "dependencies": {

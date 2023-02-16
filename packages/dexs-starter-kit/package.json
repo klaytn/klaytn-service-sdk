@@ -1,9 +1,13 @@
 {
   "name": "@klaytn/kds-dexs",
   "version": "0.0.1",
-  "description": "it includes dex-contracts integration & use-cases",
+  "description": "Includes dex-contracts integration & use-cases",
   "exports": {
     ".": "./dist/core/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klaytn/klaytn-developer-sdk.git"
   },
   "scripts": {
     "build": "npx tsc",

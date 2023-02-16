@@ -8,6 +8,7 @@
     - [Celer Bridge](#celer-bridge)
     - [Wormhole Bridge](#wormhole-bridge)
   - [DEX Module](#dex-module)
+    - [Open source DEX](#open-source-dex)
 - [Getting started](#getting-started)
     - [Requirement](#requirement)
     - [Quickstart](#quickstart)

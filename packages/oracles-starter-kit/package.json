@@ -13,6 +13,13 @@
   },
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
+  "keywords": [
+    "klaytn",
+    "oracles",
+    "chainlink",
+    "witnet",
+    "klaytn-developer-sdk"
+  ],
   "dependencies": {
     "@appliedblockchain/chainlink-contracts": "0.0.4",
     "@appliedblockchain/chainlink-plugins-fund-link": "0.0.1",
@@ -36,7 +43,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.4",
-    "eslint": "^8.32.0",
+    "eslint": "^8.34.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-n": "^15.6.1",
