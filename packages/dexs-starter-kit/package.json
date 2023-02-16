@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "it includes dex-contracts integration & use-cases",
   "exports": {
-    ".": "./dist/use-cases/index.js",
-    "./core": "./dist/core/index.js"
+    ".": "./dist/core/index.js"
   },
   "scripts": {
     "build": "npx tsc",
@@ -31,15 +30,16 @@
     "ethers": "^5.7.1",
     "jest": "^29.3.1",
     "jsdoc": "^4.0.0",
-    "mocha": "^10.1.0",
     "ts-node": "^8.6.2",
     "typedoc": "^0.23.24"
   },
   "devDependencies": {
+    "@types/jest": "^29.2.5",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.30.0",
+    "ts-jest": "^29.0.5",
     "typedoc": "^0.23.24",
     "typedoc-plugin-markdown": "^3.14.0",
     "typescript": "^4.9.4"
