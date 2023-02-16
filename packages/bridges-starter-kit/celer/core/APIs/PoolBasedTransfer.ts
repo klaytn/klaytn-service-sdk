@@ -45,6 +45,7 @@ export const poolBasedTransfer = async (
         )
         return result;
     } catch (err: any) {
+        console.log(err)
         console.log("PoolBasedTransfer.ts - error:", err.reason)
     }
 }

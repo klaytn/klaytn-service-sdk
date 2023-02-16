@@ -1,5 +1,5 @@
 {
-  "name": "@klaytn-developer-sdk",
+  "name": "@klaytn/kds",
   "version": "0.0.1",
   "repository": "https://github.com/klaytn/klaytn-developer-sdk",
   "author": "Klaytn Community <developer@klaytn.foundation>",

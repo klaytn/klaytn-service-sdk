@@ -1,5 +1,5 @@
 {
-  "name": "@klaytn-developer-sdk/dexs",
+  "name": "@klaytn/kds-dexs",
   "version": "0.0.1",
   "description": "it includes dex-contracts integration & use-cases",
   "exports": {

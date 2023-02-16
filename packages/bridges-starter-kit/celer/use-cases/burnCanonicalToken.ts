@@ -14,7 +14,7 @@ import {
     getContract
 } from "../core"
 import { getTransferConfigs } from "../core"
-import { ethers } from "ethers"
+import { utils } from "ethers"
 import PeggedTokenBridgeABI from '../core/contract/abi/pegged/PeggedTokenBridge.sol/PeggedTokenBridge.json';
 import PeggedTokenBridgeV2ABI from '../core/contract/abi/pegged/PeggedTokenBridgeV2.sol/PeggedTokenBridgeV2.json';
 import { statusTracker } from "../core"
@@ -104,7 +104,7 @@ export async function burnCanonicalToken(
 
     try {
         if (bridgeVersion === 2) {
-            const burnId = ethers.utils.solidityKeccak256(
+            const burnId = utils.solidityKeccak256(
                 [
                     "address",
                     "address",
@@ -152,7 +152,7 @@ export async function burnCanonicalToken(
             statusTracker(CBRIDGE_GATEWAY_URL, burnId)
             return burnId;
         } else {
-            const burnId = ethers.utils.solidityKeccak256(
+            const burnId = utils.solidityKeccak256(
                 ["address", "address", "uint256", "address", "uint64", "uint64"],
                 [
                     WALLET_ADDRESS,

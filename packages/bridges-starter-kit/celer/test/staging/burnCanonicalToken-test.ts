@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { burnCanonicalToken } from "../use-cases"
+import { burnCanonicalToken } from "../../use-cases"
 describe("burnCanonicalToken", async () => {
     let CBRIDGE_GATEWAY_URL: string
     let WALLET_ADDRESS: string
