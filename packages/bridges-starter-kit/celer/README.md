@@ -3,9 +3,7 @@
   - [About](#about)
   - [Folder Structure](#folder-structure)
   - [Setup](#setup)
-  - [Overview & use-cases](docs/Overview.md)
-  - [ENV Variables explanation](docs/ParamsExplanation.md)
-  - [Prerequisits](docs/Prerequisites.md)
+  - [Overview](#overview)
   - [Reference Docs:](#reference-docs)
 
 ## About
@@ -23,10 +21,16 @@ chains with lower costs. Learn more about flow and terminology from this doc:
   - [ts-proto](./core/ts-proto): Generated .d.ts gRPC-Web bindings.
 
 ## Setup
-To install dependencies
+To setup locally and install dependencies, follow below command
 ```shell
 npm install
 ```
+
+## Overview
+For details information & documentation of each module of this package please refer to the docs linked below.
+- ### [Overview](./docs/FolderStructure.md)
+- ### [ParamsExplanation](./docs/Prerequisites.md)
+- ### [Prerequisites.md](./docs/HowToUse.md)
 
 ## Reference Docs:
 

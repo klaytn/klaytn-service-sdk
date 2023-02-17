@@ -1,11 +1,11 @@
-import {getTransferStatus } from "./GetData"
+import { getTransferStatus } from "./GetData"
 import { GetTransferStatusResponse } from "../ts-proto/gateway/gateway_pb"
 import { clearInterval } from "timers"
 
 
 export const statusTracker = async (rpc: string, transferId: string, callback?: any, statusCode?: number) => {
     let observerdStatus: number = statusCode ? statusCode : 0;
-    const interval  = setInterval(async () => {
+    const transferStatusResponse = async () => {
         const res: GetTransferStatusResponse.AsObject = await getTransferStatus(rpc, transferId);
 
         if (res.status === 1 && res.status !== observerdStatus) {
@@ -60,7 +60,8 @@ export const statusTracker = async (rpc: string, transferId: string, callback?: 
             clearInterval(interval);
         }
 
-    }, 10000); // 10 seconds interval
-
+    }
+    const interval  = setInterval(transferStatusResponse, 10000); // 10 seconds interval
+    transferStatusResponse()
 
 }

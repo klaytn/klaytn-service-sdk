@@ -77,7 +77,7 @@ This is a hardhat project containing contracts and scripts for `Chainlink` and `
 ## Install
 
 ```typescript
-npm install -g @klaytn-developer-sdk/kds-cli --force
+npm install -g @klaytn/kds-cli --force
 ```
 
 ## Quick Usage

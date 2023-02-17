@@ -28,5 +28,5 @@
   "include": [
     "use-cases/**/*",
     "test/*.ts"
-  ]
+, "test/staging/burnCanonicalToken-test.ts"  ]
 }

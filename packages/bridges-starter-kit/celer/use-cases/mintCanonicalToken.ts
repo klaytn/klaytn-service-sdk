@@ -16,7 +16,7 @@ import {
 } from "../core"
 import OriginalTokenVaultABI from '../core/contract/abi/pegged/OriginalTokenVault.sol/OriginalTokenVault.json'
 import OriginalTokenVaultV2ABI from '../core/contract/abi/pegged/OriginalTokenVaultV2.sol/OriginalTokenVaultV2.json';
-import { ethers } from "ethers"
+import { utils } from "ethers"
 import { statusTracker } from "../core"
 
 export async function mintCanonicalToken(
@@ -100,7 +100,7 @@ export async function mintCanonicalToken(
     try {
         let depositId;
         if (vaultVersion === 2) {
-             depositId = ethers.utils.solidityKeccak256(
+             depositId = utils.solidityKeccak256(
                 [
                     "address",
                     "address",
@@ -145,7 +145,7 @@ export async function mintCanonicalToken(
             statusTracker(CBRIDGE_GATEWAY_URL, depositId);
             return depositId;
         } else {
-             depositId = ethers.utils.solidityKeccak256(
+             depositId = utils.solidityKeccak256(
                 ["address", "address", "uint256", "uint64", "address", "uint64", "uint64"],
                 [
                     WALLET_ADDRESS,

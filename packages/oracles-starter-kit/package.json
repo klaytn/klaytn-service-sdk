@@ -1,7 +1,7 @@
 {
-  "name": "@klaytn-developer-sdk/oracles",
+  "name": "@klaytn/kds-oracles",
   "version": "0.0.1",
-  "description": "",
+  "description": "Hardhat Klaytn Oracles starter kit",
   "scripts": {
     "help": "hardhat --help",
     "compile": "hardhat compile",
@@ -13,6 +13,13 @@
   },
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
+  "keywords": [
+    "klaytn",
+    "oracles",
+    "chainlink",
+    "witnet",
+    "klaytn-developer-sdk"
+  ],
   "dependencies": {
     "@appliedblockchain/chainlink-contracts": "0.0.4",
     "@appliedblockchain/chainlink-plugins-fund-link": "0.0.1",
@@ -22,7 +29,6 @@
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.3.0-beta.13",
     "@nomiclabs/hardhat-etherscan": "^3.0.0",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "envfile": "^6.18.0",
     "ethereum-waffle": "^3.4.0",
@@ -36,7 +42,8 @@
     "timeout": 10000000
   },
   "devDependencies": {
-    "eslint": "^8.32.0",
+    "chai": "^4.3.4",
+    "eslint": "^8.34.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-n": "^15.6.1",
