@@ -5,7 +5,7 @@ const program = require('commander')
 const figlet = require('figlet')
 
 // Cli version
-program.version('0.0.3')
+program.version('0.0.4')
 
 // Commands
 program

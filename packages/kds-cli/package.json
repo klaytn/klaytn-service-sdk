@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kds-cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "klaytn developer sdk command line",
   "bin": {
     "kds-cli": "./bin/kds-cli.js"
@@ -17,7 +17,7 @@
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
   "dependencies": {
-    "@klaytn/kds-oracles": "^0.0.3",
+    "@klaytn/kds-oracles": "^0.0.4",
     "chalk": "^4.1.1",
     "commander": "^10.0.0",
     "figlet": "^1.5.2",
