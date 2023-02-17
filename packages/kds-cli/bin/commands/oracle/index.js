@@ -14,7 +14,7 @@ let exec = (program) => {
 
 async function init() {
     console.log("Initializing the oracle setup")
-    copyDir(path.join(__dirname, '..', '..', '..', 'node_modules', '@klaytn-developer-sdk', 'oracles'), path.join(process.cwd(), "oracle-starter-kit"), (err) => {
+    copyDir(path.join(__dirname, '..', '..', '..', 'node_modules', '@klaytn', 'kds-oracles'), path.join(process.cwd(), "oracle-starter-kit"), (err) => {
       if(err) {
         console.log(err);
         return;
