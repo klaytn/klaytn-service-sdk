@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kds-bridges-celer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TypeScript client and use-cases for cBridge",
   "exports": {
     ".": "./dist/use-cases/index.js",

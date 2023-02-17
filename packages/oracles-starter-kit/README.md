@@ -519,7 +519,7 @@ npx witnet-toolkit try-query --from-solidity ./contracts/witnet-requests/<contra
 ```
 
 > **_NOTE:_**  If above tryWitnetQueries is stuck, please try to run command shown in below snapshot `npx witnet-toolkit`, install the binary once in the machine and retry above method
-![WitnetToolkitBinary](./WitnetToolkitBinary.png)
+![WitnetToolkitBinary](https://github.com/klaytn/klaytn-developer-sdk/blob/main/packages/oracles-starter-kit/WitnetToolkitBinary.png)
 
 ## Resources
 

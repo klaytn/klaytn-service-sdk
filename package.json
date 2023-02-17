@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kds",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "GPL-3.0",
   "repository": {
@@ -27,7 +27,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/**/*"
+      "packages/!(kds-cli)/*"
     ],
     "nohoist": [
       "**/witnet-solidity-bridge"
@@ -39,6 +39,12 @@
   },
   "keywords": [
     "klaytn",
-    "klaytn-developer-sdk"
+    "klaytn-developer-sdk",
+    "kds",
+    "@klaytn/kds-cli",
+    "@klayt/kds-bridges-celer",
+    "@klaytn/kds-bridges-wormhole",
+    "@klaytn/kds-dexs",
+    "@klaytn/kds-oracles"
   ]
 }

@@ -20,12 +20,18 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - name: Install dependencies and build 🔧
-        run: npm ci && npm run build
+        run: npm install --force && npm run build
       - name: linting
         run: npm run lint
       - name: testing
         run: npm run test
       - name: Publish package on NPM 📦
-        run: npx pnpm --filter "@klaytn/kds-*" -r publish --publish-branch main --no-git-check --access public
+        run: npx pnpm --filter "@klaytn/kds-*" --filter !"@klaytn/kds-cli" -r publish --no-git-check --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Install kds-cli dependencies
+        run: cd packages/kds-cli && npm install --force
+      - name: Publish project1 package on NPM 📦
+        run: npx pnpm --filter "@klaytn/kds-cli" -r publish --no-git-check --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
