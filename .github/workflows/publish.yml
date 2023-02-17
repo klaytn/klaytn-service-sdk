@@ -31,7 +31,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Install kds-cli dependencies
         run: cd packages/kds-cli && npm install --force
-      - name: Publish project1 package on NPM 📦
+      - name: Publish kds-cli package on NPM 📦
         run: npx pnpm --filter "@klaytn/kds-cli" -r publish --no-git-check --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
