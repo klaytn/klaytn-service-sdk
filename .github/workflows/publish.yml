@@ -20,7 +20,7 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - name: Install dependencies and build 🔧
-        run: npm ci && npm run build
+        run: npm install --force && npm run build
       - name: linting
         run: npm run lint
       - name: testing
