@@ -27,7 +27,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/**/*"
+      "packages/!(kds-cli)/*"
     ],
     "nohoist": [
       "**/witnet-solidity-bridge"
