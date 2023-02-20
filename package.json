@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kds",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "GPL-3.0",
   "repository": {
@@ -27,7 +27,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/!(kds-cli)/*"
+      "packages/!(kds-cli)/**"
     ],
     "nohoist": [
       "**/witnet-solidity-bridge"

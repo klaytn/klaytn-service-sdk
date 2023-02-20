@@ -6,7 +6,7 @@ Make sure you've read the [Prerequisites](./Prerequisites.md) section to ensure 
 
 ## Liquidity
 ```js
-import { addLiquidity } from '@klaytn/kds-dexs'
+import { Liquidity } from '@klaytn/kds-dexs'
 ```
 
 ## Swap
