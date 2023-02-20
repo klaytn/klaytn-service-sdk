@@ -3,9 +3,10 @@
 const chalk = require('chalk')
 const program = require('commander')
 const figlet = require('figlet')
+const packageData = require('../package.json')
 
 // Cli version
-program.version('0.0.4')
+program.version(packageData.version)
 
 // Commands
 program

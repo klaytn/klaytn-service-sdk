@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kds-bridges-celer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "TypeScript client and use-cases for cBridge",
   "exports": {
     ".": "./dist/use-cases/index.js",
@@ -18,7 +18,6 @@
     "test-burn": "mocha -r ts-node/register test/burnCanonicalToken-test.ts -t 2400000",
     "test-burn-refund": "mocha -r ts-node/register test/burnCanonicalTokenRefund-test.ts -t 2400000",
     "test": "jest",
-    "test1": "jest --slient",
     "build": "npx copyfiles -e \"core/ts-proto/**/*Pb.ts\" \"core/ts-proto/**\" \"dist\" && npx tsc",
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts --fix ."

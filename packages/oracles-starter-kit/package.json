@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kds-oracles",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Hardhat Klaytn Oracles starter kit",
   "scripts": {
     "help": "hardhat --help",
