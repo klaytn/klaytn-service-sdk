@@ -1,22 +1,25 @@
 const { assert } = require('chai')
-const { network, ethers } = require('hardhat')
+const { network, ethers, waffle } = require('hardhat')
 const { developmentChains } = require('../../helper-hardhat-config')
+const { deployMockContract, provider } = waffle
 
 !developmentChains.includes(network.name)
   ? describe.skip
-  : describe('WitnetRandom Unit Tests', async function () {
+  : describe('Unit Tests - WitnetRandom', async function () {
     let witnetRandomContract
 
     beforeEach(async () => {
-      await deployments.fixture(['mocks', 'witnet-random'])
-      witnetRandomContract = await ethers.getContract('WitnetRandom')
+      const [deployerOfContract] = provider.getWallets()
+      // deploy the contract to Mock
+      const WitnetRandomABI = require('../../artifacts/contracts/WitnetRandom.sol/WitnetRandom.json')
+      witnetRandomContract = await deployMockContract(deployerOfContract, WitnetRandomABI.abi)
     })
 
     it('Should successfully request a random number', async () => {
-      await witnetRandomContract.mock.requestRandomness.withArgs({ value: '1000000000000000000' }).returns()
+      await witnetRandomContract.mock.requestRandomness.returns()
       await witnetRandomContract.mock.latestRandomizingBlock.returns(123)
 
-      await witnetRandomContract.requestRandomness({ value: '1000000000000000000' })
+      await witnetRandomContract.requestRandomness()
 
       const latestRandomizingBlock = await witnetRandomContract.latestRandomizingBlock()
 
@@ -27,11 +30,11 @@ const { developmentChains } = require('../../helper-hardhat-config')
     })
 
     it('Should successfully fetch a random number', async () => {
-      await witnetRandomContract.mock.requestRandomness.withArgs({ value: '1000000000000000000' }).returns()
+      await witnetRandomContract.mock.requestRandomness.returns()
       await witnetRandomContract.mock.fetchRandomNumber.returns()
       await witnetRandomContract.mock.randomness.returns(123)
 
-      await witnetRandomContract.requestRandomness({ value: '1000000000000000000' })
+      await witnetRandomContract.requestRandomness()
 
       await witnetRandomContract.fetchRandomNumber()
 

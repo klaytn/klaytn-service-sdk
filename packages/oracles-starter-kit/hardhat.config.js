@@ -2,7 +2,6 @@ require('@nomiclabs/hardhat-waffle')
 require('@nomiclabs/hardhat-etherscan')
 require('hardhat-deploy')
 require('./tasks')
-require('@appliedblockchain/chainlink-plugins-fund-link')
 require('dotenv').config()
 
 /**
