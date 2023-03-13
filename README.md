@@ -2,7 +2,6 @@
 ![Logo](./KlaytnLogo.png)
 - [Klaytn Developer SDK](#klaytn-developer-sdk)
   - [Oracles Module](#oracles-module)
-    - [Chainlink](#chainlink)
     - [Witnet](#witnet)
   - [Bridges Module](#bridges-module)
     - [Celer Bridge](#celer-bridge)
@@ -21,14 +20,8 @@
 <p style="font-size:x-large">Klaytn Developer SDK is a monorepo of all the ecosystem tools. It has all the packages necessary to build on Klaytn ecosystem</p>
 
 ## Oracles Module
-### Chainlink
-Implementation of the following 4 Chainlink features using the [Hardhat](https://hardhat.org/) development environment:
-- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-price-feeds)
-- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-vrf-get-a-random-number)
-- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-keepers)
-- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-request--receive-data)
-
 ### Witnet
+Implementation of the following features using the [Hardhat](https://hardhat.org/) development environment:
 - [Witnet Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#witnet-price-feeds)
 - [Witnet Randomness on Klaytn](/packages/oracles-starter-kit/README.md#witnet-randomness)
 

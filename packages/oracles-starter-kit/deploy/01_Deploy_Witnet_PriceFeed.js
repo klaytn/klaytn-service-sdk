@@ -1,4 +1,4 @@
-const { network } = require('hardhat')
+const { network, ethers } = require('hardhat')
 const {
   networkConfig,
   developmentChains,
@@ -6,33 +6,41 @@ const {
 } = require('../helper-hardhat-config')
 const fs = require('fs')
 
-module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
+module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments
   const { deployer } = await getNamedAccounts()
   const chainId = network.config.chainId
-  const keepersUpdateInterval = networkConfig[chainId].keepersUpdateInterval || '30'
+
+  let priceRouterAddress
+  if (chainId === 31337) {
+    const witnetRouterMock = await ethers.getContract('MockWitnetRouter')
+    priceRouterAddress = witnetRouterMock.address
+  } else {
+    priceRouterAddress = networkConfig[chainId].witnetPriceRouter
+  }
+
+  // Price Feed Address, values can be obtained at https://docs.witnet.io/smart-contracts/witnet-data-feeds/addresses
+  // Default one below is KLAY/USDT contract on Baobab
   const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
-  const args = [keepersUpdateInterval]
-  const keepersCounter = await deploy('KeepersCounter', {
+
+  const witnetPriceFeed = await deploy('WitnetPriceFeed', {
     from: deployer,
-    args,
+    args: [priceRouterAddress],
     log: true,
     waitConfirmations: waitBlockConfirmations
   })
+
   // TODO: implement verify
+  // Verify the deployment
   // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
   //   log("Verifying...")
-  //   await verify(keepersCounter.address, args)
+  //   await verify(WitnetPriceFeed.address, [priceFeedAddress])
   // }
 
   const sourcePath = './deployedContracts.json'
   let jsonData = {
-    chainLinkPriceFeed: '',
-    chainLinkApiData: '',
-    chainLinkRandomNumber: '',
-    keepersCounter: '',
     witnetPriceFeed: '',
     witnetRandomNumber: '',
     network: ''
@@ -40,18 +48,15 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   if (fs.existsSync(sourcePath)) {
     jsonData = JSON.parse(fs.readFileSync(sourcePath))
   }
-  log(
-    'Head to https://keepers.chain.link/ to register your contract for upkeeps. Then run the following command to track the counter updates: '
-  )
+
+  log('Run Witnet Price Feed contract with command:')
   const networkName = network.name === 'hardhat' ? 'localhost' : network.name
-  // log(
-  //   `yarn hardhat read-keepers-counter --contract ${keepersCounter.address} --network ${networkName}`
-  // )
-  log('Execute readChainLinkKeepersCounter method')
-  jsonData.keepersCounter = keepersCounter.address
+  // log(`yarn hardhat read-witnet-price-feed --contract ${witnetPriceFeed.address} --network ${networkName}`)
+  log('Execute readWitnetPriceFeed method')
+  jsonData.witnetPriceFeed = witnetPriceFeed.address
   jsonData.network = networkName
   fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
   log('----------------------------------------------------')
 }
 
-module.exports.tags = ['all', 'keepers']
+module.exports.tags = ['all', 'witnet-feed', 'main']

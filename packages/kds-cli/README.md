@@ -29,7 +29,7 @@ npm install -g @klaytn/kds-cli --force
 
 #### Oracles
 
-To download the Klaytn's integration with Chainlink, witnet oracle hardhat project, please follow below steps
+To download the Klaytn's integration with witnet oracle hardhat project, please follow below steps
 
 ```typescript
 > kds-cli oracle init
