@@ -10,7 +10,7 @@ program.version(packageData.version)
 
 // Commands
 program
-.name('kds-cli')
+.name('kss-cli')
  .usage('[options] <command> <subcommand>')
  .helpOption(false)
 
@@ -19,7 +19,7 @@ require('./commands/oracle')(program)
 if(process.argv.slice(2).length == 0) {
   console.log(
     chalk.yellow(
-      figlet.textSync('kds-cli', { horizontalLayout: 'full' })
+      figlet.textSync('kss-cli', { horizontalLayout: 'full' })
     )
   );
 }

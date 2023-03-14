@@ -6,30 +6,30 @@ Make sure you've read the [Prerequisites](./Prerequisites.md) section to ensure 
 
 ## Liquidity
 ```js
-import { Liquidity } from '@klaytn/kds-dexs'
+import { Liquidity } from '@klaytn/kss-dexs'
 ```
 
 ## Swap
 ```js
-import { Swap } from '@klaytn/kds-dexs'
+import { Swap } from '@klaytn/kss-dexs'
 ```
 
 ## Farming
 ```js
-import { Farming } from '@klaytn/kds-dexs'
+import { Farming } from '@klaytn/kss-dexs'
 ```
 
 ## Staking
 ```js
-import { Staking } from '@klaytn/kds-dexs'
+import { Staking } from '@klaytn/kss-dexs'
 ```
 
 ## Multisig
 ```js
-import { Multisig } from '@klaytn/kds-dexs'
+import { Multisig } from '@klaytn/kss-dexs'
 ```
 
 ## Config
 ```js
-import { Config } from '@klaytn/kds-dexs'
+import { Config } from '@klaytn/kss-dexs'
 ```
