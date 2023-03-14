@@ -1,13 +1,13 @@
-# Klaytn Developer SDK CLI
+# Klaytn Service SDK CLI
 
-kds-cli is a command line utility for klaytn developer sdk. <br/>
-kds-cli supports below features.
-* `Oracles` - Hardhat project containing Chainlink, Witnet integrations with klaytn.
+kss-cli is a command line utility for klaytn service sdk. <br/>
+kss-cli supports below features.
+* `Oracles` - Hardhat project containing Witnet integrations with klaytn.
 
 ## Install
 
 ```typescript
-npm install -g @klaytn/kds-cli --force
+npm install -g @klaytn/kss-cli --force
 ```
 
 ## Quick Usage
@@ -15,15 +15,15 @@ npm install -g @klaytn/kds-cli --force
 ### Version
 
 ```bash
-> kds-cli --version 
+> kss-cli --version 
 0.0.1
 ```
 
 ### Help
 
 ```typescript
-> kds-cli --help
-> kds-cli help oracle
+> kss-cli --help
+> kss-cli help oracle
 ```
 ### Setup
 
@@ -32,7 +32,7 @@ npm install -g @klaytn/kds-cli --force
 To download the Klaytn's integration with witnet oracle hardhat project, please follow below steps
 
 ```typescript
-> kds-cli oracle init
+> kss-cli oracle init
 
 > cd oracle-starter-kit
 > npm install --force

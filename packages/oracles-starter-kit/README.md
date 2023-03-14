@@ -46,14 +46,14 @@ This is a hardhat project containing contracts and scripts for `Witnet` integrat
 ## Install
 
 ```typescript
-npm install -g @klaytn/kds-cli --force
+npm install -g @klaytn/kss-cli --force
 ```
 
 ## Quick Usage
 For a default set of contracts and tests, run the following within the required project directory:
 
 ```typescript
-> kds-cli oracle init
+> kss-cli oracle init
 
 > cd oracle-starter-kit
 > npm install --force
@@ -284,7 +284,7 @@ npx witnet-toolkit try-query --from-solidity ./contracts/witnet-requests/<contra
 ```
 
 > **_NOTE:_**  If above tryWitnetQueries is stuck, please try to run command shown in below snapshot `npx witnet-toolkit`, install the binary once in the machine and retry above method
-![WitnetToolkitBinary](https://github.com/klaytn/klaytn-developer-sdk/blob/main/packages/oracles-starter-kit/WitnetToolkitBinary.png)
+![WitnetToolkitBinary](https://github.com/klaytn/klaytn-service-sdk/blob/main/packages/oracles-starter-kit/WitnetToolkitBinary.png)
 
 ## Resources
 
