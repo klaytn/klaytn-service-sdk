@@ -151,18 +151,19 @@ Requesting the new randomness.
 Once the the request to new randomness is performed successfully. The other tasks can be performed after transaction submission.
 
 ```bash
-  npx hardhat request-witnet-randomness --contract <deployedContractAddress> --network baobab
+  npx hardhat request-witnet-randomness --contract <deployedContractAddress> --value <value> --network baobab
 ```
 
 #### Parameters
 `deployedContractAddress` - `string` Deployed Deployed Witnet RandomNumber contract address
+`value` - `number` Value for transaction cost when requesting random numbers. Ex: 500000000000000000 i.e, 0.5 KLAY
 
 ##### Returns
   * `transaction hash` - Transaction hash
 
 ##### Example
 ```typescript
-  npx hardhat request-witnet-randomness --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --network baobab
+  npx hardhat request-witnet-randomness --contract 0x8937C127F3060fF8a23E9a0fb5AEA10bc30e28be --value 500000000000000000 --network baobab
   /*
     Transaction Hash: 0x809addb235dc953c90a563c396c11978a359b574336564c7ec890514c961e050
   */

@@ -83,7 +83,7 @@ npm i
 <br/>
 
 # Usage
-You can run the scripts in root or in respective packages by `cd` into the packages. 
+You can run the scripts from respective packages by `cd` into the packages. 
 
 ## Want to Contribute to Klaytn Service SDK? <a id="want-to-contribute"></a>
 
