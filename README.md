@@ -1,8 +1,7 @@
 
 ![Logo](./KlaytnLogo.png)
-- [Klaytn Developer SDK](#klaytn-developer-sdk)
+- [Klaytn Service SDK](#klaytn-service-sdk)
   - [Oracles Module](#oracles-module)
-    - [Chainlink](#chainlink)
     - [Witnet](#witnet)
   - [Bridges Module](#bridges-module)
     - [Celer Bridge](#celer-bridge)
@@ -13,22 +12,16 @@
     - [Requirement](#requirement)
     - [Quickstart](#quickstart)
 - [Usage](#usage)
-  - [Want to Contribute to Klaytn Developer SDK? ](#want-to-contribute-to-klaytn-developer-sdk-)
+  - [Want to Contribute to Klaytn Service SDK? ](#want-to-contribute-to-klaytn-service-sdk-)
 
 <br/>
 
-# Klaytn Developer SDK
-<p style="font-size:x-large">Klaytn Developer SDK is a monorepo of all the ecosystem tools. It has all the packages necessary to build on Klaytn ecosystem</p>
+# Klaytn Service SDK
+<p style="font-size:x-large">Klaytn Service SDK is a monorepo of all the ecosystem tools. It has all the packages necessary to build on Klaytn ecosystem</p>
 
 ## Oracles Module
-### Chainlink
-Implementation of the following 4 Chainlink features using the [Hardhat](https://hardhat.org/) development environment:
-- [Chainlink Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-price-feeds)
-- [Chainlink VRF on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-vrf-get-a-random-number)
-- [Chainlink Keepers on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-keepers)
-- [Request & Receive data on Klaytn](/packages/oracles-starter-kit/README.md#chainlink-request--receive-data)
-
 ### Witnet
+Implementation of the following features using the [Hardhat](https://hardhat.org/) development environment:
 - [Witnet Data Feeds on Klaytn](/packages/oracles-starter-kit/README.md#witnet-price-feeds)
 - [Witnet Randomness on Klaytn](/packages/oracles-starter-kit/README.md#witnet-randomness)
 
@@ -72,10 +65,10 @@ Integration of the following 5 DEX contracts:
 
 ### Quickstart
 
-After installing all the requirements, run the following:
+After installing all the requirements, run the following to setup locally:
 ```bash
-git clone https://github.com/klaytn/klaytn-developer-sdk
-cd klaytn-developer-sdk
+git clone https://github.com/klaytn/klaytn-service-sdk
+cd klaytn-service-sdk
 ```
 then
 ```bash
@@ -90,9 +83,9 @@ npm i
 <br/>
 
 # Usage
-You can run the scripts in root or in respective packages by `cd` into the packages. 
+You can run the scripts from respective packages by `cd` into the packages. 
 
-## Want to Contribute to Klaytn Developer SDK? <a id="want-to-contribute"></a>
+## Want to Contribute to Klaytn Service SDK? <a id="want-to-contribute"></a>
 
 In line with our commitment to decentralization, all Klaytn codebase and its documentations are completely open source. Klaytn always welcomes your contribution. Anyone can view, edit, fix its contents and make suggestions. You can either create a pull request on GitHub or create a enhancement request. Make sure to check our [Contributor License Agreement (CLA)](https://gist.github.com/e78f99e1c527225637e269cff1bc7e49) first and there are also a few guidelines our contributors would check out before contributing:
 

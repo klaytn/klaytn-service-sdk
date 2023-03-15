@@ -23,20 +23,20 @@ Wormhole is a communication bridge between Klaytn and other top decentralized fi
 - [use-cases](./use-cases): Ready-to-run code of some use-cases to call the Wormhole Rest APIs.
 
 ## Installation
-`npm install @klaytn/kds-bridges-wormhole --save`
+`npm install @klaytn/kss-bridges-wormhole --save`
 
 ## Quick Start
 BridgeSDK contains the implementation of the bridge use-cases. 
 CoreBridgeSDK exposes methods of `@certusone/wormhole-sdk` to write custom methods.
 
 ```typescript
-import BridgeSDK from '@klaytn/kds-bridges-wormhole';
-import CoreBridgeSDK from '@klaytn/kds-bridges-wormhole/core';
+import BridgeSDK from '@klaytn/kss-bridges-wormhole';
+import CoreBridgeSDK from '@klaytn/kss-bridges-wormhole/core';
 
 or
 
-const BridgeSDK = require('@klaytn/kds-bridges-wormhole');
-const CoreBridgeSDK = require('@klaytn/kds-bridges-wormhole/core');
+const BridgeSDK = require('@klaytn/kss-bridges-wormhole');
+const CoreBridgeSDK = require('@klaytn/kss-bridges-wormhole/core');
 ```
 
 You can run following ready-made use-cases to test
@@ -70,8 +70,8 @@ BridgeSDK.attest(config, source, destination)
 
 ### Example
 ```typescript
-const BridgeSDK = require('@klaytn/kds-bridges-wormhole');
-const CoreBridgeSDK = require('@klaytn/kds-bridges-wormhole/core');
+const BridgeSDK = require('@klaytn/kss-bridges-wormhole');
+const CoreBridgeSDK = require('@klaytn/kss-bridges-wormhole/core');
 
 const config = { restAddress: "https://wormhole-v2-testnet-api.certus.one" };
 const source = {
@@ -129,8 +129,8 @@ BridgeSDK.transferBasic(config, source, destination, AMOUNT, IS_NATIVE)
 
 ### Example
 ```typescript
-const BridgeSDK = require('@klaytn/kds-bridges-wormhole');
-const CoreBridgeSDK = require('@klaytn/kds-bridges-wormhole/core');
+const BridgeSDK = require('@klaytn/kss-bridges-wormhole');
+const CoreBridgeSDK = require('@klaytn/kss-bridges-wormhole/core');
 
 const config = { restAddress: "https://wormhole-v2-testnet-api.certus.one" };
 const source = {

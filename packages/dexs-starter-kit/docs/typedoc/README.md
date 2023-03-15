@@ -1,4 +1,4 @@
-@klaytn/kds-dexs / [Modules](modules.md)
+@klaytn/kss-dexs / [Modules](modules.md)
 
 # DEX Starter Kit
 This module of Klaytn-SDK includes the integration of [@klaytn/dex-contracts](https://github.com/klaytn/klaytn-dex-contracts).

@@ -1,13 +1,13 @@
 {
-  "name": "@klaytn/kds-dexs",
-  "version": "0.0.5",
+  "name": "@klaytn/kss-dexs",
+  "version": "0.0.6",
   "description": "Includes dex-contracts integration & use-cases",
   "exports": {
     ".": "./dist/core/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/klaytn/klaytn-developer-sdk.git"
+    "url": "https://github.com/klaytn/klaytn-service-sdk.git"
   },
   "scripts": {
     "build": "npx tsc",
@@ -23,7 +23,8 @@
     "swap",
     "trade",
     "farming",
-    "pool"
+    "pool",
+    "kss-dexs"
   ],
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",

@@ -28,9 +28,9 @@ npm install
 
 ## Overview
 For details information & documentation of each module of this package please refer to the docs linked below.
-- ### [Overview](https://github.com/klaytn/klaytn-developer-sdk/blob/main/packages/bridges-starter-kit/celer/docs/Overview.md)
-- ### [ParamsExplanation](https://github.com/klaytn/klaytn-developer-sdk/blob/main/packages/bridges-starter-kit/celer/docs/ParamsExplanation.md)
-- ### [Prerequisites.md](https://github.com/klaytn/klaytn-developer-sdk/blob/main/packages/bridges-starter-kit/celer/docs/Prerequisites.md)
+- ### [Overview](https://github.com/klaytn/klaytn-service-sdk/blob/main/packages/bridges-starter-kit/celer/docs/Overview.md)
+- ### [ParamsExplanation](https://github.com/klaytn/klaytn-service-sdk/blob/main/packages/bridges-starter-kit/celer/docs/ParamsExplanation.md)
+- ### [Prerequisites.md](https://github.com/klaytn/klaytn-service-sdk/blob/main/packages/bridges-starter-kit/celer/docs/Prerequisites.md)
 
 ## Reference Docs:
 

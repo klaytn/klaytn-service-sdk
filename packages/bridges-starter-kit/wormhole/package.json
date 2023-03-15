@@ -1,6 +1,6 @@
 {
-  "name": "@klaytn/kds-bridges-wormhole",
-  "version": "0.0.5",
+  "name": "@klaytn/kss-bridges-wormhole",
+  "version": "0.0.6",
   "description": "Typescript and Javascript client and use-cases for wormhole",
   "exports": {
     ".": "./dist/use-cases/index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/klaytn/klaytn-developer-sdk.git"
+    "url": "https://github.com/klaytn/klaytn-service-sdk.git"
   },
   "scripts": {
     "test-attest": "ts-node use-cases/attest.ts",
@@ -23,7 +23,8 @@
     "wormhole",
     "bridge",
     "attest",
-    "transfer"
+    "transfer",
+    "kss-bridges-wormhole"
   ],
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "GPL-3.0",

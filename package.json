@@ -1,33 +1,21 @@
 {
-  "name": "@klaytn/kds",
-  "version": "0.0.5",
+  "name": "@klaytn/kss",
+  "version": "0.0.6",
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/klaytn/klaytn-developer-sdk.git"
+    "url": "https://github.com/klaytn/klaytn-service-sdk.git"
   },
   "private": true,
   "scripts": {
     "build": "wsrun -m build",
     "lint": "wsrun -m lint",
-    "test": "wsrun -m test",
-    "oracle:help": "yarn workspace oracles-starter-kit help",
-    "oracle:compile": "yarn workspace oracles-starter-kit compile",
-    "oracle:deploy": "yarn workspace oracles-starter-kit deploy",
-    "oracle:test": "yarn workspace oracles-starter-kit test",
-    "celer:test-transfer": "yarn workspace cbridge-starter-kit test-transfer",
-    "celer:test-transfer-refund": "yarn workspace cbridge-starter-kit test-transfer-refund",
-    "celer:test-mint": "yarn workspace cbridge-starter-kit test-mint",
-    "celer:test-mint-refund": "yarn workspace cbridge-starter-kit test-mint-refund",
-    "celer:test-burn": "yarn workspace cbridge-starter-kit test-burn",
-    "celer:test-burn-refund": "yarn workspace cbridge-starter-kit test-burn-refund",
-    "wormhole:test-attest": "yarn workspace wormhole-starter-kit test-attest",
-    "wormhole:test-transfer-basic": "yarn workspace wormhole-starter-kit test-transfer-basic"
+    "test": "wsrun -m test"
   },
   "workspaces": {
     "packages": [
-      "packages/!(kds-cli)/**"
+      "packages/!(kss-cli)/**"
     ],
     "nohoist": [
       "**/witnet-solidity-bridge"
@@ -39,12 +27,12 @@
   },
   "keywords": [
     "klaytn",
-    "klaytn-developer-sdk",
-    "kds",
-    "@klaytn/kds-cli",
-    "@klayt/kds-bridges-celer",
-    "@klaytn/kds-bridges-wormhole",
-    "@klaytn/kds-dexs",
-    "@klaytn/kds-oracles"
+    "klaytn-service-sdk",
+    "kss",
+    "@klaytn/kss-cli",
+    "@klayt/kss-bridges-celer",
+    "@klaytn/kss-bridges-wormhole",
+    "@klaytn/kss-dexs",
+    "@klaytn/kss-oracles"
   ]
 }
