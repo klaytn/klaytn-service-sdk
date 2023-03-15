@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kss-dexs",
-  "version": "0.0.6",
+  "version": "0.0.6-beta",
   "description": "Includes dex-contracts integration & use-cases",
   "exports": {
     ".": "./dist/core/index.js"

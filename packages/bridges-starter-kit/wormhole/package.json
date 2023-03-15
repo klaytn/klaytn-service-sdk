@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kss-bridges-wormhole",
-  "version": "0.0.6",
+  "version": "0.0.6-beta",
   "description": "Typescript and Javascript client and use-cases for wormhole",
   "exports": {
     ".": "./dist/use-cases/index.js",
