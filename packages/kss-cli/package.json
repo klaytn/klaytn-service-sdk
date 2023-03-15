@@ -1,6 +1,6 @@
 {
   "name": "@klaytn/kss-cli",
-  "version": "0.0.6",
+  "version": "0.0.6-beta",
   "description": "klaytn service sdk command line",
   "bin": {
     "kss-cli": "./bin/kss-cli.js"
@@ -17,7 +17,7 @@
   "author": "Klaytn Community <developer@klaytn.foundation>",
   "license": "MIT",
   "dependencies": {
-    "@klaytn/kss-oracles": "^0.0.6",
+    "@klaytn/kss-oracles": "^0.0.6-beta",
     "chalk": "^4.1.1",
     "commander": "^10.0.0",
     "figlet": "^1.5.2",
