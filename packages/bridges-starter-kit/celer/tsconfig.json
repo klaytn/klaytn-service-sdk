@@ -27,6 +27,7 @@
   "exclude": ["node_modules/**/*"],
   "include": [
     "use-cases/**/*",
-    "test/*.ts"
-, "test/staging/burnCanonicalToken-test.ts"  ]
+    "test/*.ts",
+    "test/staging/burnCanonicalToken-test.ts"
+  ]
 }

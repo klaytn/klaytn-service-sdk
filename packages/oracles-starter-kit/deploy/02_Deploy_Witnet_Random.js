@@ -11,23 +11,22 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts()
   const chainId = network.config.chainId
 
-  let priceRouterAddress
+  let witnetRandomAddress
+
   if (chainId === 31337) {
-    const witnetRouterMock = await ethers.getContract('MockWitnetRouter')
-    priceRouterAddress = witnetRouterMock.address
+    const WitnetRandomnessMock = await ethers.getContract('WitnetRandomnessMock')
+    witnetRandomAddress = WitnetRandomnessMock.address
   } else {
-    priceRouterAddress = networkConfig[chainId].witnetPriceRouter
+    witnetRandomAddress = networkConfig[chainId].witnetRandomness
   }
 
-  // Price Feed Address, values can be obtained at https://docs.witnet.io/smart-contracts/witnet-data-feeds/addresses
-  // Default one below is KLAY/USDT contract on Baobab
   const waitBlockConfirmations = developmentChains.includes(network.name)
     ? 1
     : VERIFICATION_BLOCK_CONFIRMATIONS
 
-  const witnetPriceFeed = await deploy('WitnetPriceFeed', {
+  const witnetRandom = await deploy('WitnetRandom', {
     from: deployer,
-    args: [priceRouterAddress],
+    args: [witnetRandomAddress],
     log: true,
     waitConfirmations: waitBlockConfirmations
   })
@@ -36,15 +35,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   // Verify the deployment
   // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
   //   log("Verifying...")
-  //   await verify(WitnetPriceFeed.address, [priceFeedAddress])
+  //   await verify(WitnetRandom.address, [witnetRandomAddress])
   // }
 
   const sourcePath = './deployedContracts.json'
   let jsonData = {
-    chainLinkPriceFeed: '',
-    chainLinkApiData: '',
-    chainLinkRandomNumber: '',
-    keepersCounter: '',
     witnetPriceFeed: '',
     witnetRandomNumber: '',
     network: ''
@@ -53,14 +48,14 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     jsonData = JSON.parse(fs.readFileSync(sourcePath))
   }
 
-  log('Run Witnet Price Feed contract with command:')
+  log('Run Witnet Random contract with command:')
   const networkName = network.name === 'hardhat' ? 'localhost' : network.name
-  // log(`yarn hardhat read-witnet-price-feed --contract ${witnetPriceFeed.address} --network ${networkName}`)
-  log('Execute readWitnetPriceFeed method')
-  jsonData.witnetPriceFeed = witnetPriceFeed.address
+  // log(`yarn hardhat request-witnet-random-number --contract ${witnetRandom.address} --value 1000000000000000000 --network ${networkName}`)
+  log('Execute requestWitnetRandomNumber, readWitnetLatestRandomizingBlock, fetchWitnetRandomNumber, readWitnetRandomNumber methods')
+  jsonData.witnetRandomNumber = witnetRandom.address
   jsonData.network = networkName
   fs.writeFileSync(sourcePath, JSON.stringify(jsonData))
   log('----------------------------------------------------')
 }
 
-module.exports.tags = ['all', 'witnet-feed', 'main']
+module.exports.tags = ['all', 'witnet-random', 'main']

@@ -1,6 +1,6 @@
-[@klaytn/kds-dexs](README.md) / Modules
+[@klaytn/kss-dexs](README.md) / Modules
 
-# @klaytn/kds-dexs
+# @klaytn/kss-dexs
 
 ## Table of contents
 
