@@ -99,3 +99,4 @@ In line with our commitment to decentralization, all Klaytn codebase and its doc
 - [Contribution Guide](./CONTRIBUTING.md)
 - [License](./LICENSE)
 - [Code of Conducts](./code-of-conduct.md)
+- test-cla
