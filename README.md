@@ -61,7 +61,7 @@ Below are the published packages as part of the klaytn-service-sdk. Please follo
 - [@klaytn/kss-bridges-celer](https://www.npmjs.com/package/@klaytn/kss-bridges-celer) - Contains Celer integration 
 - [@klaytn/kss-dexs](https://www.npmjs.com/package/@klaytn/kss-dexs) - Contains Dexs integration
 - [@klaytn/kss-oracles](https://www.npmjs.com/package/@klaytn/kss-oracles) - Contains Oracles integration
-- [@klaytn/kss-cli](https://www.npmjs.com/package/@klaytn/kss-cli) - Contains CLI
+- [@klaytn/kss-cli](https://www.npmjs.com/package/@klaytn/kss-cli) - Contains CLI features
 
 ## Setup Locally
 
