@@ -19,7 +19,7 @@
 <br/>
 
 # Klaytn Service SDK
-<p style="font-size:x-large">Klaytn Service SDK is a monorepo of all the ecosystem tools. It has all the packages necessary to build on Klaytn ecosystem</p>
+Klaytn Service SDK is a monorepo of all the services in the Klaytn ecosystem. Check out [Quick Usage](#quick-usage) to integrate the services in the dapp</p>
 
 ## Oracles Module
 ### Witnet
