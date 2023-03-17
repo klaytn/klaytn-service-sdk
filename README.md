@@ -9,8 +9,10 @@
   - [DEX Module](#dex-module)
     - [Open source DEX](#open-source-dex)
 - [Getting started](#getting-started)
+  - [Quick Usage](#quick-usage)
+  - [Setup Locally](#setup-locally)
     - [Requirement](#requirement)
-    - [Quickstart](#quickstart)
+    - [Steps to setup locally](#steps-to-setup-locally)
 - [Usage](#usage)
   - [Want to Contribute to Klaytn Service SDK? ](#want-to-contribute-to-klaytn-service-sdk-)
 
@@ -50,6 +52,21 @@ Integration of the following 5 DEX contracts:
 - [Staking](/packages/dexs-starter-kit/core/Staking.ts)
 
 # Getting started
+
+## Quick Usage
+
+To use klaytn-service-sdk, you can import the below npm packages in an existing nodejs project. Instructions for importing the package and utilizing its features can be found in the readme provided in the links below.
+
+- [@klaytn/kss-bridges-wormhole](https://www.npmjs.com/package/@klaytn/kss-bridges-wormhole) - Contains Wormhole integration
+- [@klaytn/kss-bridges-celer](https://www.npmjs.com/package/@klaytn/kss-bridges-celer) - Contains Celer integration 
+- [@klaytn/kss-dexs](https://www.npmjs.com/package/@klaytn/kss-dexs) - Contains Dexs integration
+- [@klaytn/kss-oracles](https://www.npmjs.com/package/@klaytn/kss-oracles) - Contains Oracles integration
+- [@klaytn/kss-cli](https://www.npmjs.com/package/@klaytn/kss-cli) - Contains CLI features
+
+## Setup Locally
+
+If you would like to explore current repository, please follow below instructions.
+
 ### Requirement
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
   - You'll know you did it right if you can run `git --version` and you see a response like `git version x.x.x`
@@ -63,7 +80,7 @@ Integration of the following 5 DEX contracts:
 
 > If you're familiar with `npx` and `npm` instead of `yarn`, you can use `npx` for execution and `npm` for installing dependencies.
 
-### Quickstart
+### Steps to setup locally
 
 After installing all the requirements, run the following to setup locally:
 ```bash
