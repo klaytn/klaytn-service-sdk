@@ -55,7 +55,7 @@ Integration of the following 5 DEX contracts:
 
 ## Quick Usage
 
-To use the packages in an existing nodejs project, below are the published packages as part of the klaytn-service-sdk. Please follow the readme in below links about importing the package and using the features. 
+To use klaytn-service-sdk, you can import the below npm packages in an existing nodejs project. Instructions for importing the package and utilizing its features can be found in the readme provided in the links below.
 
 - [@klaytn/kss-bridges-wormhole](https://www.npmjs.com/package/@klaytn/kss-bridges-wormhole) - Contains Wormhole integration
 - [@klaytn/kss-bridges-celer](https://www.npmjs.com/package/@klaytn/kss-bridges-celer) - Contains Celer integration 
