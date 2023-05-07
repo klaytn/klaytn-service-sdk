@@ -308,7 +308,7 @@ The Supra Price Feeds consumer contract has one task, to read the latest price o
 #### Example
 ```typescript
   // 1 BTC = 28837.54156500 USD
-  npx hh read-supra-price-feed --contract 0x80d2d67802942e9060122fafdf62bdc747d09021 --marketpair btc_usdt --network baobab
+  npx hardhat read-supra-price-feed --contract 0x80d2d67802942e9060122fafdf62bdc747d09021 --marketpair btc_usdt --network baobab
 ```
 ## Resources
 
