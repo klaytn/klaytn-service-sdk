@@ -16,5 +16,5 @@
     "hardhat",
     "localhost"
   ],
-  "VERIFICATION_BLOCK_CONFIRMATIONS": 6
+  "VERIFICATION_BLOCK_CONFIRMATIONS": 2
 }

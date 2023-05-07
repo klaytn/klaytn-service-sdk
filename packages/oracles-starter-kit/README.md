@@ -36,6 +36,10 @@
         - [Returns](#returns-5)
         - [Example 1 - Fetch Coinprice](#example-1---fetch-coinprice)
         - [Example 2 - Post Request](#example-2---post-request)
+    - [Supra Price Feeds](#supra-price-feeds)
+      - [Parameters](#parameters)
+      - [Returns](#returns)
+      - [Example](#example)
   - [Resources](#resources)
 
 <br/>
@@ -67,7 +71,7 @@ the network and run their associated unit tests.
 
 ## Setup Hardhat configurations Baobab Klaytn network and variables
 The default hardhat configurations can be modified in `helper-hardhat-config.json`
-Default configurations of baobab network `1001` are already using [Klaytn vrf configurations](https://docs.chain.link/vrf/v2/subscription/supported-networks/).
+Default configurations of baobab network `1001`.
 
 ### 1. Hardhat configurations
 Hardhat configuration variables can be found in `helper-hardhat-config.json` in the root directory. Below is the configuration explaination for `1001` network.
@@ -87,7 +91,7 @@ We will need to set environment variables by following below steps
 
 Don't commit and push any changes to .env files that may contain sensitive information, such as a private key! If this information reaches a public GitHub repository, someone can use it to check if you have any Mainnet funds in that wallet address, and steal them!
 
-> Get some Baobab Testnet KLAY and LINK 
+> Get some Baobab Testnet KLAY 
 Go to the [Klaytn faucets](https://baobab.wallet.klaytn.foundation/faucet) to get some KLAY to configured private key account.
 
 ## Deploy contracts
@@ -287,7 +291,28 @@ npx witnet-toolkit try-query --from-solidity ./contracts/witnet-requests/<contra
 > **_NOTE:_**  If above tryWitnetQueries is stuck, please try to run command shown in below snapshot `npx witnet-toolkit`, install the binary once in the machine and retry above method
 ![WitnetToolkitBinary](https://github.com/klaytn/klaytn-service-sdk/blob/main/packages/oracles-starter-kit/WitnetToolkitBinary.png)
 
+### Supra Price Feeds
+The Supra Price Feeds consumer contract has one task, to read the latest price of a specified price feed contract
+
+```bash
+  npx hardhat read-supra-price-feed --contract <deployedContractAddress> --network baobab
+```
+#### Parameters
+`deployedContractAddress` - `string` Deployed SupraValueFeedExample contract address
+`marketpair` - `string` marketpair is the Supra marketpair id. Ex: `btc_usdt`. See [Klaytn Supra PriceFeeds](https://supraoracles.com/docs/get-started/market-pairs#klaytn-chain) for reference.
+
+
+#### Returns
+  * `price` - price of BTC/USD. 
+
+#### Example
+```typescript
+  // 1 BTC = 28837.54156500 USD
+  npx hardhat read-supra-price-feed --contract 0x80d2d67802942e9060122fafdf62bdc747d09021 --marketpair btc_usdt --network baobab
+```
 ## Resources
 
 - [Witnet Documentation](https://docs.witnet.io/)
 - [Hardhat Documentation](https://hardhat.org/getting-started/)
+
+

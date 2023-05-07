@@ -10,7 +10,7 @@ require('dotenv').config()
 
 const MAINNET_RPC_URL =
   process.env.MAINNET_RPC_URL ||
-  'https://eth-mainnet.alchemyapi.io/v2/your-api-key'
+  'https://klaytn.blockpi.network/v1/rpc/public'
 const BAOBAB_RPC_URL =
   process.env.BAOBAB_RPC_URL || 'https://api.baobab.klaytn.net:8651/'
 const PRIVATE_KEY = process.env.PRIVATE_KEY
