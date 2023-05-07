@@ -14,8 +14,8 @@ contract SupraValueFeedExample {
         sValueFeed = ISupraSValueFeed(0x7f003178060af3904b8b70fEa066AEE28e85043E);
     }
 
-    function getPrice() external view returns (int) {
-        (int price /* uint timestamp */, ) = sValueFeed.checkPrice("btc_usdt");
+    function getPrice(string memory marketPair) external view returns (int) {
+        (int price /* uint timestamp */, ) = sValueFeed.checkPrice(marketPair);
         return price;
     }
 }

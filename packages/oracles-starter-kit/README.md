@@ -297,9 +297,10 @@ The Supra Price Feeds consumer contract has one task, to read the latest price o
 ```bash
   npx hardhat read-supra-price-feed --contract <deployedContractAddress> --network baobab
 ```
-
 #### Parameters
 `deployedContractAddress` - `string` Deployed SupraValueFeedExample contract address
+`marketpair` - `string` marketpair is the Supra marketpair id. Ex: `btc_usdt`. See [Klaytn Supra PriceFeeds](https://supraoracles.com/docs/get-started/market-pairs#klaytn-chain) for reference.
+
 
 #### Returns
   * `price` - price of BTC/USD. 
@@ -307,9 +308,8 @@ The Supra Price Feeds consumer contract has one task, to read the latest price o
 #### Example
 ```typescript
   // 1 BTC = 28837.54156500 USD
-  npx hh read-supra-price-feed --contract 0x80d2d67802942e9060122fafdf62bdc747d09021 --network baobab
+  npx hh read-supra-price-feed --contract 0x80d2d67802942e9060122fafdf62bdc747d09021 --marketpair btc_usdt --network baobab
 ```
-
 ## Resources
 
 - [Witnet Documentation](https://docs.witnet.io/)
